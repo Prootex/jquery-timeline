@@ -1,0 +1,81 @@
+#jquery-timeline {
+	padding: 0 100px;
+	position: relative;
+	height: 500px;
+	border: 1px solid #e3e3e3;
+}
+#right, #left {
+	width: 80px;
+	height: 100%;
+	top: 0;
+	position: absolute;
+	background-repeat: no-repeat;
+	background-size: contain;
+	cursor: pointer;
+}
+#left {
+	left: 10px;
+	background-image: url("../img/icon-left.png");
+	background-position: -15px 40%;
+}
+#left > div {
+	position: absolute;
+	top: 55%;
+	right: 0;
+	text-align: center;
+}
+#left > div > .prev-heading {
+	top: 10px;
+	position: relative;
+}
+#right {
+	right: 10px;
+	background-image: url("../img/icon-right.png");
+	background-position: 15px 40%;
+}
+#right > div {
+	position: absolute;
+	top: 55%;
+	left: 0;
+	text-align: center;
+}
+#right > div > .next-heading {
+	top: 10px;
+	position: relative;
+}
+#jquery-timeline > .wrapper {
+	width: 100%;
+	overflow: hidden;
+	height: inherit;
+}
+#jquery-timeline > .wrapper > .row {
+	height: inherit;
+	width: 100%;
+}
+#jquery-timeline > .wrapper > .row > .container {
+	float: left;
+	width: 100%;
+}
+#jquery-timeline > .wrapper > .row > .container > .media {
+	width: 50%;
+	float: left;
+	height: 460px;
+	max-height: 460px;
+	text-align: center;
+}
+#jquery-timeline > .wrapper > .row > .container > .media > .media-col {
+	padding: 20px;
+}
+#jquery-timeline > .wrapper > .row > .container > .media > .media-col > img {
+	max-height: 460px;
+	max-width: 100%;
+}
+#jquery-timeline > .wrapper > .row > .container > .content {
+	width: 50%;
+	float: left;
+	height: 460px;
+	max-height: 460px;
+}
+#jquery-timeline > .wrapper > .row > .container > .content > .content-col {
+	padding: 20px;
+}

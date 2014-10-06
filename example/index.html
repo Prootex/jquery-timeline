@@ -15,8 +15,45 @@
 		</div>
 	</header>
 	<main>
-		<div class="wrapper">
-			<div id="jquery-timeline"></div>
+		<div class="wrapper-timeline">
+			<div id="jquery-timeline">
+				<div id="left">
+					<div id="date" class="prev">
+						<span class="prev-date">05.10.2014</span>
+						<span class="prev-heading">The Main Timeline Headline Goes here</span>
+					</div>
+				</div>
+				<div class="wrapper">
+					<div class="row">
+						<div class="container">
+							<div class="media">
+								<div class="media-col">
+									<img src="../example/img/affe.jpg">
+								</div>
+							</div>
+							<div class="content">
+								<div class="content-col">
+									<div class="date">
+										<span>06.10.2014</span>
+									</div>
+									<div class="heading">
+										<h2>The Main Timeline Headline Goes here</h2>
+									</div>
+									<div class="text">
+										<p>Intro body text goes here, some HTML is ok</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="right">
+					<div id="date" class="next">
+						<span class="next-date">07.10.2014</span>
+						<span class="next-heading">The Main Timeline Headline Goes here</span>
+					</div>
+				</div>
+			</div>
 		</div>
 	</main>
 	<footer>
@@ -31,13 +68,40 @@
 	<script type="text/javascript">
 		jQuery(function($){
 			var data = {
-				"timeline": {
-					"headline": "The Main Timeline Headline Goes here",
-					"text": "<p>Intro body text goes here, some HTML is ok</p>",
-					"asset": {
-						"media": "../example/img/affe.jpg",
-						"caption": "Caption text goes here"
+				"timeline": [
+					{
+						"headline": "<h2>The Main Timeline Headline Goes here</h2>",
+						"text": "<p>Intro body text goes here, some HTML is ok</p>",
+						"date": "6.10.2014",
+						"asset": {
+							"url": "../example/img/affe.jpg",
+							"caption": "Caption text goes here",
+							"type": "image"
+						}
+					},
+					{
+						"headline": "<h2>The Main Timeline Headline Goes here</h2>",
+						"text": "<p>Intro body text goes here, some HTML is ok</p>",
+						"date": "6.10.2014",
+						"asset": {
+							"url": "//www.youtube.com/embed/AdjA61aITZE",
+							"caption": "Caption text goes here",
+							"type": "youtube-embed"
+						}
+					},
+					{
+						"headline": "<h2>The Main Timeline Headline Goes here</h2>",
+						"text": "<p>Intro body text goes here, some HTML is ok</p>",
+						"date": "6.10.2014",
+						"asset": {
+							"url": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2733.8531104748404!2d14.530944299999998!3d46.74807839999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4770114bd76883b9%3A0x70fa3298407dc561!2s9371+Br%C3%BCckl!5e0!3m2!1sde!2sat!4v1412594209323",
+							"caption": "Caption text goes here",
+							"type": "google-embed"
+						}
 					}
+				],
+				"config": {
+
 				}
 			};
 
