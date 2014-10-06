@@ -65,6 +65,7 @@
 	height: inherit;
 	width: 100%;
 	position: absolute;
+	left: 0;
 }
 #jquery-timeline > #timeline > .wrapper > .row > .container {
 	float: left;
@@ -80,8 +81,12 @@
 	padding: 20px;
 }
 #jquery-timeline > #timeline > .wrapper > .row > .container .media > img {
-	max-height: 460px;
+	max-height: 360px;
 	max-width: 100%;
+}
+#jquery-timeline > #timeline > .wrapper > .row > .container .media > span {
+	display: block;
+	margin-top: 10px;
 }
 #jquery-timeline > #timeline > .wrapper > .row > .container .content {
 	width: 50%;
