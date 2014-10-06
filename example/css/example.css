@@ -1,0 +1,11 @@
+h1 {
+	color: #023c7f;
+}
+.wrapper {
+	margin: 0 100px;
+}
+#jquery-timeline {
+	height: 700px;
+	margin: 50px 0;
+	border: 1px solid lightgrey;
+}

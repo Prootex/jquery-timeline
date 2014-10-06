@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="css/example.css">
+	<link rel="stylesheet" type="text/css" href="../css/jquery-timeline.css">
+	<title>Timeline Anexia</title>
+</head>
+<body>
+	<header>
+		<div class="wrapper">
+			<div class="heading">
+				<h1>Timeline Anexia</h1>
+			</div>
+		</div>
+	</header>
+	<main>
+		<div class="wrapper">
+			<div id="jquery-timeline"></div>
+		</div>
+	</main>
+	<footer>
+		<div class="wrapper">
+			<div class="copyright">
+				<div></div>
+			</div>
+		</div>
+	</footer>
+	<script language="javascript" type="text/javascript" src="jquery/jquery.min.js"></script>
+	<script language="javascript" type="text/javascript" src="../js/jquery-timeline.js"></script>
+	<script type="text/javascript">
+		jQuery(function($){
+			var data = {
+				"timeline": {
+					"headline": "The Main Timeline Headline Goes here",
+					"text": "<p>Intro body text goes here, some HTML is ok</p>",
+					"asset": {
+						"media": "../example/img/affe.jpg",
+						"caption": "Caption text goes here"
+					}
+				}
+			};
+
+			$("#jquery-timeline").jqueryTimeline(data);
+		});
+	</script>
+</body>
+</html>
