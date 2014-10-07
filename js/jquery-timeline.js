@@ -125,31 +125,32 @@
 		initEventAnimation();
 
 		/* Timeline navigation */
-		var clicked = false,
+		var navWidth = element.find("#navigation .navigation-row").width(),
+			clicked = false,
 			mousePosition = 0,
 			left = 0,
-			position = 0;
+			currPo = 0;
 
 		element.find("#navigation")
 			.mousemove(function( event ) {
 				if (!clicked) return;
 
-				var pageCoords = parseInt(event.pageX);
+				var mouseX = parseInt(event.pageX);
 
-				if (pageCoords < mousePosition) {
-					left = left - parseInt(position + (mousePosition-pageCoords));
+				if (mouseX < mousePosition) {
+					left = parseInt(currPo + (mousePosition-mouseX));
 				}
 				else {
-					left = parseInt(position - (pageCoords-mousePosition));
+					left = parseInt(currPo - (mouseX-mousePosition));
 				}
-
 				element.find("#navigation .navigation-row").css("left", -left);
 			});
 
 		element.find("#navigation")
 			.mousedown(function() {
-				clicked = true;
 				mousePosition = window.event.clientX;
+				currPo = left;
+				(currPo < navWidth)? clicked = true : clicked = false;
 			})
 			.mouseup(function() {
 				clicked = false;

@@ -117,27 +117,6 @@
 	height: inherit;
 	width: 100%;
 	position: absolute;
-	left: 0;
-	width: 15000px;
-}
-#jquery-timeline > #navigation > .navigation-wrapper > .navigation-row .navigation-container {
-	position: relative;
-	width: 100px;
-	height: 30px;
-}
-
-.navigation-container.a {
-	background: red;
-	left: 200px;
-}.navigation-container.b {
-	background: blue;
-	left: 2000px;
-}.navigation-container.c {
-	background: green;
-	left: 1000px;
-}.navigation-container.d {
-	background: grey;
-	left: 3000px;
 }
 
 
