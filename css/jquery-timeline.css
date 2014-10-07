@@ -1,9 +1,11 @@
 /* Timeline */
+#jquery-timeline {
+	border: 1px solid #e3e3e3;
+}
 #jquery-timeline > #timeline {
 	padding: 0 100px;
 	position: relative;
 	height: 500px;
-	border: 1px solid #e3e3e3;
 }
 #jquery-timeline .table {
 	display: table;
@@ -103,9 +105,39 @@
 	width: 100%;
 	height: 200px;
 	position: relative;
-	border-left: 1px solid #e3e3e3;
-	border-right: 1px solid #e3e3e3;
-	border-bottom: 1px solid #e3e3e3;
+	border-top: 1px solid #e3e3e3;
+}
+#jquery-timeline > #navigation > .navigation-wrapper {
+	width: 100%;
+	overflow: hidden;
+	height: inherit;
+	position: relative;
+}
+#jquery-timeline > #navigation > .navigation-wrapper > .navigation-row {
+	height: inherit;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	width: 15000px;
+}
+#jquery-timeline > #navigation > .navigation-wrapper > .navigation-row .navigation-container {
+	position: relative;
+	width: 100px;
+	height: 30px;
+}
+
+.navigation-container.a {
+	background: red;
+	left: 200px;
+}.navigation-container.b {
+	background: blue;
+	left: 2000px;
+}.navigation-container.c {
+	background: green;
+	left: 1000px;
+}.navigation-container.d {
+	background: grey;
+	left: 3000px;
 }
 
 
