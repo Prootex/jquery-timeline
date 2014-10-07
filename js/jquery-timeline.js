@@ -132,9 +132,8 @@
 			currPo = 0;
 
 		element.find("#navigation")
-			.mousemove(function( event ) {
+			.mousemove(function(event) {
 				if (!clicked) return;
-
 				var mouseX = parseInt(event.pageX);
 
 				if (mouseX < mousePosition) {
@@ -144,6 +143,7 @@
 					left = parseInt(currPo - (mouseX-mousePosition));
 				}
 				element.find("#navigation .navigation-row").css("left", -left);
+				
 			});
 
 		element.find("#navigation")
