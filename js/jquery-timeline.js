@@ -12,7 +12,10 @@
 			rowWidth = ((containerCount)*(element.find(".container").width())),
 			wrapperWidth = element.find(".wrapper").width(),
 			animationSpeed = 300,
-			leftPosition = parseInt(element.find(".row").css("left"));
+			leftPosition = 0;
+
+		/* hide left icon-arrow */
+		// magicButtons();
 
 		/* several changes to the sizes */
 		rowWidth = (containerCount == 1)?"100%":rowWidth + 10000;
@@ -29,22 +32,81 @@
 		});
 
 		/* animate by click on next/prev icon */
-		element.find(".icon-arrow").click(function() {
-			if ($(this).attr("id") == "left" && $(this).css("left") != "0px") {
-				console.log("left click");
-				element.find(".row").animate({
-					left: (leftPosition-wrapperWidth)
-				}, animationSpeed);
-				magicButtons();
-			}
-			else if ($(this).attr("id") == "right" && $(this).css("left") != (rowWidth-wrapperWidth)) {
-				console.log("right click");
-				element.find(".row").animate({
-					left: -(leftPosition+wrapperWidth)
-				}, animationSpeed);
-				magicButtons();
-			}
-		});
+		var initEventAnimation = function() {
+			var
+				row = element.find(".row"),
+				container = element.find(".container"),
+				eventCount = 0,
+				currentWrapperWidth = 0,
+				isMoving = false,
+				sliderTransition = 'all 1500ms cubic-bezier(.71,.08,.35,.87)',
+				clickCount = 0,
+
+				moveTo = function(position) {
+					row.css({
+						'-webkit-transform' : 'translate3d('+(-position)+'px, 0px, 0px)',
+						'-moz-transform' : 'translate3d('+(-position)+'px, 0px, 0px)',
+						'-o-transform' : 'translate3d('+(-position)+'px, 0px, 0px)',
+						'transform' : 'translate3d('+(-position)+'px, 0px, 0px)',
+						'-webkit-transition' : sliderTransition,
+						'-moz-transition' : sliderTransition,
+						'-o-transition' : sliderTransition,
+						'transition' : sliderTransition
+					});
+				},
+
+				onBtnLeft = function() {
+					var container = element.find(".container");
+
+					if (!isMoving) {
+						isMoving = true;
+						clickCount--;
+
+						moveTo(currentWrapperWidth*clickCount);
+
+						setTimeout(function() {
+							isMoving = false;
+						}, 200);
+					}
+				},
+
+				onBtnRight = function() {
+					var container = element.find(".container");
+
+					if (!isMoving) {
+						isMoving = true;
+						clickCount++;
+
+						moveTo(currentWrapperWidth*clickCount);
+
+						setTimeout(function() {
+							isMoving = false;
+						}, 200);
+					}
+				},
+
+				init = function() {
+					var btnLeft = element.find("#left"),
+						btnRight = element.find("#right");
+
+					currentWrapperWidth = element.find(".wrapper").width();
+
+					eventCount = container.size();
+					if (eventCount > 1) {
+						btnLeft
+							.show()
+							.bind("click", onBtnLeft);
+						btnRight
+							.show()
+							.bind("click", onBtnRight);
+					}
+				},
+
+				onLoad = function() {
+					init();
+				};
+			onLoad();
+		};
 
 		/* hide show buttons */
 		magicButtons = function () {
@@ -61,6 +123,7 @@
 				}
 			}
 		}
+		initEventAnimation();
 	};
 
 })(jQuery);
