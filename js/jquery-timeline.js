@@ -125,8 +125,10 @@
 		// Timeline navigation
 		navigationAnimation = function() {
 			var navWidth = element.find("#navigation .navigation-row").width(),
+				lastConPos = element.find("#navigation .navigation-row .navigation-container").last().position(),
+				firstConPos = element.find("#navigation .navigation-row .navigation-container").first().position(),
+				curLeftPos = element.find("#navigation .navigation-row").attr("id"),
 				clicked = false,
-				inContainer = false,
 				mousePosition = 0,
 				left = 0,
 				currPo = 0;
@@ -134,7 +136,7 @@
 			element.find("#navigation")
 				// calculate the left value of the row element
 				.mousemove(function(event) {
-					if (clicked && inContainer) {
+					if (clicked) {
 						var mouseX = parseInt(event.pageX);
 
 						if (mouseX < mousePosition) {
@@ -149,18 +151,32 @@
 				// by hover out stop the mousemove animation
 				.hover(function() {
 				}, function() {
-					inContainer = false;
 					clicked = false;
 				})
 				// start the slide animation on click
 				.mousedown(function() {
-					mousePosition = window.event.clientX;
-					currPo = left;
-					(currPo < navWidth)? clicked = true : clicked = false;
+					if (currPo <= lastConPos.left) {
+						mousePosition = window.event.clientX;
+						pagePosition = window.event.pageX;
+						currPo = left;
+
+						if (currPo < navWidth){
+							clicked = true;
+						} else {
+							clicked = false;
+						}
+					} else {
+						clicked = true;
+					}
 				})
-				// slide snimation stop
+				// slides animation stop
 				.mouseup(function() {
 					clicked = false;
+					if (currPo > lastConPos.left) {
+						element.find("#navigation .navigation-row").animate({
+							left: (-currPo + 1000)
+						}, "fast");
+					}
 				});
 		};
 
