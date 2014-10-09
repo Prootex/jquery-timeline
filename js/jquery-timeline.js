@@ -6,7 +6,7 @@
 	};
 
 	$.jqueryTimeline = function(element, data) {
-		/* event animations, hide/show buttons, several changes to the sizes */
+		// event animations, hide/show buttons, several changes to the sizes
 		var eventAnimation = function() {
 			var media = element.find("media"),
 				content = element.find(".content"),
@@ -16,7 +16,7 @@
 				animationSpeed = 300,
 				leftPosition = 0;
 
-			/* several changes to the sizes */
+			// several changes to the sizes
 			rowWidth = (containerCount == 1)?"100%":rowWidth + 10000;
 			if(!(element.find(".media").html())) {
 				element.find(".media").remove();
@@ -30,7 +30,7 @@
 				element.find(".row").css({"width": rowWidth});
 			});
 
-			/* animate by click on next/prev icon */
+			// animate by click on next/prev icon
 			var initEventAnimation = function() {
 				var
 					row = element.find(".row"),
@@ -96,7 +96,7 @@
 						}
 					},
 					onLoad = function() {
-						/* hide left button */
+						// hide left button
 						element.find("#left").hide();
 
 						init();
@@ -104,7 +104,7 @@
 				onLoad();
 			};
 
-			/* hide show animation for prev/next buttons */
+			// hide show animation for prev/next buttons
 			magicButtons = function (clickCount) {
 				if (clickCount == 0) {
 					element.find("#left").animate({opacity:"hide"}, 500);
@@ -122,7 +122,7 @@
 			initEventAnimation();
 		},
 
-		/* Timeline navigation */
+		// Timeline navigation
 		navigationAnimation = function() {
 			var navWidth = element.find("#navigation .navigation-row").width(),
 				clicked = false,
@@ -130,9 +130,9 @@
 				mousePosition = 0,
 				left = 0,
 				currPo = 0;
-			/* on mousedown change the left value to slide */
+			// on mousedown change the left value to slide
 			element.find("#navigation")
-				/* calculate the left value of the row element */
+				// calculate the left value of the row element
 				.mousemove(function(event) {
 					if (clicked && inContainer) {
 						var mouseX = parseInt(event.pageX);
@@ -146,19 +146,19 @@
 						element.find("#navigation .navigation-row").css("left", -left);
 					}
 				})
-				/* by hover out stop the mousemove animation */
+				// by hover out stop the mousemove animation
 				.hover(function() {
 				}, function() {
 					inContainer = false;
 					clicked = false;
 				})
-				/* start the slide animation on click */
+				// start the slide animation on click
 				.mousedown(function() {
 					mousePosition = window.event.clientX;
 					currPo = left;
 					(currPo < navWidth)? clicked = true : clicked = false;
 				})
-				/* slide snimation stop */
+				// slide snimation stop
 				.mouseup(function() {
 					clicked = false;
 				});
