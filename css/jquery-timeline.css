@@ -2,23 +2,24 @@
 #jquery-timeline {
 	border: 1px solid #e3e3e3;
 }
-#jquery-timeline > #timeline {
+#jquery-timeline > .jt-timeline {
 	padding: 0 100px;
 	position: relative;
 	height: 500px;
 }
-#jquery-timeline .table {
+#jquery-timeline .jt-table {
 	display: table;
 }
-#jquery-timeline .table-row {
+#jquery-timeline .jt-table-row {
 	display: table-row;
 }
-#jquery-timeline .table-cell {
+#jquery-timeline .jt-table-cell {
 	display: table-cell;
 	vertical-align: middle;
 	width: 100%;
 }
-#jquery-timeline #right, #jquery-timeline #left {
+#jquery-timeline .jt-right,
+#jquery-timeline .jt-left {
 	width: 80px;
 	height: 100%;
 	top: 0;
@@ -27,97 +28,102 @@
 	background-size: contain;
 	cursor: pointer;
 }
-#jquery-timeline #left {
+#jquery-timeline .jt-left {
 	left: 10px;
 	background-image: url("../img/icon-left.png");
 	background-position: -15px 40%;
 }
-#jquery-timeline #left > div {
+#jquery-timeline .jt-left > div {
 	position: absolute;
 	top: 55%;
 	right: 0;
 	text-align: center;
 }
-#jquery-timeline #left > div > .prev-heading {
+#jquery-timeline .jt-left > div > .jt-prev-heading {
 	top: 10px;
 	position: relative;
 }
-#jquery-timeline #right {
+#jquery-timeline .jt-right {
 	right: 10px;
 	background-image: url("../img/icon-right.png");
 	background-position: 15px 40%;
 }
-#jquery-timeline #right > div {
+#jquery-timeline .jt-right > div {
 	position: absolute;
 	top: 55%;
 	left: 0;
 	text-align: center;
 }
-#jquery-timeline #right > div > .next-heading {
+#jquery-timeline .jt-right > div > .jt-next-heading {
 	top: 10px;
 	position: relative;
 }
-#jquery-timeline > #timeline > .wrapper {
+#jquery-timeline > .jt-timeline > .jt-wrapper {
 	width: 100%;
 	overflow: hidden;
 	height: inherit;
 	position: relative;
 }
-#jquery-timeline > #timeline > .wrapper > .row {
+#jquery-timeline > .jt-timeline > .jt-wrapper > .jt-row {
 	height: inherit;
 	width: 100%;
 	position: absolute;
 	left: 0;
 }
-#jquery-timeline > #timeline > .wrapper > .row > .container {
+#jquery-timeline > .jt-timeline > .jt-wrapper > .jt-row > .jt-container {
 	float: left;
 	width: 100%;
 }
-#jquery-timeline > #timeline > .wrapper > .row > .container .media {
+#jquery-timeline > .jt-timeline > .jt-wrapper > .jt-row > .jt-container .jt-media {
 	width: 50%;
 	height: 500px;
 	max-height: 500px;
 	text-align: center;
 }
-#jquery-timeline > #timeline > .wrapper > .row > .container .media > .media-col {
-	padding: 20px;
-}
-#jquery-timeline > #timeline > .wrapper > .row > .container .media > img {
+#jquery-timeline > .jt-timeline > .jt-wrapper > .jt-row > .jt-container .jt-media > img {
 	max-height: 360px;
 	max-width: 100%;
 }
-#jquery-timeline > #timeline > .wrapper > .row > .container .media > span {
+#jquery-timeline > .jt-timeline > .jt-wrapper > .jt-row > .jt-container .jt-media > iframe {
+	width: 100%;
+	height: 360px;
+	max-height: 360px;
+	max-width: 100%;
+}
+#jquery-timeline > .jt-timeline > .jt-wrapper > .jt-row > .jt-container .jt-media > span {
 	display: block;
 	margin-top: 10px;
 }
-#jquery-timeline > #timeline > .wrapper > .row > .container .content {
+#jquery-timeline > .jt-timeline > .jt-wrapper > .jt-row > .jt-container .jt-content {
 	width: 50%;
 	height: 460px;
 	max-height: 460px;
 }
-#jquery-timeline > #timeline > .wrapper > .row > .container .content div {
+#jquery-timeline > .jt-timeline > .jt-wrapper > .jt-row > .jt-container .jt-content div {
 	padding-left: 20px;
 }
 
 
 /* Navigation */
-#jquery-timeline #navigation {
+#jquery-timeline .jt-navigation {
 	width: 100%;
 	height: 200px;
 	position: relative;
 	border-top: 1px solid #e3e3e3;
 }
-#jquery-timeline > #navigation > .navigation-wrapper {
+#jquery-timeline > .jt-navigation > .jt-navigation-wrapper {
 	width: 100%;
 	overflow: hidden;
 	height: inherit;
 	position: relative;
 }
-#jquery-timeline > #navigation > .navigation-wrapper > .navigation-row {
+#jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row {
 	height: inherit;
 	position: absolute;
 }
-
+#jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row:hover {
+	cursor: move;
+}
 
 
 /* Responsive */

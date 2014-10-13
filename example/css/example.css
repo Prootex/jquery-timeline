@@ -1,37 +1,37 @@
 /* Navigation */
-#jquery-timeline #navigation {
+#jquery-timeline .jt-navigation {
 	width: 100%;
 	height: 200px;
 	position: relative;
 	border-top: 1px solid #e3e3e3;
 }
-#jquery-timeline > #navigation > .navigation-wrapper {
+#jquery-timeline > .jt-navigation > .jt-navigation-wrapper {
 	width: 100%;
 	overflow: hidden;
 	height: inherit;
 	position: relative;
 }
-#jquery-timeline > #navigation > .navigation-wrapper > .navigation-row {
+#jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row {
 	height: inherit;
 	position: absolute;
 	width: 5000px;
 }
-#jquery-timeline > #navigation > .navigation-wrapper > .navigation-row .navigation-container {
+#jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container {
 	position: relative;
 	width: 100px;
 	height: 30px;
 }
 
-.navigation-container.a {
+.jt-navigation-container.a {
 	background: red;
 	left: 200px;
-}.navigation-container.b {
+}.jt-navigation-container.b {
 	background: blue;
 	left: 2000px;
-}.navigation-container.c {
+}.jt-navigation-container.c {
 	background: green;
 	left: 1000px;
-}.navigation-container.d {
+}.jt-navigation-container.d {
 	background: grey;
 	left: 3000px;
 }
