@@ -39,7 +39,7 @@
 	right: 0;
 	text-align: center;
 }
-#jquery-timeline .jt-left > div > .jt-prev-heading {
+#jquery-timeline .jt-left > div > .jt-heading {
 	top: 10px;
 	position: relative;
 }
@@ -54,7 +54,7 @@
 	left: 0;
 	text-align: center;
 }
-#jquery-timeline .jt-right > div > .jt-next-heading {
+#jquery-timeline .jt-right > div > .jt-heading {
 	top: 10px;
 	position: relative;
 }
@@ -122,7 +122,7 @@
 	position: absolute;
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row:hover {
-	cursor: move;
+	cursor: -webkit-grab;
 }
 
 

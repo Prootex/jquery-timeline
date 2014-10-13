@@ -223,8 +223,9 @@
 	},
 
 	buttonContentFill = function(button, data) {
+		var str = data.headline;
 		button.find(".jt-date").append(data.date);
-		button.find(".jt-heading").append(data.headline);
+		button.find(".jt-heading").append(str.substring(0,40));
 	},
 
 	// Content for right and left buttons
@@ -275,28 +276,25 @@
 				}
 			})
 			// by hover out stop the mousemove animation
-			.hover(function() {
-			}, function() {
+			.hover(function() {}, function() {
+				baseElement.find(".jt-navigation-row").css("cursor", "-webkit-grab");
 				clicked = false;
 			})
 			// start the slide animation on click
 			.mousedown(function() {
+				baseElement.find(".jt-navigation-row").css("cursor", "-webkit-grabbing");
 				if (currPo <= lastConPos.left) {
 					mousePosition = window.event.clientX;
 					pagePosition = window.event.pageX;
 					currPo = left;
-
-					if (currPo < navWidth){
-						clicked = true;
-					} else {
-						clicked = false;
-					}
+					(currPo < navWidth) ? clicked = true : clicked = false;
 				} else {
 					clicked = true;
 				}
 			})
 			// slides animation stop
 			.mouseup(function() {
+				baseElement.find(".jt-navigation-row").css("cursor", "-webkit-grab");
 				clicked = false;
 			});
 	},
