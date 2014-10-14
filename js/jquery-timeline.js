@@ -45,7 +45,7 @@
 					</div>\
 				</div>\
 				<div class="jt-wrapper">\
-					<div class="jt-nav-toggle"><span class="jt-icon-arrow-bottom"></span></div>\
+					<div class="jt-nav-toggle"><span class="jt-icon-arrow-bottom jt-sprite jt-sprite_223_chevron-right"></span></div>\
 					<div class="jt-row"></div>\
 				</div>\
 				<div class="jt-right jt-icon-arrow">\
@@ -57,6 +57,10 @@
 			</div>\
 			<div class="jt-navigation">\
 				<div class="jt-navigation-wrapper">\
+					<div class="jt-nav-zoom">\
+						<span class="jt-zoom-in jt-sprite jt-sprite_190_circle_plus"></span>\
+						<span class="jt-zoom-out jt-sprite jt-sprite_191_circle_minus"></span>\
+					</div>\
 					<div class="jt-navigation-row">\
 						<div class="jt-navigation-container a">\
 							<div class="jt-col"></div>\
@@ -286,6 +290,7 @@
 			mousePosition = 0,
 			left = 0,
 			currPo = 0;
+
 		// on mousedown change the left value to slide
 		baseElement.find(".jt-navigation")
 			// calculate the left value of the row element
@@ -308,11 +313,11 @@
 				clicked = false;
 			})
 			// start the slide animation on click
-			.mousedown(function() {
+			.mousedown(function(event) {
 				baseElement.find(".jt-navigation-row").css("cursor", "-webkit-grabbing");
 				if (currPo <= lastConPos.left) {
-					mousePosition = window.event.clientX;
-					pagePosition = window.event.pageX;
+					mousePosition = event.clientX;
+					pagePosition = event.pageX;
 					currPo = left;
 					(currPo < navWidth) ? clicked = true : clicked = false;
 				} else {
@@ -324,6 +329,19 @@
 				baseElement.find(".jt-navigation-row").css("cursor", "-webkit-grab");
 				clicked = false;
 			});
+	},
+
+	//
+	navZoom = function() {
+		var zoomScale = 1;
+		baseElement.find(".jt-zoom-in").click(function(){
+			zoomScale = zoomScale+0.2;
+			baseElement.find(".jt-navigation-row").animate({ "zoom": zoomScale }, 400);
+		});
+		baseElement.find(".jt-zoom-out").click(function(){
+			zoomScale = zoomScale-0.2;
+			baseElement.find(".jt-navigation-row").animate({ "zoom": zoomScale }, 400);
+		});
 	},
 
 	initJt = function(element, data) {
@@ -342,6 +360,7 @@
 		initEventAnimation();
 		navigationAnimation();
 		toggleNavigation();
+		navZoom();
 	};
 
 	$.jqueryTimeline = function(element, data) {

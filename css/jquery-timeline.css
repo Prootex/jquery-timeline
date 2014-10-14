@@ -1,9 +1,14 @@
+/* Basic */
+body {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
 /* Timeline */
 #jquery-timeline {
 	border: 1px solid #e3e3e3;
 }
 #jquery-timeline > .jt-timeline {
-	padding: 0 100px;
+	padding: 0 120px;
 	position: relative;
 	height: 500px;
 }
@@ -39,7 +44,7 @@
 
 #jquery-timeline .jt-right,
 #jquery-timeline .jt-left {
-	width: 80px;
+	width: 7%;
 	height: 100%;
 	top: 0;
 	position: absolute;
@@ -50,13 +55,15 @@
 #jquery-timeline .jt-left {
 	left: 10px;
 	background-image: url("../img/icon-left.png");
-	background-position: -15px 40%;
+	background-position: 12px 40%;
+	background-size: inherit;
 }
 #jquery-timeline .jt-left > div {
 	position: absolute;
 	top: 55%;
 	right: 0;
 	text-align: center;
+	font-size: 12px;
 }
 #jquery-timeline .jt-left > div > .jt-heading {
 	top: 10px;
@@ -65,13 +72,15 @@
 #jquery-timeline .jt-right {
 	right: 10px;
 	background-image: url("../img/icon-right.png");
-	background-position: 15px 40%;
+	background-position: 35px 40%;
+	background-size: inherit;
 }
 #jquery-timeline .jt-right > div {
 	position: absolute;
 	top: 55%;
 	left: 0;
 	text-align: center;
+	font-size: 12px;
 }
 #jquery-timeline .jt-right > div > .jt-heading {
 	top: 10px;
@@ -145,27 +154,44 @@
 }
 #jquery-timeline .jt-nav-toggle .jt-icon-arrow-bottom,
 #jquery-timeline .jt-nav-toggle .jt-icon-arrow-top {
-	background-image: url("../img/arrow-grey-bottom.png");
-	width: 12px;
-	height: 9px;
 	display: inline-block;
-	background-position: center;
 	background-repeat: no-repeat;
 	position: relative;
 	top: 3px;
-	transform:rotate(180deg);
-	-ms-transform:rotate(180deg);
-	-webkit-transform:rotate(180deg);
+	transform:rotate(90deg);
+	-ms-transform:rotate(90deg);
+	-webkit-transform:rotate(90deg);
 	-webkit-transition: all 0.2s;
 	-moz-transition:    all 0.2s;
 	-o-transition:      all 0.2s;
 	transition:         all 0.2s;
 }
 #jquery-timeline .jt-nav-toggle .jt-icon-arrow-top {
-	background-image: url("../img/arrow-grey-bottom.png");
-	transform:rotate(0deg);
-	-ms-transform:rotate(0deg);
-	-webkit-transform:rotate(0deg);
+	transform:rotate(270deg);
+	-ms-transform:rotate(270deg);
+	-webkit-transform:rotate(270deg);
+}
+
+/* nav zoom */
+#jquery-timeline .jt-nav-zoom {
+	width: 30px;
+	height: inherit;
+	position: absolute;
+	left: 0;
+	z-index: 1000;
+}
+#jquery-timeline .jt-nav-zoom .jt-zoom-in,
+#jquery-timeline .jt-nav-zoom .jt-zoom-out {
+	display: inline-block;
+	position: relative;
+	left: 2px;
+	cursor: pointer;
+}
+#jquery-timeline .jt-nav-zoom .jt-zoom-in {
+	top: 58px;
+}
+#jquery-timeline .jt-nav-zoom .jt-zoom-out {
+	top: 85px;
 }
 
 /* Navigation */
@@ -185,10 +211,537 @@
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row {
 	height: inherit;
 	position: absolute;
+	margin-left: 30px;
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row:hover {
 	cursor: -webkit-grab;
 }
 
-
 /* Responsive */
+
+
+
+
+
+/* sprite styles */
+.jt-sprite { background-image: url("../img/jt-sprite.png"); }
+.jt-sprite_000_glass{ background-position: 0 0; width: 24px; height: 24px; }
+.jt-sprite_001_leaf{ background-position: 0 -74px; width: 24px; height: 25px; }
+.jt-sprite_002_dog{ background-position: 0 -149px; width: 26px; height: 25px; }
+.jt-sprite_003_user{ background-position: 0 -224px; width: 23px; height: 22px; }
+.jt-sprite_004_girl{ background-position: 0 -296px; width: 22px; height: 22px; }
+.jt-sprite_005_car{ background-position: 0 -368px; width: 26px; height: 22px; }
+.jt-sprite_006_user_add{ background-position: 0 -440px; width: 28px; height: 22px; }
+.jt-sprite_007_user_remove{ background-position: 0 -512px; width: 26px; height: 22px; }
+.jt-sprite_008_film{ background-position: 0 -584px; width: 22px; height: 26px; }
+.jt-sprite_009_magic{ background-position: 0 -660px; width: 24px; height: 24px; }
+.jt-sprite_010_envelope{ background-position: 0 -734px; width: 24px; height: 16px; }
+.jt-sprite_011_camera{ background-position: 0 -800px; width: 26px; height: 20px; }
+.jt-sprite_012_heart{ background-position: 0 -870px; width: 24px; height: 22px; }
+.jt-sprite_013_beach_umbrella{ background-position: 0 -942px; width: 24px; height: 24px; }
+.jt-sprite_014_train{ background-position: 0 -1016px; width: 20px; height: 26px; }
+.jt-sprite_015_print{ background-position: 0 -1092px; width: 24px; height: 24px; }
+.jt-sprite_016_bin{ background-position: 0 -1166px; width: 20px; height: 28px; }
+.jt-sprite_017_music{ background-position: 0 -1244px; width: 21px; height: 25px; }
+.jt-sprite_018_note{ background-position: 0 -1319px; width: 18px; height: 25px; }
+.jt-sprite_019_heart_empty{ background-position: 0 -1394px; width: 24px; height: 22px; }
+.jt-sprite_020_home{ background-position: 0 -1466px; width: 27px; height: 26px; }
+.jt-sprite_021_snowflake{ background-position: 0 -1542px; width: 28px; height: 28px; }
+.jt-sprite_022_fire{ background-position: 0 -1620px; width: 21px; height: 26px; }
+.jt-sprite_023_magnet{ background-position: 0 -1696px; width: 21px; height: 23px; }
+.jt-sprite_024_parents{ background-position: 0 -1769px; width: 32px; height: 22px; }
+.jt-sprite_025_binoculars{ background-position: 0 -1841px; width: 24px; height: 24px; }
+.jt-sprite_026_road{ background-position: 0 -1915px; width: 28px; height: 24px; }
+.jt-sprite_027_search{ background-position: -82px 0; width: 24px; height: 24px; }
+.jt-sprite_028_cars{ background-position: -82px -74px; width: 36px; height: 25px; }
+.jt-sprite_029_notes_2{ background-position: -82px -149px; width: 20px; height: 27px; }
+.jt-sprite_030_pencil{ background-position: -82px -226px; width: 24px; height: 24px; }
+.jt-sprite_031_bus{ background-position: -82px -300px; width: 32px; height: 25px; }
+.jt-sprite_032_wifi_alt{ background-position: -82px -375px; width: 26px; height: 26px; }
+.jt-sprite_033_luggage{ background-position: -82px -451px; width: 20px; height: 27px; }
+.jt-sprite_034_old_man{ background-position: -82px -528px; width: 23px; height: 24px; }
+.jt-sprite_035_woman{ background-position: -82px -602px; width: 22px; height: 22px; }
+.jt-sprite_036_file{ background-position: -82px -674px; width: 19px; height: 24px; }
+.jt-sprite_037_coins{ background-position: -82px -748px; width: 26px; height: 24px; }
+.jt-sprite_038_airplane{ background-position: -82px -822px; width: 24px; height: 25px; }
+.jt-sprite_039_notes{ background-position: -82px -897px; width: 20px; height: 25px; }
+.jt-sprite_040_stats{ background-position: -82px -972px; width: 26px; height: 25px; }
+.jt-sprite_041_charts{ background-position: -82px -1047px; width: 27px; height: 24px; }
+.jt-sprite_042_pie_chart{ background-position: -82px -1121px; width: 26px; height: 25px; }
+.jt-sprite_043_group{ background-position: -82px -1196px; width: 35px; height: 22px; }
+.jt-sprite_044_keys{ background-position: -82px -1268px; width: 24px; height: 26px; }
+.jt-sprite_045_calendar{ background-position: -82px -1344px; width: 23px; height: 24px; }
+.jt-sprite_046_router{ background-position: -82px -1418px; width: 27px; height: 26px; }
+.jt-sprite_047_camera_small{ background-position: -82px -1494px; width: 22px; height: 24px; }
+.jt-sprite_048_dislikes{ background-position: -82px -1568px; width: 25px; height: 24px; }
+.jt-sprite_049_star{ background-position: -82px -1642px; width: 25px; height: 24px; }
+.jt-sprite_050_link{ background-position: -82px -1716px; width: 21px; height: 23px; }
+.jt-sprite_051_eye_open{ background-position: -82px -1789px; width: 31px; height: 17px; }
+.jt-sprite_052_eye_close{ background-position: -82px -1856px; width: 31px; height: 24px; }
+.jt-sprite_053_alarm{ background-position: -82px -1930px; width: 27px; height: 25px; }
+.jt-sprite_054_clock{ background-position: -168px 0; width: 24px; height: 24px; }
+.jt-sprite_055_stopwatch{ background-position: -168px -74px; width: 23px; height: 27px; }
+.jt-sprite_056_projector{ background-position: -168px -151px; width: 28px; height: 25px; }
+.jt-sprite_057_history{ background-position: -168px -226px; width: 25px; height: 26px; }
+.jt-sprite_058_truck{ background-position: -168px -302px; width: 32px; height: 27px; }
+.jt-sprite_059_cargo{ background-position: -168px -379px; width: 25px; height: 26px; }
+.jt-sprite_060_compass{ background-position: -168px -455px; width: 24px; height: 24px; }
+.jt-sprite_061_keynote{ background-position: -168px -529px; width: 20px; height: 30px; }
+.jt-sprite_062_paperclip{ background-position: -168px -609px; width: 26px; height: 24px; }
+.jt-sprite_063_power{ background-position: -168px -683px; width: 22px; height: 24px; }
+.jt-sprite_064_lightbulb{ background-position: -168px -757px; width: 20px; height: 26px; }
+.jt-sprite_065_tag{ background-position: -168px -833px; width: 24px; height: 24px; }
+.jt-sprite_066_tags{ background-position: -168px -907px; width: 30px; height: 24px; }
+.jt-sprite_067_cleaning{ background-position: -168px -981px; width: 24px; height: 25px; }
+.jt-sprite_068_ruller{ background-position: -168px -1056px; width: 27px; height: 14px; }
+.jt-sprite_069_gift{ background-position: -168px -1120px; width: 24px; height: 25px; }
+.jt-sprite_070_umbrella{ background-position: -168px -1195px; width: 26px; height: 28px; }
+.jt-sprite_071_book{ background-position: -168px -1273px; width: 22px; height: 24px; }
+.jt-sprite_072_bookmark{ background-position: -168px -1347px; width: 15px; height: 24px; }
+.jt-sprite_073_wifi{ background-position: -168px -1421px; width: 31px; height: 23px; }
+.jt-sprite_074_cup{ background-position: -168px -1494px; width: 22px; height: 24px; }
+.jt-sprite_075_stroller{ background-position: -168px -1568px; width: 25px; height: 26px; }
+.jt-sprite_076_headphones{ background-position: -168px -1644px; width: 24px; height: 24px; }
+.jt-sprite_077_headset{ background-position: -168px -1718px; width: 24px; height: 28px; }
+.jt-sprite_078_warning_sign{ background-position: -168px -1796px; width: 29px; height: 24px; }
+.jt-sprite_079_signal{ background-position: -168px -1870px; width: 24px; height: 24px; }
+.jt-sprite_080_retweet{ background-position: -168px -1944px; width: 28px; height: 15px; }
+.jt-sprite_081_refresh{ background-position: -254px 0; width: 25px; height: 26px; }
+.jt-sprite_082_roundabout{ background-position: -254px -76px; width: 26px; height: 26px; }
+.jt-sprite_083_random{ background-position: -254px -152px; width: 28px; height: 20px; }
+.jt-sprite_084_heat{ background-position: -254px -222px; width: 29px; height: 25px; }
+.jt-sprite_085_repeat{ background-position: -254px -297px; width: 23px; height: 26px; }
+.jt-sprite_086_display{ background-position: -254px -373px; width: 28px; height: 24px; }
+.jt-sprite_087_log_book{ background-position: -254px -447px; width: 22px; height: 24px; }
+.jt-sprite_088_address_book{ background-position: -254px -521px; width: 22px; height: 24px; }
+.jt-sprite_089_building{ background-position: -254px -595px; width: 24px; height: 26px; }
+.jt-sprite_090_eyedropper{ background-position: -254px -671px; width: 24px; height: 24px; }
+.jt-sprite_091_adjust{ background-position: -254px -745px; width: 26px; height: 26px; }
+.jt-sprite_092_tint{ background-position: -254px -821px; width: 24px; height: 25px; }
+.jt-sprite_093_crop{ background-position: -254px -896px; width: 26px; height: 26px; }
+.jt-sprite_094_vector_path_square{ background-position: -254px -972px; width: 24px; height: 24px; }
+.jt-sprite_095_vector_path_circle{ background-position: -254px -1046px; width: 24px; height: 24px; }
+.jt-sprite_096_vector_path_polygon{ background-position: -254px -1120px; width: 26px; height: 25px; }
+.jt-sprite_097_vector_path_line{ background-position: -254px -1195px; width: 24px; height: 24px; }
+.jt-sprite_098_vector_path_curve{ background-position: -254px -1269px; width: 24px; height: 24px; }
+.jt-sprite_099_vector_path_all{ background-position: -254px -1343px; width: 24px; height: 24px; }
+.jt-sprite_100_font{ background-position: -254px -1417px; width: 27px; height: 23px; }
+.jt-sprite_101_italic{ background-position: -254px -1490px; width: 14px; height: 24px; }
+.jt-sprite_102_bold{ background-position: -254px -1564px; width: 19px; height: 24px; }
+.jt-sprite_103_text_underline{ background-position: -254px -1638px; width: 20px; height: 24px; }
+.jt-sprite_104_text_strike{ background-position: -254px -1712px; width: 20px; height: 22px; }
+.jt-sprite_105_text_height{ background-position: -254px -1784px; width: 26px; height: 24px; }
+.jt-sprite_106_text_width{ background-position: -254px -1858px; width: 22px; height: 24px; }
+.jt-sprite_107_text_resize{ background-position: -254px -1932px; width: 26px; height: 26px; }
+.jt-sprite_108_left_indent{ background-position: -340px 0; width: 24px; height: 22px; }
+.jt-sprite_109_right_indent{ background-position: -340px -72px; width: 24px; height: 22px; }
+.jt-sprite_110_align_left{ background-position: -340px -144px; width: 24px; height: 21px; }
+.jt-sprite_111_align_center{ background-position: -340px -215px; width: 24px; height: 21px; }
+.jt-sprite_112_align_right{ background-position: -340px -286px; width: 24px; height: 21px; }
+.jt-sprite_113_justify{ background-position: -340px -357px; width: 24px; height: 21px; }
+.jt-sprite_114_list{ background-position: -340px -428px; width: 24px; height: 21px; }
+.jt-sprite_115_text_smaller{ background-position: -340px -499px; width: 22px; height: 16px; }
+.jt-sprite_116_text_bigger{ background-position: -340px -565px; width: 24px; height: 22px; }
+.jt-sprite_117_embed{ background-position: -340px -637px; width: 30px; height: 14px; }
+.jt-sprite_118_embed_close{ background-position: -340px -701px; width: 30px; height: 24px; }
+.jt-sprite_119_table{ background-position: -340px -775px; width: 24px; height: 24px; }
+.jt-sprite_120_message_full{ background-position: -340px -849px; width: 24px; height: 28px; }
+.jt-sprite_121_message_empty{ background-position: -340px -927px; width: 24px; height: 28px; }
+.jt-sprite_122_message_in{ background-position: -340px -1005px; width: 24px; height: 28px; }
+.jt-sprite_123_message_out{ background-position: -340px -1083px; width: 24px; height: 28px; }
+.jt-sprite_124_message_plus{ background-position: -340px -1161px; width: 29px; height: 23px; }
+.jt-sprite_125_message_minus{ background-position: -340px -1234px; width: 29px; height: 23px; }
+.jt-sprite_126_message_ban{ background-position: -340px -1307px; width: 29px; height: 23px; }
+.jt-sprite_127_message_flag{ background-position: -340px -1380px; width: 27px; height: 23px; }
+.jt-sprite_128_message_lock{ background-position: -340px -1453px; width: 28px; height: 24px; }
+.jt-sprite_129_message_new{ background-position: -340px -1527px; width: 28px; height: 22px; }
+.jt-sprite_130_inbox{ background-position: -340px -1599px; width: 24px; height: 23px; }
+.jt-sprite_131_inbox_plus{ background-position: -340px -1672px; width: 27px; height: 27px; }
+.jt-sprite_132_inbox_minus{ background-position: -340px -1749px; width: 27px; height: 27px; }
+.jt-sprite_133_inbox_lock{ background-position: -340px -1826px; width: 26px; height: 28px; }
+.jt-sprite_134_inbox_in{ background-position: -340px -1904px; width: 24px; height: 26px; }
+.jt-sprite_135_inbox_out{ background-position: -426px 0; width: 24px; height: 26px; }
+.jt-sprite_136_cogwheel{ background-position: -426px -76px; width: 24px; height: 24px; }
+.jt-sprite_137_cogwheels{ background-position: -426px -150px; width: 34px; height: 27px; }
+.jt-sprite_138_picture{ background-position: -426px -227px; width: 24px; height: 20px; }
+.jt-sprite_139_adjust_alt{ background-position: -426px -297px; width: 23px; height: 24px; }
+.jt-sprite_140_database_lock{ background-position: -426px -371px; width: 26px; height: 28px; }
+.jt-sprite_141_database_plus{ background-position: -426px -449px; width: 27px; height: 27px; }
+.jt-sprite_142_database_minus{ background-position: -426px -526px; width: 27px; height: 27px; }
+.jt-sprite_143_database_ban{ background-position: -426px -603px; width: 26px; height: 27px; }
+.jt-sprite_144_folder_open{ background-position: -426px -680px; width: 30px; height: 22px; }
+.jt-sprite_145_folder_plus{ background-position: -426px -752px; width: 29px; height: 25px; }
+.jt-sprite_146_folder_minus{ background-position: -426px -827px; width: 29px; height: 25px; }
+.jt-sprite_147_folder_lock{ background-position: -426px -902px; width: 28px; height: 26px; }
+.jt-sprite_148_folder_flag{ background-position: -426px -978px; width: 27px; height: 25px; }
+.jt-sprite_149_folder_new{ background-position: -426px -1053px; width: 28px; height: 24px; }
+.jt-sprite_150_edit{ background-position: -426px -1127px; width: 24px; height: 21px; }
+.jt-sprite_151_new_window{ background-position: -426px -1198px; width: 26px; height: 22px; }
+.jt-sprite_152_check{ background-position: -426px -1270px; width: 22px; height: 18px; }
+.jt-sprite_153_unchecked{ background-position: -426px -1338px; width: 18px; height: 18px; }
+.jt-sprite_154_more_windows{ background-position: -426px -1406px; width: 23px; height: 23px; }
+.jt-sprite_155_show_big_thumbnails{ background-position: -426px -1479px; width: 22px; height: 22px; }
+.jt-sprite_156_show_thumbnails{ background-position: -426px -1551px; width: 22px; height: 22px; }
+.jt-sprite_157_show_thumbnails_with_lines{ background-position: -426px -1623px; width: 24px; height: 15px; }
+.jt-sprite_158_show_lines{ background-position: -426px -1688px; width: 24px; height: 15px; }
+.jt-sprite_159_playlist{ background-position: -426px -1753px; width: 29px; height: 24px; }
+.jt-sprite_160_imac{ background-position: -426px -1827px; width: 26px; height: 22px; }
+.jt-sprite_161_macbook{ background-position: -426px -1899px; width: 28px; height: 15px; }
+.jt-sprite_162_ipad{ background-position: -512px 0; width: 22px; height: 27px; }
+.jt-sprite_163_iphone{ background-position: -512px -77px; width: 14px; height: 24px; }
+.jt-sprite_164_iphone_transfer{ background-position: -512px -151px; width: 29px; height: 24px; }
+.jt-sprite_165_iphone_exchange{ background-position: -512px -225px; width: 29px; height: 24px; }
+.jt-sprite_166_ipod{ background-position: -512px -299px; width: 14px; height: 22px; }
+.jt-sprite_167_ipod_shuffle{ background-position: -512px -371px; width: 15px; height: 13px; }
+.jt-sprite_168_ear_plugs{ background-position: -512px -434px; width: 20px; height: 24px; }
+.jt-sprite_169_record{ background-position: -512px -508px; width: 20px; height: 20px; }
+.jt-sprite_170_step_backward{ background-position: -512px -578px; width: 14px; height: 18px; }
+.jt-sprite_171_fast_backward{ background-position: -512px -646px; width: 25px; height: 18px; }
+.jt-sprite_172_rewind{ background-position: -512px -714px; width: 23px; height: 18px; }
+.jt-sprite_173_play{ background-position: -512px -782px; width: 16px; height: 18px; }
+.jt-sprite_174_pause{ background-position: -512px -850px; width: 10px; height: 16px; }
+.jt-sprite_175_stop{ background-position: -512px -916px; width: 14px; height: 14px; }
+.jt-sprite_176_forward{ background-position: -512px -980px; width: 23px; height: 18px; }
+.jt-sprite_177_fast_forward{ background-position: -512px -1048px; width: 25px; height: 18px; }
+.jt-sprite_178_step_forward{ background-position: -512px -1116px; width: 14px; height: 18px; }
+.jt-sprite_179_eject{ background-position: -512px -1184px; width: 18px; height: 17px; }
+.jt-sprite_180_facetime_video{ background-position: -512px -1251px; width: 24px; height: 16px; }
+.jt-sprite_181_download_alt{ background-position: -512px -1317px; width: 24px; height: 24px; }
+.jt-sprite_182_mute{ background-position: -512px -1391px; width: 22px; height: 15px; }
+.jt-sprite_183_volume_down{ background-position: -512px -1456px; width: 16px; height: 15px; }
+.jt-sprite_184_volume_up{ background-position: -512px -1521px; width: 24px; height: 26px; }
+.jt-sprite_185_screenshot{ background-position: -512px -1597px; width: 27px; height: 27px; }
+.jt-sprite_186_move{ background-position: -512px -1674px; width: 24px; height: 24px; }
+.jt-sprite_187_more{ background-position: -512px -1748px; width: 22px; height: 6px; }
+.jt-sprite_188_brightness_reduce{ background-position: -512px -1804px; width: 20px; height: 20px; }
+.jt-sprite_189_brightness_increase{ background-position: -512px -1874px; width: 24px; height: 24px; }
+.jt-sprite_190_circle_plus{ background-position: -512px -1948px; width: 26px; height: 26px; }
+.jt-sprite_191_circle_minus{ background-position: -598px 0; width: 26px; height: 26px; }
+.jt-sprite_192_circle_remove{ background-position: -598px -76px; width: 26px; height: 26px; }
+.jt-sprite_193_circle_ok{ background-position: -598px -152px; width: 26px; height: 26px; }
+.jt-sprite_194_circle_question_mark{ background-position: -598px -228px; width: 26px; height: 26px; }
+.jt-sprite_195_circle_info{ background-position: -598px -304px; width: 26px; height: 26px; }
+.jt-sprite_196_circle_exclamation_mark{ background-position: -598px -380px; width: 26px; height: 26px; }
+.jt-sprite_197_remove{ background-position: -598px -456px; width: 26px; height: 26px; }
+.jt-sprite_198_ok{ background-position: -598px -532px; width: 26px; height: 26px; }
+.jt-sprite_199_ban{ background-position: -598px -608px; width: 26px; height: 26px; }
+.jt-sprite_200_download{ background-position: -598px -684px; width: 26px; height: 26px; }
+.jt-sprite_201_upload{ background-position: -598px -760px; width: 26px; height: 26px; }
+.jt-sprite_202_shopping_cart{ background-position: -598px -836px; width: 26px; height: 23px; }
+.jt-sprite_203_lock{ background-position: -598px -909px; width: 21px; height: 26px; }
+.jt-sprite_204_unlock{ background-position: -598px -985px; width: 21px; height: 26px; }
+.jt-sprite_205_electricity{ background-position: -598px -1061px; width: 11px; height: 24px; }
+.jt-sprite_206_ok_2{ background-position: -598px -1135px; width: 25px; height: 19px; }
+.jt-sprite_207_remove_2{ background-position: -598px -1204px; width: 18px; height: 18px; }
+.jt-sprite_208_cart_out{ background-position: -598px -1272px; width: 26px; height: 25px; }
+.jt-sprite_209_cart_in{ background-position: -598px -1347px; width: 26px; height: 24px; }
+.jt-sprite_210_left_arrow{ background-position: -598px -1421px; width: 20px; height: 18px; }
+.jt-sprite_211_right_arrow{ background-position: -598px -1489px; width: 20px; height: 18px; }
+.jt-sprite_212_down_arrow{ background-position: -598px -1557px; width: 18px; height: 20px; }
+.jt-sprite_213_up_arrow{ background-position: -598px -1627px; width: 18px; height: 20px; }
+.jt-sprite_214_resize_small{ background-position: -598px -1697px; width: 24px; height: 24px; }
+.jt-sprite_215_resize_full{ background-position: -598px -1771px; width: 24px; height: 24px; }
+.jt-sprite_216_circle_arrow_left{ background-position: -598px -1845px; width: 26px; height: 26px; }
+.jt-sprite_217_circle_arrow_right{ background-position: -598px -1921px; width: 26px; height: 26px; }
+.jt-sprite_218_circle_arrow_top{ background-position: -684px 0; width: 26px; height: 26px; }
+.jt-sprite_219_circle_arrow_down{ background-position: -684px -76px; width: 26px; height: 26px; }
+.jt-sprite_220_play_button{ background-position: -684px -152px; width: 26px; height: 26px; }
+.jt-sprite_221_unshare{ background-position: -684px -228px; width: 24px; height: 18px; }
+.jt-sprite_222_share{ background-position: -684px -296px; width: 24px; height: 18px; }
+.jt-sprite_223_chevron-right{ background-position: -684px -364px; width: 15px; height: 22px; }
+.jt-sprite_224_chevron-left{ background-position: -684px -436px; width: 15px; height: 22px; }
+.jt-sprite_225_bluetooth{ background-position: -684px -508px; width: 14px; height: 24px; }
+.jt-sprite_226_euro{ background-position: -684px -582px; width: 22px; height: 23px; }
+.jt-sprite_227_usd{ background-position: -684px -655px; width: 17px; height: 26px; }
+.jt-sprite_228_gbp{ background-position: -684px -731px; width: 17px; height: 24px; }
+.jt-sprite_229_retweet_2{ background-position: -684px -805px; width: 33px; height: 21px; }
+.jt-sprite_230_moon{ background-position: -684px -876px; width: 21px; height: 24px; }
+.jt-sprite_231_sun{ background-position: -684px -950px; width: 24px; height: 24px; }
+.jt-sprite_232_cloud{ background-position: -684px -1024px; width: 25px; height: 16px; }
+.jt-sprite_233_direction{ background-position: -684px -1090px; width: 25px; height: 26px; }
+.jt-sprite_234_brush{ background-position: -684px -1166px; width: 25px; height: 22px; }
+.jt-sprite_235_pen{ background-position: -684px -1238px; width: 23px; height: 23px; }
+.jt-sprite_236_zoom_in{ background-position: -684px -1311px; width: 25px; height: 25px; }
+.jt-sprite_237_zoom_out{ background-position: -684px -1386px; width: 25px; height: 25px; }
+.jt-sprite_238_pin{ background-position: -684px -1461px; width: 10px; height: 24px; }
+.jt-sprite_239_albums{ background-position: -684px -1535px; width: 28px; height: 18px; }
+.jt-sprite_240_rotation_lock{ background-position: -684px -1603px; width: 27px; height: 24px; }
+.jt-sprite_241_flash{ background-position: -684px -1677px; width: 14px; height: 24px; }
+.jt-sprite_242_google_maps{ background-position: -684px -1751px; width: 16px; height: 24px; }
+.jt-sprite_243_anchor{ background-position: -684px -1825px; width: 24px; height: 25px; }
+.jt-sprite_244_conversation{ background-position: -684px -1900px; width: 25px; height: 18px; }
+.jt-sprite_245_chat{ background-position: -770px 0; width: 24px; height: 19px; }
+.jt-sprite_246_male{ background-position: -770px -69px; width: 22px; height: 22px; }
+.jt-sprite_247_female{ background-position: -770px -141px; width: 16px; height: 27px; }
+.jt-sprite_248_asterisk{ background-position: -770px -218px; width: 20px; height: 20px; }
+.jt-sprite_249_divide{ background-position: -770px -288px; width: 18px; height: 16px; }
+.jt-sprite_250_snorkel_diving{ background-position: -770px -354px; width: 27px; height: 25px; }
+.jt-sprite_251_scuba_diving{ background-position: -770px -429px; width: 27px; height: 24px; }
+.jt-sprite_252_oxygen_bottle{ background-position: -770px -503px; width: 22px; height: 27px; }
+.jt-sprite_253_fins{ background-position: -770px -580px; width: 31px; height: 27px; }
+.jt-sprite_254_fishes{ background-position: -770px -657px; width: 28px; height: 30px; }
+.jt-sprite_255_boat{ background-position: -770px -737px; width: 24px; height: 24px; }
+.jt-sprite_256_delete{ background-position: -770px -811px; width: 26px; height: 17px; }
+.jt-sprite_257_sheriffs_star{ background-position: -770px -878px; width: 24px; height: 26px; }
+.jt-sprite_258_qrcode{ background-position: -770px -954px; width: 24px; height: 24px; }
+.jt-sprite_259_barcode{ background-position: -770px -1028px; width: 24px; height: 24px; }
+.jt-sprite_260_pool{ background-position: -770px -1102px; width: 24px; height: 24px; }
+.jt-sprite_261_buoy{ background-position: -770px -1176px; width: 24px; height: 24px; }
+.jt-sprite_262_spade{ background-position: -770px -1250px; width: 24px; height: 24px; }
+.jt-sprite_263_bank{ background-position: -770px -1324px; width: 24px; height: 24px; }
+.jt-sprite_264_vcard{ background-position: -770px -1398px; width: 22px; height: 24px; }
+.jt-sprite_265_electrical_plug{ background-position: -770px -1472px; width: 18px; height: 25px; }
+.jt-sprite_266_flag{ background-position: -770px -1547px; width: 21px; height: 26px; }
+.jt-sprite_267_credit_card{ background-position: -770px -1623px; width: 26px; height: 19px; }
+.jt-sprite_268_keyboard_wireless{ background-position: -770px -1692px; width: 27px; height: 20px; }
+.jt-sprite_269_keyboard_wireless{ background-position: -770px -1762px; width: 27px; height: 26px; }
+.jt-sprite_270_shield{ background-position: -770px -1838px; width: 22px; height: 24px; }
+.jt-sprite_271_ring{ background-position: -770px -1912px; width: 21px; height: 24px; }
+.jt-sprite_272_cake{ background-position: -856px 0; width: 22px; height: 24px; }
+.jt-sprite_273_drink{ background-position: -856px -74px; width: 23px; height: 24px; }
+.jt-sprite_274_beer{ background-position: -856px -148px; width: 23px; height: 24px; }
+.jt-sprite_275_fast_food{ background-position: -856px -222px; width: 28px; height: 24px; }
+.jt-sprite_276_cutlery{ background-position: -856px -296px; width: 16px; height: 24px; }
+.jt-sprite_277_pizza{ background-position: -856px -370px; width: 26px; height: 29px; }
+.jt-sprite_278_birthday_cake{ background-position: -856px -449px; width: 26px; height: 29px; }
+.jt-sprite_279_tablet{ background-position: -856px -528px; width: 25px; height: 25px; }
+.jt-sprite_280_settings{ background-position: -856px -603px; width: 24px; height: 24px; }
+.jt-sprite_281_bullets{ background-position: -856px -677px; width: 27px; height: 23px; }
+.jt-sprite_282_cardio{ background-position: -856px -750px; width: 25px; height: 26px; }
+.jt-sprite_283_t-shirt{ background-position: -856px -826px; width: 28px; height: 23px; }
+.jt-sprite_284_pants{ background-position: -856px -899px; width: 19px; height: 24px; }
+.jt-sprite_285_sweater{ background-position: -856px -973px; width: 29px; height: 24px; }
+.jt-sprite_286_fabric{ background-position: -856px -1047px; width: 27px; height: 22px; }
+.jt-sprite_287_leather{ background-position: -856px -1119px; width: 23px; height: 24px; }
+.jt-sprite_288_scissors{ background-position: -856px -1193px; width: 24px; height: 27px; }
+.jt-sprite_289_bomb{ background-position: -856px -1270px; width: 27px; height: 25px; }
+.jt-sprite_290_skull{ background-position: -856px -1345px; width: 22px; height: 24px; }
+.jt-sprite_291_celebration{ background-position: -856px -1419px; width: 24px; height: 25px; }
+.jt-sprite_292_tea_kettle{ background-position: -856px -1494px; width: 26px; height: 23px; }
+.jt-sprite_293_french_press{ background-position: -856px -1567px; width: 23px; height: 25px; }
+.jt-sprite_294_coffe_cup{ background-position: -856px -1642px; width: 25px; height: 19px; }
+.jt-sprite_295_pot{ background-position: -856px -1711px; width: 27px; height: 22px; }
+.jt-sprite_296_grater{ background-position: -856px -1783px; width: 18px; height: 24px; }
+.jt-sprite_297_kettle{ background-position: -856px -1857px; width: 23px; height: 24px; }
+.jt-sprite_298_hospital{ background-position: -856px -1931px; width: 24px; height: 24px; }
+.jt-sprite_299_hospital_h{ background-position: -942px 0; width: 24px; height: 24px; }
+.jt-sprite_300_microphone{ background-position: -942px -74px; width: 17px; height: 24px; }
+.jt-sprite_301_webcam{ background-position: -942px -148px; width: 19px; height: 24px; }
+.jt-sprite_302_temple_christianity_church{ background-position: -942px -222px; width: 24px; height: 25px; }
+.jt-sprite_303_temple_islam{ background-position: -942px -297px; width: 25px; height: 24px; }
+.jt-sprite_304_temple_hindu{ background-position: -942px -371px; width: 24px; height: 24px; }
+.jt-sprite_305_temple_buddhist{ background-position: -942px -445px; width: 28px; height: 22px; }
+.jt-sprite_306_bicycle{ background-position: -942px -517px; width: 33px; height: 21px; }
+.jt-sprite_307_life_preserver{ background-position: -942px -588px; width: 24px; height: 24px; }
+.jt-sprite_308_share_alt{ background-position: -942px -662px; width: 22px; height: 22px; }
+.jt-sprite_309_comments{ background-position: -942px -734px; width: 24px; height: 23px; }
+.jt-sprite_310_flower{ background-position: -942px -807px; width: 19px; height: 25px; }
+.jt-sprite_311_baseball{ background-position: -942px -882px; width: 25px; height: 26px; }
+.jt-sprite_312_rugby{ background-position: -942px -958px; width: 23px; height: 24px; }
+.jt-sprite_313_ax{ background-position: -942px -1032px; width: 27px; height: 24px; }
+.jt-sprite_314_table_tennis{ background-position: -942px -1106px; width: 24px; height: 24px; }
+.jt-sprite_315_bowling{ background-position: -942px -1180px; width: 24px; height: 24px; }
+.jt-sprite_316_tree_conifer{ background-position: -942px -1254px; width: 21px; height: 24px; }
+.jt-sprite_317_tree_deciduous{ background-position: -942px -1328px; width: 20px; height: 25px; }
+.jt-sprite_318_more_items{ background-position: -942px -1403px; width: 21px; height: 24px; }
+.jt-sprite_319_sort{ background-position: -942px -1477px; width: 25px; height: 25px; }
+.jt-sprite_320_filter{ background-position: -942px -1552px; width: 20px; height: 24px; }
+.jt-sprite_321_gamepad{ background-position: -942px -1626px; width: 27px; height: 19px; }
+.jt-sprite_322_playing_dices{ background-position: -942px -1695px; width: 27px; height: 23px; }
+.jt-sprite_323_calculator{ background-position: -942px -1768px; width: 21px; height: 24px; }
+.jt-sprite_324_tie{ background-position: -942px -1842px; width: 11px; height: 26px; }
+.jt-sprite_325_wallet{ background-position: -942px -1918px; width: 25px; height: 20px; }
+.jt-sprite_326_piano{ background-position: -1028px 0; width: 23px; height: 24px; }
+.jt-sprite_327_sampler{ background-position: -1028px -74px; width: 27px; height: 22px; }
+.jt-sprite_328_podium{ background-position: -1028px -146px; width: 25px; height: 20px; }
+.jt-sprite_329_soccer_ball{ background-position: -1028px -216px; width: 25px; height: 25px; }
+.jt-sprite_330_blog{ background-position: -1028px -291px; width: 21px; height: 23px; }
+.jt-sprite_331_dashboard{ background-position: -1028px -364px; width: 24px; height: 24px; }
+.jt-sprite_332_certificate{ background-position: -1028px -438px; width: 17px; height: 25px; }
+.jt-sprite_333_bell{ background-position: -1028px -513px; width: 24px; height: 24px; }
+.jt-sprite_334_candle{ background-position: -1028px -587px; width: 20px; height: 25px; }
+.jt-sprite_335_pushpin{ background-position: -1028px -662px; width: 23px; height: 23px; }
+.jt-sprite_336_iphone_shake{ background-position: -1028px -735px; width: 24px; height: 24px; }
+.jt-sprite_337_pin_flag{ background-position: -1028px -809px; width: 30px; height: 22px; }
+.jt-sprite_338_turtle{ background-position: -1028px -881px; width: 28px; height: 16px; }
+.jt-sprite_339_rabbit{ background-position: -1028px -947px; width: 26px; height: 22px; }
+.jt-sprite_340_globe{ background-position: -1028px -1019px; width: 24px; height: 24px; }
+.jt-sprite_341_briefcase{ background-position: -1028px -1093px; width: 24px; height: 21px; }
+.jt-sprite_342_hdd{ background-position: -1028px -1164px; width: 24px; height: 21px; }
+.jt-sprite_343_thumbs_up{ background-position: -1028px -1235px; width: 24px; height: 21px; }
+.jt-sprite_344_thumbs_down{ background-position: -1028px -1306px; width: 24px; height: 21px; }
+.jt-sprite_345_hand_right{ background-position: -1028px -1377px; width: 26px; height: 19px; }
+.jt-sprite_346_hand_left{ background-position: -1028px -1446px; width: 26px; height: 19px; }
+.jt-sprite_347_hand_up{ background-position: -1028px -1515px; width: 19px; height: 26px; }
+.jt-sprite_348_hand_down{ background-position: -1028px -1591px; width: 19px; height: 27px; }
+.jt-sprite_349_fullscreen{ background-position: -1028px -1668px; width: 24px; height: 24px; }
+.jt-sprite_350_shopping_bag{ background-position: -1028px -1742px; width: 23px; height: 26px; }
+.jt-sprite_351_book_open{ background-position: -1028px -1818px; width: 24px; height: 22px; }
+.jt-sprite_352_nameplate{ background-position: -1028px -1890px; width: 24px; height: 21px; }
+.jt-sprite_353_nameplate_alt{ background-position: -1114px 0; width: 24px; height: 22px; }
+.jt-sprite_354_vases{ background-position: -1114px -72px; width: 24px; height: 24px; }
+.jt-sprite_355_bullhorn{ background-position: -1114px -146px; width: 25px; height: 20px; }
+.jt-sprite_356_dumbbell{ background-position: -1114px -216px; width: 26px; height: 16px; }
+.jt-sprite_357_suitcase{ background-position: -1114px -282px; width: 24px; height: 22px; }
+.jt-sprite_358_file_import{ background-position: -1114px -354px; width: 22px; height: 24px; }
+.jt-sprite_359_file_export{ background-position: -1114px -428px; width: 23px; height: 24px; }
+.jt-sprite_360_bug{ background-position: -1114px -502px; width: 22px; height: 24px; }
+.jt-sprite_361_crown{ background-position: -1114px -576px; width: 26px; height: 25px; }
+.jt-sprite_362_smoking{ background-position: -1114px -651px; width: 24px; height: 26px; }
+.jt-sprite_363_cloud_upload{ background-position: -1114px -727px; width: 25px; height: 22px; }
+.jt-sprite_364_cloud_download{ background-position: -1114px -799px; width: 25px; height: 22px; }
+.jt-sprite_365_restart{ background-position: -1114px -871px; width: 25px; height: 25px; }
+.jt-sprite_366_security_camera{ background-position: -1114px -946px; width: 24px; height: 23px; }
+.jt-sprite_367_expand{ background-position: -1114px -1019px; width: 19px; height: 19px; }
+.jt-sprite_368_collapse{ background-position: -1114px -1088px; width: 19px; height: 19px; }
+.jt-sprite_369_collapse_top{ background-position: -1114px -1157px; width: 19px; height: 19px; }
+.jt-sprite_370_globe_af{ background-position: -1114px -1226px; width: 24px; height: 24px; }
+.jt-sprite_371_global{ background-position: -1114px -1300px; width: 24px; height: 24px; }
+.jt-sprite_372_spray{ background-position: -1114px -1374px; width: 22px; height: 27px; }
+.jt-sprite_373_nails{ background-position: -1114px -1451px; width: 22px; height: 26px; }
+.jt-sprite_374_claw_hammer{ background-position: -1114px -1527px; width: 27px; height: 26px; }
+.jt-sprite_375_classic_hammer{ background-position: -1114px -1603px; width: 25px; height: 26px; }
+.jt-sprite_376_hand_saw{ background-position: -1114px -1679px; width: 26px; height: 26px; }
+.jt-sprite_377_riflescope{ background-position: -1114px -1755px; width: 25px; height: 25px; }
+.jt-sprite_378_electrical_socket_eu{ background-position: -1114px -1830px; width: 23px; height: 23px; }
+.jt-sprite_379_electrical_socket_us{ background-position: -1114px -1903px; width: 23px; height: 23px; }
+.jt-sprite_380_message_forward{ background-position: -1200px 0; width: 31px; height: 18px; }
+.jt-sprite_381_coat_hanger{ background-position: -1200px -68px; width: 24px; height: 21px; }
+.jt-sprite_382_dress{ background-position: -1200px -139px; width: 18px; height: 24px; }
+.jt-sprite_383_bathrobe{ background-position: -1200px -213px; width: 21px; height: 25px; }
+.jt-sprite_384_shirt{ background-position: -1200px -288px; width: 25px; height: 23px; }
+.jt-sprite_385_underwear{ background-position: -1200px -361px; width: 24px; height: 24px; }
+.jt-sprite_386_log_in{ background-position: -1200px -435px; width: 22px; height: 18px; }
+.jt-sprite_387_log_out{ background-position: -1200px -503px; width: 21px; height: 18px; }
+.jt-sprite_388_exit{ background-position: -1200px -571px; width: 26px; height: 23px; }
+.jt-sprite_389_new_window_alt{ background-position: -1200px -644px; width: 19px; height: 19px; }
+.jt-sprite_390_video_sd{ background-position: -1200px -713px; width: 25px; height: 21px; }
+.jt-sprite_391_video_hd{ background-position: -1200px -784px; width: 25px; height: 21px; }
+.jt-sprite_392_subtitles{ background-position: -1200px -855px; width: 25px; height: 21px; }
+.jt-sprite_393_sound_stereo{ background-position: -1200px -926px; width: 25px; height: 21px; }
+.jt-sprite_394_sound_dolby{ background-position: -1200px -997px; width: 25px; height: 21px; }
+.jt-sprite_395_sound_5_1{ background-position: -1200px -1068px; width: 25px; height: 21px; }
+.jt-sprite_396_sound_6_1{ background-position: -1200px -1139px; width: 25px; height: 21px; }
+.jt-sprite_397_sound_7_1{ background-position: -1200px -1210px; width: 25px; height: 21px; }
+.jt-sprite_398_copyright_mark{ background-position: -1200px -1281px; width: 22px; height: 22px; }
+.jt-sprite_399_registration_mark{ background-position: -1200px -1353px; width: 22px; height: 22px; }
+.jt-sprite_400_radar{ background-position: -1200px -1425px; width: 24px; height: 24px; }
+.jt-sprite_401_skateboard{ background-position: -1200px -1499px; width: 26px; height: 18px; }
+.jt-sprite_402_golf_course{ background-position: -1200px -1567px; width: 24px; height: 24px; }
+.jt-sprite_403_sorting{ background-position: -1200px -1641px; width: 24px; height: 23px; }
+.jt-sprite_404_sort-by-alphabet{ background-position: -1200px -1714px; width: 22px; height: 23px; }
+.jt-sprite_405_sort-by-alphabet-alt{ background-position: -1200px -1787px; width: 22px; height: 23px; }
+.jt-sprite_406_sort-by-order{ background-position: -1200px -1860px; width: 21px; height: 23px; }
+.jt-sprite_407_sort-by-order-alt{ background-position: -1200px -1933px; width: 21px; height: 23px; }
+.jt-sprite_408_sort-by-attributes{ background-position: -1286px 0; width: 23px; height: 23px; }
+.jt-sprite_409_sort-by-attributes-alt{ background-position: -1286px -73px; width: 23px; height: 23px; }
+.jt-sprite_410_compressed{ background-position: -1286px -146px; width: 23px; height: 21px; }
+.jt-sprite_411_package{ background-position: -1286px -217px; width: 24px; height: 21px; }
+.jt-sprite_412_cloud_plus{ background-position: -1286px -288px; width: 26px; height: 22px; }
+.jt-sprite_413_cloud_minus{ background-position: -1286px -360px; width: 26px; height: 22px; }
+.jt-sprite_414_disk_save{ background-position: -1286px -432px; width: 24px; height: 23px; }
+.jt-sprite_415_disk_open{ background-position: -1286px -505px; width: 24px; height: 23px; }
+.jt-sprite_416_disk_saved{ background-position: -1286px -578px; width: 24px; height: 22px; }
+.jt-sprite_417_disk_remove{ background-position: -1286px -650px; width: 24px; height: 21px; }
+.jt-sprite_418_disk_import{ background-position: -1286px -721px; width: 24px; height: 23px; }
+.jt-sprite_419_disk_export{ background-position: -1286px -794px; width: 24px; height: 22px; }
+.jt-sprite_420_tower{ background-position: -1286px -866px; width: 19px; height: 24px; }
+.jt-sprite_421_send{ background-position: -1286px -940px; width: 23px; height: 23px; }
+.jt-sprite_422_git_branch{ background-position: -1286px -1013px; width: 19px; height: 24px; }
+.jt-sprite_423_git_create{ background-position: -1286px -1087px; width: 21px; height: 24px; }
+.jt-sprite_424_git_private{ background-position: -1286px -1161px; width: 21px; height: 24px; }
+.jt-sprite_425_git_delete{ background-position: -1286px -1235px; width: 21px; height: 24px; }
+.jt-sprite_426_git_merge{ background-position: -1286px -1309px; width: 21px; height: 24px; }
+.jt-sprite_427_git_pull_request{ background-position: -1286px -1383px; width: 20px; height: 24px; }
+.jt-sprite_428_git_compare{ background-position: -1286px -1457px; width: 20px; height: 23px; }
+.jt-sprite_429_git_commit{ background-position: -1286px -1530px; width: 22px; height: 22px; }
+.jt-sprite_430_construction_cone{ background-position: -1286px -1602px; width: 22px; height: 23px; }
+.jt-sprite_431_shoe_steps{ background-position: -1286px -1675px; width: 16px; height: 24px; }
+.jt-sprite_432_plus{ background-position: -1286px -1749px; width: 20px; height: 20px; }
+.jt-sprite_433_minus{ background-position: -1286px -1819px; width: 18px; height: 4px; }
+.jt-sprite_434_redo{ background-position: -1286px -1873px; width: 24px; height: 14px; }
+.jt-sprite_435_undo{ background-position: -1286px -1937px; width: 24px; height: 14px; }
+.jt-sprite_436_golf{ background-position: -1372px 0; width: 23px; height: 26px; }
+.jt-sprite_437_hockey{ background-position: -1372px -76px; width: 24px; height: 24px; }
+.jt-sprite_438_pipe{ background-position: -1372px -150px; width: 23px; height: 20px; }
+.jt-sprite_439_wrench{ background-position: -1372px -220px; width: 24px; height: 24px; }
+.jt-sprite_440_folder_closed{ background-position: -1372px -294px; width: 24px; height: 22px; }
+.jt-sprite_441_phone_alt{ background-position: -1372px -366px; width: 24px; height: 22px; }
+.jt-sprite_442_earphone{ background-position: -1372px -438px; width: 24px; height: 24px; }
+.jt-sprite_443_floppy_disk{ background-position: -1372px -512px; width: 22px; height: 22px; }
+.jt-sprite_444_floppy_saved{ background-position: -1372px -584px; width: 22px; height: 22px; }
+.jt-sprite_445_floppy_remove{ background-position: -1372px -656px; width: 22px; height: 22px; }
+.jt-sprite_446_floppy_save{ background-position: -1372px -728px; width: 22px; height: 22px; }
+.jt-sprite_447_floppy_open{ background-position: -1372px -800px; width: 22px; height: 22px; }
+.jt-sprite_448_translate{ background-position: -1372px -872px; width: 23px; height: 23px; }
+.jt-sprite_449_fax{ background-position: -1372px -945px; width: 24px; height: 23px; }
+.jt-sprite_450_factory{ background-position: -1372px -1018px; width: 24px; height: 23px; }
+.jt-sprite_451_shop_window{ background-position: -1372px -1091px; width: 25px; height: 23px; }
+.jt-sprite_452_shop{ background-position: -1372px -1164px; width: 25px; height: 23px; }
+.jt-sprite_453_kiosk{ background-position: -1372px -1237px; width: 25px; height: 23px; }
+.jt-sprite_454_kiosk_wheels{ background-position: -1372px -1310px; width: 25px; height: 23px; }
+.jt-sprite_455_kiosk_light{ background-position: -1372px -1383px; width: 25px; height: 23px; }
+.jt-sprite_456_kiosk_food{ background-position: -1372px -1456px; width: 24px; height: 24px; }
+.jt-sprite_457_transfer{ background-position: -1372px -1530px; width: 24px; height: 22px; }
+.jt-sprite_458_money{ background-position: -1372px -1602px; width: 28px; height: 20px; }
+.jt-sprite_459_header{ background-position: -1372px -1672px; width: 23px; height: 20px; }
+.jt-sprite_460_blacksmith{ background-position: -1372px -1742px; width: 22px; height: 23px; }
+.jt-sprite_461_saw_blade{ background-position: -1372px -1815px; width: 22px; height: 22px; }
+.jt-sprite_462_basketball{ background-position: -1372px -1887px; width: 23px; height: 23px; }
+.jt-sprite_463_server{ background-position: -1458px 0; width: 22px; height: 21px; }
+.jt-sprite_464_server_plus{ background-position: -1458px -71px; width: 27px; height: 25px; }
+.jt-sprite_465_server_minus{ background-position: -1458px -146px; width: 28px; height: 25px; }
+.jt-sprite_466_server_ban{ background-position: -1458px -221px; width: 28px; height: 25px; }
+.jt-sprite_467_server_flag{ background-position: -1458px -296px; width: 27px; height: 25px; }
+.jt-sprite_468_server_lock{ background-position: -1458px -371px; width: 28px; height: 26px; }
+.jt-sprite_469_server_new{ background-position: -1458px -447px; width: 28px; height: 24px; }
+.jt-sprite_social_00_pinterest{ background-position: -1458px -521px; width: 24px; height: 24px; }
+.jt-sprite_social_01_dropbox{ background-position: -1458px -595px; width: 24px; height: 24px; }
+.jt-sprite_social_02_google_plus{ background-position: -1458px -669px; width: 24px; height: 24px; }
+.jt-sprite_social_03_jolicloud{ background-position: -1458px -743px; width: 24px; height: 24px; }
+.jt-sprite_social_04_yahoo{ background-position: -1458px -817px; width: 24px; height: 24px; }
+.jt-sprite_social_05_blogger{ background-position: -1458px -891px; width: 24px; height: 24px; }
+.jt-sprite_social_06_picasa{ background-position: -1458px -965px; width: 24px; height: 24px; }
+.jt-sprite_social_07_amazon{ background-position: -1458px -1039px; width: 24px; height: 24px; }
+.jt-sprite_social_08_tumblr{ background-position: -1458px -1113px; width: 24px; height: 24px; }
+.jt-sprite_social_09_wordpress{ background-position: -1458px -1187px; width: 24px; height: 24px; }
+.jt-sprite_social_10_instapaper{ background-position: -1458px -1261px; width: 24px; height: 24px; }
+.jt-sprite_social_11_evernote{ background-position: -1458px -1335px; width: 24px; height: 24px; }
+.jt-sprite_social_12_xing{ background-position: -1458px -1409px; width: 24px; height: 24px; }
+.jt-sprite_social_13_zootool{ background-position: -1458px -1483px; width: 24px; height: 24px; }
+.jt-sprite_social_14_dribbble{ background-position: -1458px -1557px; width: 24px; height: 24px; }
+.jt-sprite_social_15_deviantart{ background-position: -1458px -1631px; width: 24px; height: 24px; }
+.jt-sprite_social_16_read_it_later{ background-position: -1458px -1705px; width: 24px; height: 24px; }
+.jt-sprite_social_17_linked_in{ background-position: -1458px -1779px; width: 24px; height: 24px; }
+.jt-sprite_social_18_forrst{ background-position: -1458px -1853px; width: 24px; height: 24px; }
+.jt-sprite_social_19_pinboard{ background-position: -1458px -1927px; width: 24px; height: 24px; }
+.jt-sprite_social_20_behance{ background-position: -1544px 0; width: 24px; height: 24px; }
+.jt-sprite_social_21_github{ background-position: -1544px -74px; width: 24px; height: 24px; }
+.jt-sprite_social_22_youtube{ background-position: -1544px -148px; width: 24px; height: 24px; }
+.jt-sprite_social_23_skitch{ background-position: -1544px -222px; width: 24px; height: 24px; }
+.jt-sprite_social_24_4square{ background-position: -1544px -296px; width: 24px; height: 24px; }
+.jt-sprite_social_25_quora{ background-position: -1544px -370px; width: 24px; height: 24px; }
+.jt-sprite_social_26_badoo{ background-position: -1544px -444px; width: 24px; height: 24px; }
+.jt-sprite_social_27_spotify{ background-position: -1544px -518px; width: 24px; height: 24px; }
+.jt-sprite_social_28_stumbleupon{ background-position: -1544px -592px; width: 24px; height: 24px; }
+.jt-sprite_social_29_readability{ background-position: -1544px -666px; width: 24px; height: 24px; }
+.jt-sprite_social_30_facebook{ background-position: -1544px -740px; width: 24px; height: 24px; }
+.jt-sprite_social_31_twitter{ background-position: -1544px -814px; width: 24px; height: 24px; }
+.jt-sprite_social_32_instagram{ background-position: -1544px -888px; width: 24px; height: 24px; }
+.jt-sprite_social_33_posterous_spaces{ background-position: -1544px -962px; width: 24px; height: 24px; }
+.jt-sprite_social_34_vimeo{ background-position: -1544px -1036px; width: 24px; height: 24px; }
+.jt-sprite_social_35_flickr{ background-position: -1544px -1110px; width: 24px; height: 24px; }
+.jt-sprite_social_36_last_fm{ background-position: -1544px -1184px; width: 24px; height: 24px; }
+.jt-sprite_social_37_rss{ background-position: -1544px -1258px; width: 24px; height: 24px; }
+.jt-sprite_social_38_skype{ background-position: -1544px -1332px; width: 24px; height: 24px; }
+.jt-sprite_social_39_e-mail{ background-position: -1544px -1406px; width: 24px; height: 24px; }
+.jt-sprite_social_40_vine{ background-position: -1544px -1480px; width: 24px; height: 24px; }
+.jt-sprite_social_41_myspace{ background-position: -1544px -1554px; width: 24px; height: 24px; }
+.jt-sprite_social_42_goodreads{ background-position: -1544px -1628px; width: 24px; height: 24px; }
+.jt-sprite_social_43_apple{ background-position: -1544px -1702px; width: 24px; height: 24px; }
+.jt-sprite_social_44_windows{ background-position: -1544px -1776px; width: 24px; height: 24px; }
+.jt-sprite_social_45_yelp{ background-position: -1544px -1850px; width: 24px; height: 24px; }
+.jt-sprite_social_46_playstation{ background-position: -1544px -1924px; width: 24px; height: 24px; }
+.jt-sprite_social_47_xbox{ background-position: -1630px 0; width: 24px; height: 24px; }
+.jt-sprite_social_48_android{ background-position: -1630px -74px; width: 24px; height: 24px; }
+.jt-sprite_social_49_ios{ background-position: -1630px -148px; width: 24px; height: 24px; }
