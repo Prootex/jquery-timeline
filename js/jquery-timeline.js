@@ -45,6 +45,7 @@
 					</div>\
 				</div>\
 				<div class="jt-wrapper">\
+					<div class="jt-nav-toggle"><span class="jt-icon-arrow-bottom"></span></div>\
 					<div class="jt-row"></div>\
 				</div>\
 				<div class="jt-right jt-icon-arrow">\
@@ -104,18 +105,6 @@
 		appendContent(structure);
 	},
 
-	drawContentMedia = function(asset) {
-		switch(asset.type) {
-			case "image":
-				return "<img src=\""+asset.url+"\" alt=\""+asset.caption+"\" />"; break;
-			case "google-embed":
-				return "<iframe src=\""+asset.url+"\" frameborder=\"0\" allowfullscreen></iframe>"; break;
-			case "youtube-embed":
-				return "<iframe src=\""+asset.url+"\" frameborder=\"0\" allowfullscreen></iframe>"; break;
-		}
-		return "";
-	},
-
 	//Filling data in created structure
 	appendContent = function(structure) {
 		$.each(baseData.timeline, function(i, timelineData) {
@@ -133,6 +122,17 @@
 		});
 	},
 
+	drawContentMedia = function(asset) {
+		switch(asset.type) {
+			case "image":
+				return "<img src=\""+asset.url+"\" alt=\""+asset.caption+"\" />"; break;
+			case "google-embed":
+				return "<iframe src=\""+asset.url+"\" frameborder=\"0\" allowfullscreen></iframe>"; break;
+			case "youtube-embed":
+				return "<iframe src=\""+asset.url+"\" frameborder=\"0\" allowfullscreen></iframe>"; break;
+		}
+		return "";
+	},
 
 	// animate by click on next/prev icon
 	initEventAnimation = function() {
@@ -250,6 +250,33 @@
 		}
 	},
 
+	// toggle navigation
+	toggleNavigation = function() {
+		// positioning toggle button
+		var wrapperWidth = baseElement.find(".jt-wrapper").width(),
+			animate = false;
+		$(window).resize(function() {
+			wrapperWidth = baseElement.find(".jt-wrapper").width();
+			baseElement.find(".jt-nav-toggle").css("left", ((wrapperWidth / 2)-60));
+		});
+		baseElement.find(".jt-nav-toggle").css("left", ((wrapperWidth / 2)-60));
+
+		// add class to toggle icon
+		baseElement.find(".jt-nav-toggle").click(function() {
+			if (!animate) {
+				animate = true;
+				if ($(this).find("> span").hasClass("jt-icon-arrow-bottom")) {
+					$(this).find("> span").removeClass("jt-icon-arrow-bottom").addClass("jt-icon-arrow-top");
+				} else {
+					$(this).find("> span").removeClass("jt-icon-arrow-top").addClass("jt-icon-arrow-bottom");
+				}
+				baseElement.find(".jt-navigation").toggle("fast", function() {
+					animate = false;
+				});
+			}
+		});
+	},
+
 	// Timeline navigation
 	navigationAnimation = function() {
 		var navWidth = baseElement.find(".jt-navigation .jt-navigation-row").width(),
@@ -314,6 +341,7 @@
 		buttonContent();
 		initEventAnimation();
 		navigationAnimation();
+		toggleNavigation();
 	};
 
 	$.jqueryTimeline = function(element, data) {

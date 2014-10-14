@@ -20,6 +20,25 @@
 }
 #jquery-timeline .jt-right,
 #jquery-timeline .jt-left {
+	-webkit-transition: all 0.5s linear;
+	   -moz-transition: all 0.5s linear;
+	    -ms-transition: all 0.5s linear;
+	     -o-transition: all 0.5s linear;
+	        transition: all 0.5s linear;
+}
+#jquery-timeline .jt-right:hover,
+#jquery-timeline .jt-left:hover {
+	background-color: #f9f9f9;
+}
+#jquery-timeline .jt-right:hover {
+	right: 0;
+}
+#jquery-timeline .jt-left:hover {
+	left: 0;
+}
+
+#jquery-timeline .jt-right,
+#jquery-timeline .jt-left {
 	width: 80px;
 	height: 100%;
 	top: 0;
@@ -103,6 +122,51 @@
 	padding-left: 20px;
 }
 
+/* jt toggle navigation button */
+#jquery-timeline .jt-nav-toggle {
+	position: absolute;
+	bottom: -54px;
+	width: 120px;
+	height: 76px;
+	background: #f8f8f8;
+	-moz-border-radius: 100px / 50px;
+	-webkit-border-radius: 100px / 50px;
+	border-radius: 100px / 50px;
+	text-align: center;
+	-webkit-transition: all 0.2s;
+	-moz-transition:    all 0.2s;
+	-o-transition:      all 0.2s;
+	transition:         all 0.2s;
+	z-index: 1000;
+	cursor: pointer;
+}
+#jquery-timeline .jt-nav-toggle:hover {
+	bottom: -50px;
+}
+#jquery-timeline .jt-nav-toggle .jt-icon-arrow-bottom,
+#jquery-timeline .jt-nav-toggle .jt-icon-arrow-top {
+	background-image: url("../img/arrow-grey-bottom.png");
+	width: 12px;
+	height: 9px;
+	display: inline-block;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: relative;
+	top: 3px;
+	transform:rotate(180deg);
+	-ms-transform:rotate(180deg);
+	-webkit-transform:rotate(180deg);
+	-webkit-transition: all 0.2s;
+	-moz-transition:    all 0.2s;
+	-o-transition:      all 0.2s;
+	transition:         all 0.2s;
+}
+#jquery-timeline .jt-nav-toggle .jt-icon-arrow-top {
+	background-image: url("../img/arrow-grey-bottom.png");
+	transform:rotate(0deg);
+	-ms-transform:rotate(0deg);
+	-webkit-transform:rotate(0deg);
+}
 
 /* Navigation */
 #jquery-timeline .jt-navigation {
@@ -110,6 +174,7 @@
 	height: 200px;
 	position: relative;
 	border-top: 1px solid #e3e3e3;
+	background-color: #f9f9f9;
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper {
 	width: 100%;
