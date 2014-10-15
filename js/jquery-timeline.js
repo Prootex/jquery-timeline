@@ -61,7 +61,9 @@
 						<span class="jt-zoom-in jt-sprite jt-sprite_190_circle_plus"></span>\
 						<span class="jt-zoom-out jt-sprite jt-sprite_191_circle_minus"></span>\
 					</div>\
-					<div class="jt-navigation-row"></div>\
+					<div class="jt-navigation-row">\
+						<div class="jt-year-line"></div>\
+					</div>\
 				</div>\
 			</div>';
 
@@ -303,6 +305,15 @@
 							     "-o-transform": "translateX("+-left+"px)",
 							        "transform": "translateX("+-left+"px)"
 						});
+					baseElement
+						.find(".jt-navigation .jt-year-container")
+						.css({
+							"-webkit-transform": "translateX("+-left+"px)",
+							   "-moz-transform": "translateX("+-left+"px)",
+							    "-ms-transform": "translateX("+-left+"px)",
+							     "-o-transform": "translateX("+-left+"px)",
+							        "transform": "translateX("+-left+"px)"
+						});
 				}
 			})
 			// by hover out stop the mousemove animation
@@ -329,6 +340,8 @@
 	navConPos = function(zoomScale) {
 		var left = 0,
 			timeObj = {},
+			yearArr = [],
+			yearStamp = [],
 			count = (baseElement.find(".jt-navigation-container").length - 1);
 			navWrapWidth = baseElement.find(".jt-navigation-wrapper").width() - 220;
 			baseElement.find(".jt-navigation-row").css("width", (navWrapWidth+190)),
@@ -338,18 +351,51 @@
 
 		$.each(baseData.timeline, function(i, v) {
 			dateSplit = v.date.split('-');
-			date = new Date(dateSplit[0], parseInt(dateSplit[1], 10) - 1, dateSplit[2]).getTime();
+			date = new Date(dateSplit[0], parseInt(dateSplit[1]) - 1, dateSplit[2]).getTime(),
 			timeObj[i] = date;
+			baseData.timeline[i].timestamp = date;
+			baseData.timeline[i].year = parseInt(dateSplit[0]);
 		});
 
-		$.each(baseElement.find(".jt-navigation-container"), function(i, v) {
-			diff = timeObj[count]-timeObj[0];
-				left = (((timeObj[i]-timeObj[0])*(baseElement.find(".jt-navigation-row").width()))/diff);
-				$(this).css("left", left*zoomScale);
-		});
+		for(var i = baseData.timeline[0].year; i<= (baseData.timeline[count].year); i++) {
+			yearArr.push(i);
+			var timestamp = new Date(i, 0, 1).getTime();
+			yearStamp.push(timestamp);
+		}
+
+		// $.each(baseElement.find(".jt-navigation-container"), function(i, v) {
+		// 	diff = baseData.timeline[count].timestamp-baseData.timeline[0].timestamp;
+		// 	left = ((((baseData.timeline[i].timestamp-baseData.timeline[0].timestamp)*(baseElement.find(".jt-navigation-row").width()))/diff)+50);
+		// 	$(v).animate({
+		// 		left: left*zoomScale
+		// 	}, 200);
+		// });
+
+		if ((baseElement.find(".jt-year-container").length) < 1) {
+			// create containers for the year line
+			$.each(yearArr, function(i, v) {
+				baseElement.find(".jt-year-line").append("<div class=\"jt-year-container\" data-year=\""+i+"\">"+v+"</div>");
+			});
+		}
+
+		$.each(yearStamp, function(i, v) {
+			diff = yearStamp[(yearStamp.length-1)]-yearStamp[0];
+			left = ((((yearStamp[i]-yearStamp[0])*(baseElement.find(".jt-navigation-row").width()))/diff)+50);
+
+			baseElement.find(".jt-year-container[data-year='"+i+"']").animate({
+				left: (left*zoomScale)
+			}, 200);
+
+			if (i+1 <= baseElement.find(".jt-navigation-container").length) {
+				diffYear = baseData.timeline[count].timestamp-yearStamp[0];
+				leftYear = ((((baseData.timeline[i].timestamp-yearStamp[0])*(baseElement.find(".jt-year-line").width()))/diffYear)+50);
+				baseElement.find(".jt-navigation-container[rel='"+i+"']").animate({
+					left: (leftYear*zoomScale)
+				}, 200);
+			}
+		})
 	},
 
-	//
 	navZoom = function() {
 		var zoomScale = 1;
 		baseElement.find(".jt-zoom-in").click(function(){
@@ -386,6 +432,8 @@
 			navConPos()
 		});
 		navZoom();
+
+		console.log(baseData);
 	};
 
 	$.jqueryTimeline = function(element, data) {
