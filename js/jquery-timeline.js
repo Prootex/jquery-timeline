@@ -357,7 +357,7 @@
 			baseData.timeline[i].year = parseInt(dateSplit[0]);
 		});
 
-		for(var i = baseData.timeline[0].year; i<= (baseData.timeline[count].year); i++) {
+		for(var i = baseData.timeline[0].year; i<= (baseData.timeline[count].year+1); i++) {
 			yearArr.push(i);
 			var timestamp = new Date(i, 0, 1).getTime();
 			yearStamp.push(timestamp);
@@ -379,21 +379,24 @@
 		}
 
 		$.each(yearStamp, function(i, v) {
-			diff = yearStamp[(yearStamp.length-1)]-yearStamp[0];
-			left = ((((yearStamp[i]-yearStamp[0])*(baseElement.find(".jt-navigation-row").width()))/diff)+50);
+
+			diffYear = yearStamp[(yearStamp.length-1)]-yearStamp[0];
+			leftYear = ( ( (yearStamp[i]-yearStamp[0]) * baseElement.find(".jt-navigation-row").width() ) / diffYear ) + 50;
 
 			baseElement.find(".jt-year-container[data-year='"+i+"']").animate({
-				left: (left*zoomScale)
+				left: leftYear*zoomScale
 			}, 200);
+		});
 
-			if (i+1 <= baseElement.find(".jt-navigation-container").length) {
-				diffYear = baseData.timeline[count].timestamp-yearStamp[0];
-				leftYear = ((((baseData.timeline[i].timestamp-yearStamp[0])*(baseElement.find(".jt-year-line").width()))/diffYear)+50);
-				baseElement.find(".jt-navigation-container[rel='"+i+"']").animate({
-					left: (leftYear*zoomScale)
-				}, 200);
-			}
-		})
+		$.each(baseData.timeline, function(i, v) {
+
+			diff = yearStamp[(yearStamp.length-1)]-baseData.timeline[0].timestamp;
+			left = ( ( (baseData.timeline[i].timestamp-yearStamp[0]) * baseElement.find(".jt-navigation-row").width() ) / diff ) + 50;
+
+			baseElement.find(".jt-navigation-container[rel='"+i+"']").animate({
+				left: left*zoomScale
+			}, 200);
+		});
 	},
 
 	navZoom = function() {
