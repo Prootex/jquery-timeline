@@ -61,20 +61,7 @@
 						<span class="jt-zoom-in jt-sprite jt-sprite_190_circle_plus"></span>\
 						<span class="jt-zoom-out jt-sprite jt-sprite_191_circle_minus"></span>\
 					</div>\
-					<div class="jt-navigation-row">\
-						<div class="jt-navigation-container a">\
-							<div class="jt-col"></div>\
-						</div>\
-						<div class="jt-navigation-container b">\
-							<div class="jt-col"></div>\
-						</div>\
-						<div class="jt-navigation-container c">\
-							<div class="jt-col"></div>\
-						</div>\
-						<div class="jt-navigation-container d">\
-							<div class="jt-col"></div>\
-						</div>\
-					</div>\
+					<div class="jt-navigation-row"></div>\
 				</div>\
 			</div>';
 
@@ -114,7 +101,8 @@
 		$.each(baseData.timeline, function(i, timelineData) {
 			baseElement.find(".jt-row").append(structure);
 
-			var container = baseElement.find(".jt-container").last();
+			var container = baseElement.find(".jt-container").last(),
+				navRow = baseElement.find(".jt-navigation-row").last();
 			// add a rel attr to the containers
 			container.attr("rel", i);
 
@@ -123,6 +111,9 @@
 			container.find(".jt-date > span").append(timelineData.date);
 			container.find(".jt-heading > h2").append(timelineData.headline);
 			container.find(".jt-text > p").append(timelineData.text);
+
+			//create navigation boxes and add an rel attr
+			navRow.append("<div class=\"jt-navigation-container\" rel=\""+i+"\"><div class=\"jt-col\"><span class=\"date\">"+timelineData.date+"</span><br /><span class=\"heading\">"+timelineData.headline+"</span></div></div>");
 		});
 	},
 
@@ -331,24 +322,90 @@
 			});
 	},
 
-	//
-	navZoom = function() {
-		var zoomScale = 1;
-		baseElement.find(".jt-zoom-in").click(function(){
-			zoomScale = zoomScale+0.2;
-			baseElement.find(".jt-navigation-row").animate({ "zoom": zoomScale }, 400);
+	// position of navigation containers by the year
+	navConPos = function() {
+		var left = 0,
+			timeObj = {},
+			count = (baseElement.find(".jt-navigation-container").length - 1);
+			navWrapWidth = baseElement.find(".jt-navigation-wrapper").width() - 220;
+
+		$.each(baseData.timeline, function(i, v) {
+			// left = parseInt(v.date.substr(v.date.search(/[0-9]{4}/i), 4));
+			// baseElement.find(".jt-navigation-container[rel=\""+i+"\"]").css("left", (left/10));
+			dateSplit = v.date.split('-');
+			date = new Date(dateSplit[0], parseInt(dateSplit[1], 10) - 1, dateSplit[2]).getTime();
+			timeObj[i] = date;
 		});
-		baseElement.find(".jt-zoom-out").click(function(){
-			zoomScale = zoomScale-0.2;
-			baseElement.find(".jt-navigation-row").animate({ "zoom": zoomScale }, 400);
+
+		baseElement.find(".jt-navigation-container[rel=\"0\"]").css("left", 0);
+		baseElement.find(".jt-navigation-container[rel=\""+count+"\"]").css("left", navWrapWidth);
+
+		$.each(baseElement.find(".jt-navigation-container"), function(i, v) {
+			var diff = timeObj[count]-timeObj[0];
+			if (i > 0 || i < count) {
+				left = (((timeObj[i]-timeObj[0])*navWrapWidth)/diff);
+				$(this).css("left", left);
+			}
 		});
 	},
+
+	// unbrauchbar
+	// navZoom = function() {
+	// 	var zoomScale = 1;
+	// 	baseElement.find(".jt-zoom-in").click(function(){
+	// 		zoomScale = zoomScale+0.2;
+	// 		baseElement.find(".jt-navigation-row").animate({
+	// 			"display": "block"
+	// 		}, {
+	// 			step: function(fx) {
+	// 				baseElement.find(".jt-navigation-row").css({
+	// 					"zoom": zoomScale,
+	// 					"-moz-transform": "scale("+zoomScale+")",
+	// 					"-moz-transform-origin": "0 0",
+	// 					"-o-transform": "scale("+zoomScale+")",
+	// 					"-o-transform-origin": "0 0",
+	// 					"-webkit-transform": "scale("+zoomScale+")",
+	// 					"-webkit-transform-origin": "0 0",
+	// 					"transform": "scale("+zoomScale+")",
+	// 					"transform-origin": "0 0"
+	// 				});
+	// 			},
+	// 			duration: 400
+	// 		},'swing');
+	// 	});
+	// 	baseElement.find(".jt-zoom-out").click(function(){
+	// 		zoomScale = zoomScale-0.2;
+	// 		baseElement.find(".jt-navigation-row").animate({
+	// 			"display": "block"
+	// 		}, {
+	// 			step: function(fx) {
+	// 				baseElement.find(".jt-navigation-row").css({
+	// 					"zoom": zoomScale,
+	// 					"-moz-transform": "scale("+zoomScale+")",
+	// 					"-moz-transform-origin": "0 0",
+	// 					"-o-transform": "scale("+zoomScale+")",
+	// 					"-o-transform-origin": "0 0",
+	// 					"-webkit-transform": "scale("+zoomScale+")",
+	// 					"-webkit-transform-origin": "0 0",
+	// 					"transform": "scale("+zoomScale+")",
+	// 					"transform-origin": "0 0"
+	// 				});
+	// 			},
+	// 			duration: 400
+	// 		},'swing');
+	// 	});
+	// },
 
 	initJt = function(element, data) {
 		baseElement = element;
 		baseData = data;
 
-		console.log(data);
+		// sort obj by date
+		baseData.timeline = baseData.timeline.sort(function(a, b) {
+			return (a.date > b.date);
+		});
+
+		console.log(baseData);
 
 		createWrapStructure();
 
@@ -360,7 +417,11 @@
 		initEventAnimation();
 		navigationAnimation();
 		toggleNavigation();
-		navZoom();
+		navConPos();
+		$(window).resize(function() {
+			navConPos()
+		});
+		// navZoom();
 	};
 
 	$.jqueryTimeline = function(element, data) {

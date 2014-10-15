@@ -14,24 +14,9 @@
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row {
 	height: inherit;
 	position: absolute;
-	width: 5000px;
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container {
 	position: relative;
 	width: 100px;
-	height: 30px;
-}
-
-.jt-navigation-container.a {
-	background: red;
-	left: 200px;
-}.jt-navigation-container.b {
-	background: blue;
-	left: 2000px;
-}.jt-navigation-container.c {
-	background: green;
-	left: 1000px;
-}.jt-navigation-container.d {
-	background: grey;
-	left: 3000px;
+	background: lightgrey;
 }
