@@ -276,7 +276,6 @@
 	navigationAnimation = function() {
 		var navWidth = baseElement.find(".jt-navigation .jt-navigation-row").width(),
 			lastConPos = baseElement.find(".jt-navigation .jt-navigation-row .jt-navigation-container").last().position(),
-			firstConPos = baseElement.find(".jt-navigation .jt-navigation-row .jt-navigation-container").first().position(),
 			clicked = false,
 			mousePosition = 0,
 			left = 0,
@@ -295,7 +294,15 @@
 					else {
 						left = parseInt(currPo - (mouseX-mousePosition));
 					}
-					baseElement.find(".jt-navigation .jt-navigation-row").css("left", -left);
+					baseElement
+						.find(".jt-navigation .jt-navigation-container")
+						.css({
+							"-webkit-transform": "translateX("+-left+"px)",
+							   "-moz-transform": "translateX("+-left+"px)",
+							    "-ms-transform": "translateX("+-left+"px)",
+							     "-o-transform": "translateX("+-left+"px)",
+							        "transform": "translateX("+-left+"px)"
+						});
 				}
 			})
 			// by hover out stop the mousemove animation
@@ -306,14 +313,10 @@
 			// start the slide animation on click
 			.mousedown(function(event) {
 				baseElement.find(".jt-navigation-row").css("cursor", "-webkit-grabbing");
-				if (currPo <= lastConPos.left) {
-					mousePosition = event.clientX;
-					pagePosition = event.pageX;
-					currPo = left;
-					(currPo < navWidth) ? clicked = true : clicked = false;
-				} else {
-					clicked = true;
-				}
+				mousePosition = event.clientX;
+				pagePosition = event.pageX;
+				currPo = left;
+				clicked = true;
 			})
 			// slides animation stop
 			.mouseup(function() {
@@ -323,78 +326,41 @@
 	},
 
 	// position of navigation containers by the year
-	navConPos = function() {
+	navConPos = function(zoomScale) {
 		var left = 0,
 			timeObj = {},
 			count = (baseElement.find(".jt-navigation-container").length - 1);
 			navWrapWidth = baseElement.find(".jt-navigation-wrapper").width() - 220;
+			baseElement.find(".jt-navigation-row").css("width", (navWrapWidth+190)),
+			diff = 0;
+
+		if(!zoomScale){zoomScale=1;}
 
 		$.each(baseData.timeline, function(i, v) {
-			// left = parseInt(v.date.substr(v.date.search(/[0-9]{4}/i), 4));
-			// baseElement.find(".jt-navigation-container[rel=\""+i+"\"]").css("left", (left/10));
 			dateSplit = v.date.split('-');
 			date = new Date(dateSplit[0], parseInt(dateSplit[1], 10) - 1, dateSplit[2]).getTime();
 			timeObj[i] = date;
 		});
 
-		baseElement.find(".jt-navigation-container[rel=\"0\"]").css("left", 0);
-		baseElement.find(".jt-navigation-container[rel=\""+count+"\"]").css("left", navWrapWidth);
-
 		$.each(baseElement.find(".jt-navigation-container"), function(i, v) {
-			var diff = timeObj[count]-timeObj[0];
-			if (i > 0 || i < count) {
-				left = (((timeObj[i]-timeObj[0])*navWrapWidth)/diff);
-				$(this).css("left", left);
-			}
+			diff = timeObj[count]-timeObj[0];
+				left = (((timeObj[i]-timeObj[0])*(baseElement.find(".jt-navigation-row").width()))/diff);
+				$(this).css("left", left*zoomScale);
 		});
 	},
 
-	// unbrauchbar
-	// navZoom = function() {
-	// 	var zoomScale = 1;
-	// 	baseElement.find(".jt-zoom-in").click(function(){
-	// 		zoomScale = zoomScale+0.2;
-	// 		baseElement.find(".jt-navigation-row").animate({
-	// 			"display": "block"
-	// 		}, {
-	// 			step: function(fx) {
-	// 				baseElement.find(".jt-navigation-row").css({
-	// 					"zoom": zoomScale,
-	// 					"-moz-transform": "scale("+zoomScale+")",
-	// 					"-moz-transform-origin": "0 0",
-	// 					"-o-transform": "scale("+zoomScale+")",
-	// 					"-o-transform-origin": "0 0",
-	// 					"-webkit-transform": "scale("+zoomScale+")",
-	// 					"-webkit-transform-origin": "0 0",
-	// 					"transform": "scale("+zoomScale+")",
-	// 					"transform-origin": "0 0"
-	// 				});
-	// 			},
-	// 			duration: 400
-	// 		},'swing');
-	// 	});
-	// 	baseElement.find(".jt-zoom-out").click(function(){
-	// 		zoomScale = zoomScale-0.2;
-	// 		baseElement.find(".jt-navigation-row").animate({
-	// 			"display": "block"
-	// 		}, {
-	// 			step: function(fx) {
-	// 				baseElement.find(".jt-navigation-row").css({
-	// 					"zoom": zoomScale,
-	// 					"-moz-transform": "scale("+zoomScale+")",
-	// 					"-moz-transform-origin": "0 0",
-	// 					"-o-transform": "scale("+zoomScale+")",
-	// 					"-o-transform-origin": "0 0",
-	// 					"-webkit-transform": "scale("+zoomScale+")",
-	// 					"-webkit-transform-origin": "0 0",
-	// 					"transform": "scale("+zoomScale+")",
-	// 					"transform-origin": "0 0"
-	// 				});
-	// 			},
-	// 			duration: 400
-	// 		},'swing');
-	// 	});
-	// },
+	//
+	navZoom = function() {
+		var zoomScale = 1;
+		baseElement.find(".jt-zoom-in").click(function(){
+			zoomScale = zoomScale*2;
+			navConPos(zoomScale);
+		});
+		baseElement.find(".jt-zoom-out").click(function(){
+			zoomScale = zoomScale*0.5;
+			navConPos(zoomScale);
+		});
+	},
 
 	initJt = function(element, data) {
 		baseElement = element;
@@ -404,8 +370,6 @@
 		baseData.timeline = baseData.timeline.sort(function(a, b) {
 			return (a.date > b.date);
 		});
-
-		console.log(baseData);
 
 		createWrapStructure();
 
@@ -421,7 +385,7 @@
 		$(window).resize(function() {
 			navConPos()
 		});
-		// navZoom();
+		navZoom();
 	};
 
 	$.jqueryTimeline = function(element, data) {
