@@ -97,6 +97,10 @@ body {
 	width: 100%;
 	position: absolute;
 	left: 0;
+	-webkit-transition : all 1500ms cubic-bezier(.71,.08,.35,.87);
+	-moz-transition : all 1500ms cubic-bezier(.71,.08,.35,.87);
+	-o-transition : all 1500ms cubic-bezier(.71,.08,.35,.87);
+	transition : all 1500ms cubic-bezier(.71,.08,.35,.87);
 }
 #jquery-timeline > .jt-timeline > .jt-wrapper > .jt-row > .jt-container {
 	float: left;
@@ -241,6 +245,10 @@ body {
 	background: #f9f9f9;
 	border-left: 1px solid #e3e3e3;
 	height: 100%;
+	-webkit-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
+	-moz-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
+	-o-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
+	transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.active,
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.hover {
@@ -252,6 +260,10 @@ body {
 	margin-left: -6px;
 	padding: 7px;
 	cursor: pointer;
+	-webkit-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
+	-moz-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
+	-o-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
+	transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.active,
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.hover {

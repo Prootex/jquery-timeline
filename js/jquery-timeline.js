@@ -6,6 +6,7 @@
 	baseData,
 	rightButton,
 	leftButton,
+	left,
 	accRel = 1,
 	clickCount = 0,
 	sliderSpeed = 1500,
@@ -147,11 +148,7 @@
 					'-webkit-transform' : 'translate3d('+(-position)+'px, 0px, 0px)',
 					'-moz-transform' : 'translate3d('+(-position)+'px, 0px, 0px)',
 					'-o-transform' : 'translate3d('+(-position)+'px, 0px, 0px)',
-					'transform' : 'translate3d('+(-position)+'px, 0px, 0px)',
-					'-webkit-transition' : sliderTransition,
-					'-moz-transition' : sliderTransition,
-					'-o-transition' : sliderTransition,
-					'transition' : sliderTransition
+					'transform' : 'translate3d('+(-position)+'px, 0px, 0px)'
 				});
 				magicButtons(clickCount);
 			},
@@ -276,13 +273,12 @@
 
 	// Timeline navigation
 	navigationAnimation = function() {
+		(left)?left=left:left=0;
 		var navWidth = baseElement.find(".jt-navigation .jt-navigation-row").width(),
 			lastConPos = baseElement.find(".jt-navigation .jt-navigation-row .jt-navigation-container").last().position(),
 			clicked = false,
 			mousePosition = 0,
-			left = 0,
 			currPo = 0;
-
 		// on mousedown change the left value to slide
 		baseElement.find(".jt-navigation")
 			// calculate the left value of the row element
@@ -296,23 +292,33 @@
 					else {
 						left = parseInt(currPo - (mouseX-mousePosition));
 					}
+
 					baseElement
 						.find(".jt-navigation .jt-navigation-container")
 						.css({
 							"-webkit-transform": "translateX("+-left+"px)",
-							   "-moz-transform": "translateX("+-left+"px)",
-							    "-ms-transform": "translateX("+-left+"px)",
-							     "-o-transform": "translateX("+-left+"px)",
-							        "transform": "translateX("+-left+"px)"
+							"-moz-transform": "translateX("+-left+"px)",
+							"-ms-transform": "translateX("+-left+"px)",
+							"-o-transform": "translateX("+-left+"px)",
+							"transform": "translateX("+-left+"px)",
+							'-webkit-transition' : "none",
+							'-moz-transition' : "none",
+							'-o-transition' : "none",
+							'transition' : "none"
 						});
+
 					baseElement
 						.find(".jt-navigation .jt-year-container")
 						.css({
 							"-webkit-transform": "translateX("+-left+"px)",
-							   "-moz-transform": "translateX("+-left+"px)",
-							    "-ms-transform": "translateX("+-left+"px)",
-							     "-o-transform": "translateX("+-left+"px)",
-							        "transform": "translateX("+-left+"px)"
+							"-moz-transform": "translateX("+-left+"px)",
+							"-ms-transform": "translateX("+-left+"px)",
+							"-o-transform": "translateX("+-left+"px)",
+							"transform": "translateX("+-left+"px)",
+							'-webkit-transition' : "none",
+							'-moz-transition' : "none",
+							'-o-transition' : "none",
+							'transition' : "none"
 						});
 				}
 			})
@@ -422,7 +428,6 @@
 				$(this).parent().addClass("active");
 
 				var elementWidth = baseElement.find(".jt-container").width(),
-					sliderTransition = 'all '+sliderSpeed+'ms cubic-bezier(.71,.08,.35,.87)',
 					leftPosition = $(this).parent().get(0).style.left,
 					average = (baseElement.find(".jt-navigation-row").width() / 2) - parseInt(leftPosition);
 
@@ -436,12 +441,11 @@
 						'-moz-transform' : 'translate3d('+(-(elementWidth * clickCount))+'px, 0px, 0px)',
 						'-o-transform' : 'translate3d('+(-(elementWidth * clickCount))+'px, 0px, 0px)',
 						'transform' : 'translate3d('+(-(elementWidth * clickCount))+'px, 0px, 0px)',
-						'-webkit-transition' : sliderTransition,
-						'-moz-transition' : sliderTransition,
-						'-o-transition' : sliderTransition,
-						'transition' : sliderTransition
+						'-webkit-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
+						'-moz-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
+						'-o-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
+						'transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)"
 					});
-
 
 				baseElement.find(".jt-navigation-container")
 					.css({
@@ -449,8 +453,28 @@
 						"-moz-transform": "translateX("+average+"px)",
 						"-ms-transform": "translateX("+average+"px)",
 						"-o-transform": "translateX("+average+"px)",
-						"transform": "translateX("+average+"px)"
+						"transform": "translateX("+average+"px)",
+						'-webkit-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
+						'-moz-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
+						'-o-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
+						'transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)"
 					});
+
+				baseElement.find(".jt-year-container")
+					.css({
+						"-webkit-transform": "translateX("+average+"px)",
+						"-moz-transform": "translateX("+average+"px)",
+						"-ms-transform": "translateX("+average+"px)",
+						"-o-transform": "translateX("+average+"px)",
+						"transform": "translateX("+average+"px)",
+						'-webkit-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
+						'-moz-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
+						'-o-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
+						'transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)"
+					});
+
+				// to set the left value of the move animation
+				left = -average;
 			});
 	},
 
