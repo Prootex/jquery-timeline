@@ -343,7 +343,7 @@
 			yearArr = [],
 			yearStamp = [],
 			count = (baseElement.find(".jt-navigation-container").length - 1);
-			navWrapWidth = baseElement.find(".jt-navigation-wrapper").width() - 220;
+			navWrapWidth = baseElement.find(".jt-navigation-wrapper").width() - 190;
 			baseElement.find(".jt-navigation-row").css("width", (navWrapWidth+190)),
 			diff = 0;
 
@@ -362,14 +362,6 @@
 			var timestamp = new Date(i, 0, 1).getTime();
 			yearStamp.push(timestamp);
 		}
-
-		// $.each(baseElement.find(".jt-navigation-container"), function(i, v) {
-		// 	diff = baseData.timeline[count].timestamp-baseData.timeline[0].timestamp;
-		// 	left = ((((baseData.timeline[i].timestamp-baseData.timeline[0].timestamp)*(baseElement.find(".jt-navigation-row").width()))/diff)+50);
-		// 	$(v).animate({
-		// 		left: left*zoomScale
-		// 	}, 200);
-		// });
 
 		if ((baseElement.find(".jt-year-container").length) < 1) {
 			// create containers for the year line
@@ -411,6 +403,57 @@
 		});
 	},
 
+	activeEvent = function() {
+		baseElement.find(".jt-navigation-container .jt-col")
+			.hover(function() {
+				$(this).addClass("hover");
+				$(this).parent().addClass("hover");
+			}, function() {
+				baseElement.find(".jt-navigation-container").removeClass("hover");
+				baseElement.find(".jt-navigation-container .jt-col").removeClass("hover");
+			});
+
+		baseElement.find(".jt-navigation-container .jt-col")
+			.click(function() {
+				baseElement.find(".jt-navigation-container").removeClass("active");
+				baseElement.find(".jt-navigation-container .jt-col").removeClass("active");
+
+				$(this).addClass("active");
+				$(this).parent().addClass("active");
+
+				var elementWidth = baseElement.find(".jt-container").width(),
+					sliderTransition = 'all '+sliderSpeed+'ms cubic-bezier(.71,.08,.35,.87)',
+					leftPosition = $(this).parent().get(0).style.left,
+					average = (baseElement.find(".jt-navigation-row").width() / 2) - parseInt(leftPosition);
+
+				clickCount = parseInt($(this).parent().attr("rel"));
+				buttonContent(clickCount);
+				magicButtons(clickCount);
+
+				baseElement.find(".jt-wrapper .jt-row")
+					.css({
+						'-webkit-transform' : 'translate3d('+(-(elementWidth * clickCount))+'px, 0px, 0px)',
+						'-moz-transform' : 'translate3d('+(-(elementWidth * clickCount))+'px, 0px, 0px)',
+						'-o-transform' : 'translate3d('+(-(elementWidth * clickCount))+'px, 0px, 0px)',
+						'transform' : 'translate3d('+(-(elementWidth * clickCount))+'px, 0px, 0px)',
+						'-webkit-transition' : sliderTransition,
+						'-moz-transition' : sliderTransition,
+						'-o-transition' : sliderTransition,
+						'transition' : sliderTransition
+					});
+
+
+				baseElement.find(".jt-navigation-container")
+					.css({
+						"-webkit-transform": "translateX("+average+"px)",
+						"-moz-transform": "translateX("+average+"px)",
+						"-ms-transform": "translateX("+average+"px)",
+						"-o-transform": "translateX("+average+"px)",
+						"transform": "translateX("+average+"px)"
+					});
+			});
+	},
+
 	initJt = function(element, data) {
 		baseElement = element;
 		baseData = data;
@@ -435,6 +478,7 @@
 			navConPos()
 		});
 		navZoom();
+		activeEvent();
 
 		console.log(baseData);
 	};
