@@ -97,10 +97,6 @@ body {
 	width: 100%;
 	position: absolute;
 	left: 0;
-	-webkit-transition : all 1500ms cubic-bezier(.71,.08,.35,.87);
-	-moz-transition : all 1500ms cubic-bezier(.71,.08,.35,.87);
-	-o-transition : all 1500ms cubic-bezier(.71,.08,.35,.87);
-	transition : all 1500ms cubic-bezier(.71,.08,.35,.87);
 }
 #jquery-timeline > .jt-timeline > .jt-wrapper > .jt-row > .jt-container {
 	float: left;
@@ -211,6 +207,11 @@ body {
 	overflow: hidden;
 	height: inherit;
 	position: relative;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row {
 	height: inherit;

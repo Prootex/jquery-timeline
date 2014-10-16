@@ -9,7 +9,8 @@
 	left,
 	accRel = 1,
 	clickCount = 0,
-	sliderSpeed = 1500,
+	sliderSpeed = 500,
+	transitionVal = "all 500ms cubic-bezier(.71,.08,.35,.87)",
 
 	// several changes to the sizes
 	rowSize = function() {
@@ -140,22 +141,25 @@
 			eventCount = 0,
 			currentWrapperWidth = 0,
 			isMoving = false,
-			sliderTransition = 'all '+sliderSpeed+'ms cubic-bezier(.71,.08,.35,.87)',
 			container = baseElement.find(".jt-container"),
 
 			moveToEvent = function(position, clickCount) {
-				row.css({
-					'-webkit-transform' : 'translate3d('+(-position)+'px, 0px, 0px)',
-					'-moz-transform' : 'translate3d('+(-position)+'px, 0px, 0px)',
-					'-o-transform' : 'translate3d('+(-position)+'px, 0px, 0px)',
-					'transform' : 'translate3d('+(-position)+'px, 0px, 0px)'
-				});
+				transform3D(row, -position, 0, 0);
+				transition(row, transitionVal);
+
 				magicButtons(clickCount);
 			},
 			onBtnLeft = function() {
 				if (!isMoving) {
 					isMoving = true;
 					clickCount--;
+
+					baseElement.find(".jt-navigation-container").removeClass("active");
+					baseElement.find(".jt-navigation-container .jt-col").removeClass("active");
+					baseElement.find(".jt-navigation-container[rel='"+clickCount+"']").addClass("active");
+					baseElement.find(".jt-navigation-container[rel='"+clickCount+"'] .jt-col").addClass("active");
+
+					baseElement.find(".jt-navigation-container[rel='"+clickCount+"'] .jt-col").click();
 
 					moveToEvent(currentWrapperWidth*clickCount, clickCount);
 					//overwrite button content
@@ -170,6 +174,13 @@
 				if (!isMoving) {
 					isMoving = true;
 					clickCount++;
+
+					baseElement.find(".jt-navigation-container").removeClass("active");
+					baseElement.find(".jt-navigation-container .jt-col").removeClass("active");
+					baseElement.find(".jt-navigation-container[rel='"+clickCount+"']").addClass("active");
+					baseElement.find(".jt-navigation-container[rel='"+clickCount+"'] .jt-col").addClass("active");
+
+					baseElement.find(".jt-navigation-container[rel='"+clickCount+"'] .jt-col").click();
 
 					moveToEvent(currentWrapperWidth*clickCount, clickCount);
 					//overwrite button content
@@ -293,33 +304,11 @@
 						left = parseInt(currPo - (mouseX-mousePosition));
 					}
 
-					baseElement
-						.find(".jt-navigation .jt-navigation-container")
-						.css({
-							"-webkit-transform": "translateX("+-left+"px)",
-							"-moz-transform": "translateX("+-left+"px)",
-							"-ms-transform": "translateX("+-left+"px)",
-							"-o-transform": "translateX("+-left+"px)",
-							"transform": "translateX("+-left+"px)",
-							'-webkit-transition' : "none",
-							'-moz-transition' : "none",
-							'-o-transition' : "none",
-							'transition' : "none"
-						});
+					transformX(baseElement.find(".jt-navigation .jt-navigation-container"), -left);
+					transition(baseElement.find(".jt-navigation .jt-navigation-container"), "none");
 
-					baseElement
-						.find(".jt-navigation .jt-year-container")
-						.css({
-							"-webkit-transform": "translateX("+-left+"px)",
-							"-moz-transform": "translateX("+-left+"px)",
-							"-ms-transform": "translateX("+-left+"px)",
-							"-o-transform": "translateX("+-left+"px)",
-							"transform": "translateX("+-left+"px)",
-							'-webkit-transition' : "none",
-							'-moz-transition' : "none",
-							'-o-transition' : "none",
-							'transition' : "none"
-						});
+					transformX(baseElement.find(".jt-navigation .jt-year-container"), -left);
+					transition(baseElement.find(".jt-navigation .jt-year-container"), "none");
 				}
 			})
 			// by hover out stop the mousemove animation
@@ -402,10 +391,18 @@
 		baseElement.find(".jt-zoom-in").click(function(){
 			zoomScale = zoomScale*2;
 			navConPos(zoomScale);
+
+			setTimeout(function(){
+				baseElement.find(".jt-navigation-container.active").children().click();
+			}, 200);
 		});
 		baseElement.find(".jt-zoom-out").click(function(){
 			zoomScale = zoomScale*0.5;
 			navConPos(zoomScale);
+
+			setTimeout(function(){
+				baseElement.find(".jt-navigation-container.active").children().click();
+			}, 300);
 		});
 	},
 
@@ -435,46 +432,44 @@
 				buttonContent(clickCount);
 				magicButtons(clickCount);
 
-				baseElement.find(".jt-wrapper .jt-row")
-					.css({
-						'-webkit-transform' : 'translate3d('+(-(elementWidth * clickCount))+'px, 0px, 0px)',
-						'-moz-transform' : 'translate3d('+(-(elementWidth * clickCount))+'px, 0px, 0px)',
-						'-o-transform' : 'translate3d('+(-(elementWidth * clickCount))+'px, 0px, 0px)',
-						'transform' : 'translate3d('+(-(elementWidth * clickCount))+'px, 0px, 0px)',
-						'-webkit-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
-						'-moz-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
-						'-o-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
-						'transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)"
-					});
+				transform3D(baseElement.find(".jt-wrapper .jt-row"), -(elementWidth * clickCount), 0, 0);
+				transition(baseElement.find(".jt-wrapper .jt-row"), transitionVal);
 
-				baseElement.find(".jt-navigation-container")
-					.css({
-						"-webkit-transform": "translateX("+average+"px)",
-						"-moz-transform": "translateX("+average+"px)",
-						"-ms-transform": "translateX("+average+"px)",
-						"-o-transform": "translateX("+average+"px)",
-						"transform": "translateX("+average+"px)",
-						'-webkit-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
-						'-moz-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
-						'-o-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
-						'transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)"
-					});
+				transformX(baseElement.find(".jt-navigation-container"), average);
+				transition(baseElement.find(".jt-navigation-container"), transitionVal);
 
-				baseElement.find(".jt-year-container")
-					.css({
-						"-webkit-transform": "translateX("+average+"px)",
-						"-moz-transform": "translateX("+average+"px)",
-						"-ms-transform": "translateX("+average+"px)",
-						"-o-transform": "translateX("+average+"px)",
-						"transform": "translateX("+average+"px)",
-						'-webkit-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
-						'-moz-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
-						'-o-transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)",
-						'transition' : "all 500ms cubic-bezier(.71,.08,.35,.87)"
-					});
+				transformX(baseElement.find(".jt-year-container"), average);
+				transition(baseElement.find(".jt-year-container"), transitionVal);
 
 				// to set the left value of the move animation
 				left = -average;
+			});
+	},
+
+	transition = function(element, value){
+		element.stop().css({
+				'-webkit-transition' : value,
+				'-moz-transition' : value,
+				'-o-transition' : value,
+				'transition' : value
+			});
+	},
+	transform3D = function(element, x, y, z) {
+		element.stop().css({
+				'-webkit-transform' : 'translate3d('+x+'px, '+y+'px, '+z+'px)',
+				'-moz-transform' : 'translate3d('+x+'px, '+y+'px, '+z+'px)',
+				'-o-transform' : 'translate3d('+x+'px, '+y+'px, '+z+'px)',
+				'transform' : 'translate3d('+x+'px, '+y+'px, '+z+'px)'
+			});
+	},
+
+	transformX = function(element, value) {
+		element.stop().css({
+				"-webkit-transform": "translateX("+value+"px)",
+				"-moz-transform": "translateX("+value+"px)",
+				"-ms-transform": "translateX("+value+"px)",
+				"-o-transform": "translateX("+value+"px)",
+				"transform": "translateX("+value+"px)"
 			});
 	},
 
