@@ -333,7 +333,8 @@
 
 	// position of navigation containers by the year
 	navConPos = function(zoomScale) {
-		var left = 0,
+		var
+			left = 0,
 			timeObj = {},
 			yearArr = [],
 			yearStamp = [],
@@ -371,7 +372,7 @@
 			leftYear = ( ( (yearStamp[i]-yearStamp[0]) * baseElement.find(".jt-navigation-row").width() ) / diffYear ) + 50;
 
 			baseElement.find(".jt-year-container[data-year='"+i+"']").animate({
-				left: leftYear*zoomScale
+				left: leftYear * zoomScale
 			}, 200);
 		});
 
@@ -379,11 +380,11 @@
 
 			diff = yearStamp[(yearStamp.length-1)]-baseData.timeline[0].timestamp;
 			left = ( ( (baseData.timeline[i].timestamp-yearStamp[0]) * baseElement.find(".jt-navigation-row").width() ) / diff ) + 50;
-
 			baseElement.find(".jt-navigation-container[rel='"+i+"']").animate({
-				left: left*zoomScale
+				left: left * zoomScale
 			}, 200);
 		});
+
 	},
 
 	navZoom = function() {
@@ -392,17 +393,17 @@
 			zoomScale = zoomScale*2;
 			navConPos(zoomScale);
 
-			setTimeout(function(){
-				baseElement.find(".jt-navigation-container.active").children().click();
-			}, 200);
+			// setTimeout(function(){
+			// 	baseElement.find(".jt-navigation-container.active").children().click();
+			// }, 10);
 		});
 		baseElement.find(".jt-zoom-out").click(function(){
 			zoomScale = zoomScale*0.5;
 			navConPos(zoomScale);
 
-			setTimeout(function(){
-				baseElement.find(".jt-navigation-container.active").children().click();
-			}, 300);
+			// setTimeout(function(){
+			// 	baseElement.find(".jt-navigation-container.active").children().click();
+			// }, 10);
 		});
 	},
 
@@ -486,6 +487,8 @@
 
 		rightButton = baseElement.find(".jt-timeline .jt-right");
 		leftButton = baseElement.find(".jt-timeline .jt-left");
+		baseElement.find(".jt-navigation-container[rel='0']").addClass("active");
+		baseElement.find(".jt-navigation-container[rel='0'] .jt-col").addClass("active");
 
 		rowSize();
 		buttonContent();
@@ -499,7 +502,8 @@
 		navZoom();
 		activeEvent();
 
-		console.log(baseData);
+
+		// console.log(baseData);
 	};
 
 	$.jqueryTimeline = function(element, data) {

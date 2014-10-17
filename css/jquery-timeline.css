@@ -5,12 +5,13 @@ body {
 
 /* Timeline */
 #jquery-timeline {
-	border: 1px solid #e3e3e3;
+	/*border: 1px solid #e3e3e3;*/
 }
 #jquery-timeline > .jt-timeline {
 	padding: 0 120px;
 	position: relative;
 	height: 500px;
+	background-color: #f9f9f9;
 }
 #jquery-timeline .jt-table {
 	display: table;
@@ -33,7 +34,7 @@ body {
 }
 #jquery-timeline .jt-right:hover,
 #jquery-timeline .jt-left:hover {
-	background-color: #f9f9f9;
+	background-color: white;
 }
 #jquery-timeline .jt-right:hover {
 	right: 0;
@@ -44,7 +45,7 @@ body {
 
 #jquery-timeline .jt-right,
 #jquery-timeline .jt-left {
-	width: 7%;
+	width: 110px;
 	height: 100%;
 	top: 0;
 	position: absolute;
@@ -91,6 +92,7 @@ body {
 	overflow: hidden;
 	height: inherit;
 	position: relative;
+	background-color: #f9f9f9;
 }
 #jquery-timeline > .jt-timeline > .jt-wrapper > .jt-row {
 	height: inherit;
@@ -137,7 +139,7 @@ body {
 	bottom: -54px;
 	width: 120px;
 	height: 76px;
-	background: #f8f8f8;
+	background: white;
 	-moz-border-radius: 100px / 50px;
 	-webkit-border-radius: 100px / 50px;
 	border-radius: 100px / 50px;
@@ -199,8 +201,8 @@ body {
 	width: 100%;
 	height: 200px;
 	position: relative;
-	border-top: 1px solid #e3e3e3;
-	background-color: #f9f9f9;
+	/*border-top: 1px solid #e3e3e3;*/
+	background-color: white;
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper {
 	width: 100%;
@@ -231,7 +233,7 @@ body {
 	position: absolute;
 	width: 100%;
 	z-index: 1;
-	background: white;
+	background-color: #f9f9f9;
 	line-height: 17px;
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row > .jt-year-line > .jt-year-container {
@@ -243,7 +245,7 @@ body {
 	position: absolute;
 	width: 150px;
 	padding: 5px;
-	background: #f9f9f9;
+	background: white;
 	border-left: 1px solid #e3e3e3;
 	height: 100%;
 	-webkit-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
