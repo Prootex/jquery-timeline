@@ -401,7 +401,7 @@
 			setNavConPos(zoomScale);
 
 			setTimeout(function(){
-				baseElement.find(".jt-navigation-container.active").children().click();
+				setEventFocus(baseElement.find(".jt-navigation-container.active").children());
 			}, 1000);
 			zoomCount++;
 			sortNavTopPos();
@@ -411,7 +411,7 @@
 			setNavConPos(zoomScale);
 
 			setTimeout(function(){
-				baseElement.find(".jt-navigation-container.active").children().click();
+				setEventFocus(baseElement.find(".jt-navigation-container.active").children());
 			}, 1000);
 			zoomCount--;
 			sortNavTopPos();
@@ -420,6 +420,34 @@
 
 	sortNavTopPos = function() {
 		console.log(baseData);
+	},
+
+	setEventFocus = function(element) {
+		baseElement.find(".jt-navigation-container").removeClass("active");
+		baseElement.find(".jt-navigation-container .jt-col").removeClass("active");
+
+		element.addClass("active");
+		element.parent().addClass("active");
+
+		var elementWidth = baseElement.find(".jt-container").width(),
+			leftPosition = element.parent().get(0).style.left,
+			average = (baseElement.find(".jt-navigation-row").width() / 2) - parseInt(leftPosition);
+
+		clickCount = parseInt(element.parent().attr("rel"));
+		setButtonContent(clickCount);
+		magicButtons(clickCount);
+
+		transform3D(baseElement.find(".jt-wrapper .jt-row"), -(elementWidth * clickCount), 0, 0);
+		transition(baseElement.find(".jt-wrapper .jt-row"), transitionVal);
+
+		transformX(baseElement.find(".jt-navigation-container"), average);
+		transition(baseElement.find(".jt-navigation-container"), transitionVal);
+
+		transformX(baseElement.find(".jt-year-container"), average);
+		transition(baseElement.find(".jt-year-container"), transitionVal);
+
+		// to set the left value of the move animation
+		left = -average;
 	},
 
 	initEventInteraction = function() {
@@ -431,32 +459,8 @@
 				baseElement.find(".jt-navigation-container").removeClass("hover");
 				baseElement.find(".jt-navigation-container .jt-col").removeClass("hover");
 			})
-			.click(function() {
-				baseElement.find(".jt-navigation-container").removeClass("active");
-				baseElement.find(".jt-navigation-container .jt-col").removeClass("active");
-
-				$(this).addClass("active");
-				$(this).parent().addClass("active");
-
-				var elementWidth = baseElement.find(".jt-container").width(),
-					leftPosition = $(this).parent().get(0).style.left,
-					average = (baseElement.find(".jt-navigation-row").width() / 2) - parseInt(leftPosition);
-
-				clickCount = parseInt($(this).parent().attr("rel"));
-				setButtonContent(clickCount);
-				magicButtons(clickCount);
-
-				transform3D(baseElement.find(".jt-wrapper .jt-row"), -(elementWidth * clickCount), 0, 0);
-				transition(baseElement.find(".jt-wrapper .jt-row"), transitionVal);
-
-				transformX(baseElement.find(".jt-navigation-container"), average);
-				transition(baseElement.find(".jt-navigation-container"), transitionVal);
-
-				transformX(baseElement.find(".jt-year-container"), average);
-				transition(baseElement.find(".jt-year-container"), transitionVal);
-
-				// to set the left value of the move animation
-				left = -average;
+			.click(function() {			
+				setEventFocus($(this));
 			});
 	},
 
@@ -511,6 +515,11 @@
 		setNavZoom();
 
 		sortNavTopPos();
+
+		// go to first element
+		setTimeout(function() {
+			setEventFocus(baseElement.find(".jt-navigation-container[rel='0'] .jt-col"));
+		}, 1000);
 
 		$(window).resize(function() {
 			initRowSize();
