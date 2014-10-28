@@ -14,7 +14,7 @@
 	zoomCount = 0,
 
 	// several changes to the sizes
-	rowSize = function() {
+	initRowSize = function() {
 		var containerCount = baseElement.find(".jt-container").length,
 			media = baseElement.find(".jt-media"),
 			content = baseElement.find(".jt-content"),
@@ -38,7 +38,7 @@
 	},
 
 	// Create structure for events
-	createWrapStructure = function() {
+	initWrapStructure = function() {
 		var wrapStructure =
 			'<div class="jt-timeline">\
 				<div class="jt-left jt-icon-arrow">\
@@ -71,11 +71,11 @@
 			</div>';
 
 		baseElement.append(wrapStructure);
-		createEventStructure();
+		initEventStructure();
 	},
 
 	// Create structure for events
-	createEventStructure = function() {
+	initEventStructure = function() {
 		var structure =
 			'<div class="jt-container jt-table">\
 				<div class="jt-table-row">\
@@ -164,7 +164,7 @@
 
 					moveToEvent(currentWrapperWidth*clickCount, clickCount);
 					//overwrite button content
-					buttonContent(clickCount);
+					setButtonContent(clickCount);
 
 					setTimeout(function() {
 						isMoving = false;
@@ -185,7 +185,7 @@
 
 					moveToEvent(currentWrapperWidth*clickCount, clickCount);
 					//overwrite button content
-					buttonContent(clickCount);
+					setButtonContent(clickCount);
 
 					setTimeout(function() {
 						isMoving = false;
@@ -228,14 +228,14 @@
 		}
 	},
 
-	buttonContentFill = function(button, data) {
+	setButtonContentText = function(button, data) {
 		var str = data.headline;
 		button.find(".jt-date").append(data.date);
 		button.find(".jt-heading").append(str.substring(0,40));
 	},
 
-	// Content for right and left buttons
-	buttonContent = function(i) {
+	// Sets content for right and left buttons
+	setButtonContent = function(i) {
 		var containerCount = baseElement.find(".jt-container").length;
 
 		if (!i) i=0;
@@ -246,18 +246,18 @@
 		// shows the heading of the next or prev events
 		if (containerCount > 1) {
 			if (i == 0) {
-				buttonContentFill(rightButton, baseData.timeline[i+1]);
+				setButtonContentText(rightButton, baseData.timeline[i+1]);
 			} else if(i == (containerCount-1)) {
-				buttonContentFill(leftButton, baseData.timeline[i-1]);
+				setButtonContentText(leftButton, baseData.timeline[i-1]);
 			} else {
-				buttonContentFill(rightButton, baseData.timeline[i+1]);
-				buttonContentFill(leftButton, baseData.timeline[i-1]);
+				setButtonContentText(rightButton, baseData.timeline[i+1]);
+				setButtonContentText(leftButton, baseData.timeline[i-1]);
 			}
 		}
 	},
 
 	// toggle navigation
-	toggleNavigation = function() {
+	initNavigationToggle = function() {
 		// positioning toggle button
 		var wrapperWidth = baseElement.find(".jt-wrapper").width(),
 			animate = false;
@@ -283,8 +283,8 @@
 		});
 	},
 
-	// Timeline navigation
-	navigationAnimation = function() {
+	// init timeline navigation
+	initNavigationAnimation = function() {
 		(left)?left=left:left=0;
 		var navWidth = baseElement.find(".jt-navigation .jt-navigation-row").width(),
 			lastConPos = baseElement.find(".jt-navigation .jt-navigation-row .jt-navigation-container").last().position(),
@@ -351,7 +351,7 @@
 	},
 
 	// position of navigation containers by the year
-	navConPos = function(zoomScale) {
+	setNavConPos = function(zoomScale) {
 		var
 			left = 0,
 			yearArr = [],
@@ -394,11 +394,11 @@
 
 	},
 
-	navZoom = function() {
+	setNavZoom = function() {
 		var zoomScale = 1;
 		baseElement.find(".jt-zoom-in").click(function(){
 			zoomScale = zoomScale*1.2;
-			navConPos(zoomScale);
+			setNavConPos(zoomScale);
 
 			setTimeout(function(){
 				baseElement.find(".jt-navigation-container.active").children().click();
@@ -408,7 +408,7 @@
 		});
 		baseElement.find(".jt-zoom-out").click(function(){
 			zoomScale = zoomScale*0.8;
-			navConPos(zoomScale);
+			setNavConPos(zoomScale);
 
 			setTimeout(function(){
 				baseElement.find(".jt-navigation-container.active").children().click();
@@ -420,10 +420,9 @@
 
 	sortNavTopPos = function() {
 		console.log(baseData);
-
 	},
 
-	activeEvent = function() {
+	initEventInteraction = function() {
 		baseElement.find(".jt-navigation-container .jt-col")
 			.hover(function() {
 				$(this).addClass("hover");
@@ -431,9 +430,7 @@
 			}, function() {
 				baseElement.find(".jt-navigation-container").removeClass("hover");
 				baseElement.find(".jt-navigation-container .jt-col").removeClass("hover");
-			});
-
-		baseElement.find(".jt-navigation-container .jt-col")
+			})
 			.click(function() {
 				baseElement.find(".jt-navigation-container").removeClass("active");
 				baseElement.find(".jt-navigation-container .jt-col").removeClass("active");
@@ -446,7 +443,7 @@
 					average = (baseElement.find(".jt-navigation-row").width() / 2) - parseInt(leftPosition);
 
 				clickCount = parseInt($(this).parent().attr("rel"));
-				buttonContent(clickCount);
+				setButtonContent(clickCount);
 				magicButtons(clickCount);
 
 				transform3D(baseElement.find(".jt-wrapper .jt-row"), -(elementWidth * clickCount), 0, 0);
@@ -496,25 +493,28 @@
 
 		sortTimeline();
 
-		createWrapStructure();
+		initWrapStructure();
 
 		rightButton = baseElement.find(".jt-timeline .jt-right");
 		leftButton = baseElement.find(".jt-timeline .jt-left");
 		baseElement.find(".jt-navigation-container[rel='0']").addClass("active");
 		baseElement.find(".jt-navigation-container[rel='0'] .jt-col").addClass("active");
 
-		rowSize();
-		buttonContent();
+		initRowSize();		
 		initEventAnimation();
-		navigationAnimation();
-		toggleNavigation();
-		navConPos();
-		navZoom();
-		activeEvent();
+		initNavigationAnimation();
+		initNavigationToggle();		
+		initEventInteraction();
+
+		setButtonContent();
+		setNavConPos();
+		setNavZoom();
+
 		sortNavTopPos();
+
 		$(window).resize(function() {
-			rowSize();
-			navConPos();
+			initRowSize();
+			setNavConPos();
 		});
 		console.log($(window).width());
 	};
