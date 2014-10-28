@@ -377,17 +377,14 @@
 		}
 
 		$.each(yearStamp, function(i, v) {
-
 			diffYear = yearStamp[(yearStamp.length-1)]-yearStamp[0];
 			leftYear = ( ( (yearStamp[i]-yearStamp[0]) * baseElement.find(".jt-navigation-row").width() ) / diffYear ) + 50;
-
 			baseElement.find(".jt-year-container[data-year='"+i+"']").animate({
 				left: leftYear * zoomScale
 			}, 200);
 		});
 
 		$.each(baseData.timeline, function(i, v) {
-
 			diff = yearStamp[(yearStamp.length-1)]-baseData.timeline[0].timestamp;
 			left = ( ( (baseData.timeline[i].timestamp-yearStamp[0]) * baseElement.find(".jt-navigation-row").width() ) / diff ) + 50;
 			baseElement.find(".jt-navigation-container[rel='"+i+"']").animate({
