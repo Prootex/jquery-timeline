@@ -304,6 +304,8 @@
 						left = parseInt(currPo - (mouseX-mousePosition));
 					}
 
+					console.log("left - "+left);
+
 					transformX(baseElement.find(".jt-navigation .jt-navigation-container"), -left);
 					transition(baseElement.find(".jt-navigation .jt-navigation-container"), "none");
 
@@ -331,11 +333,25 @@
 			});
 	},
 
+	// sort obj by timestamp
+	sortTimeline = function() {
+
+		$.each(baseData.timeline, function(i, v) {
+			dateSplit = v.date.split('-');
+			date = new Date(dateSplit[0], parseInt(dateSplit[1]) - 1, dateSplit[2]).getTime();
+			baseData.timeline[i].timestamp = date;
+			baseData.timeline[i].year = parseInt(dateSplit[0]);
+		});
+
+		baseData.timeline = baseData.timeline.sort(function(a, b) {
+			return (a.timestamp - b.timestamp);
+		});
+	},
+
 	// position of navigation containers by the year
 	navConPos = function(zoomScale) {
 		var
 			left = 0,
-			timeObj = {},
 			yearArr = [],
 			yearStamp = [],
 			count = (baseElement.find(".jt-navigation-container").length - 1);
@@ -344,14 +360,6 @@
 			diff = 0;
 
 		if(!zoomScale){zoomScale=1;}
-
-		$.each(baseData.timeline, function(i, v) {
-			dateSplit = v.date.split('-');
-			date = new Date(dateSplit[0], parseInt(dateSplit[1]) - 1, dateSplit[2]).getTime(),
-			timeObj[i] = date;
-			baseData.timeline[i].timestamp = date;
-			baseData.timeline[i].year = parseInt(dateSplit[0]);
-		});
 
 		for(var i = baseData.timeline[0].year; i<= (baseData.timeline[count].year+1); i++) {
 			yearArr.push(i);
@@ -390,20 +398,20 @@
 	navZoom = function() {
 		var zoomScale = 1;
 		baseElement.find(".jt-zoom-in").click(function(){
-			zoomScale = zoomScale*2;
+			zoomScale = zoomScale*1.2;
 			navConPos(zoomScale);
 
-			// setTimeout(function(){
-			// 	baseElement.find(".jt-navigation-container.active").children().click();
-			// }, 10);
+			setTimeout(function(){
+				baseElement.find(".jt-navigation-container.active").children().click();
+			}, 1000);
 		});
 		baseElement.find(".jt-zoom-out").click(function(){
-			zoomScale = zoomScale*0.5;
+			zoomScale = zoomScale*0.9;
 			navConPos(zoomScale);
 
-			// setTimeout(function(){
-			// 	baseElement.find(".jt-navigation-container.active").children().click();
-			// }, 10);
+			setTimeout(function(){
+				baseElement.find(".jt-navigation-container.active").children().click();
+			}, 1000);
 		});
 	},
 
@@ -478,10 +486,7 @@
 		baseElement = element;
 		baseData = data;
 
-		// sort obj by date
-		baseData.timeline = baseData.timeline.sort(function(a, b) {
-			return (a.date > b.date);
-		});
+		sortTimeline();
 
 		createWrapStructure();
 
@@ -496,14 +501,13 @@
 		navigationAnimation();
 		toggleNavigation();
 		navConPos();
-		$(window).resize(function() {
-			navConPos()
-		});
 		navZoom();
 		activeEvent();
-
-
-		// console.log(baseData);
+		$(window).resize(function() {
+			rowSize();
+			navConPos();
+		});
+		console.log($(window).width());
 	};
 
 	$.jqueryTimeline = function(element, data) {

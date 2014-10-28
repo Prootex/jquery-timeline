@@ -229,12 +229,12 @@ body {
 	bottom: 0;
 	display: block;
 	font-size: 12px;
-	height: 15px;
+	height: 30px;
 	position: absolute;
 	width: 100%;
 	z-index: 1;
 	background-color: #f9f9f9;
-	line-height: 17px;
+	line-height: 45px;
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row > .jt-year-line > .jt-year-container {
 	position: absolute;
