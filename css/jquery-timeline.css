@@ -245,17 +245,15 @@ body {
 	position: absolute;
 	width: 150px;
 	padding: 5px;
-	background: white;
-	border-left: 1px solid #e3e3e3;
-	height: 100%;
+	background: transparent;
 	-webkit-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 	-moz-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 	-o-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 	transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 }
-#jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.active,
-#jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.hover {
-	border-left: 1px solid #023c7f;
+#jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.active .jt-line,
+#jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.hover .jt-line {
+	background-color: #023c7f;
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col {
 	font-size: 10px;
@@ -263,10 +261,24 @@ body {
 	margin-left: -6px;
 	padding: 7px;
 	cursor: pointer;
+	background-color: white;
+	position: absolute;
 	-webkit-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 	-moz-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 	-o-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 	transition : all 500ms cubic-bezier(.71,.08,.35,.87);
+}
+#jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-line {
+	position: absolute;
+	top: 0;
+	width: 1px;
+	background-color: #e3e3e3;
+	height: 170px;
+	left: -1px;
+	-webkit-transition: all 0.3s;
+	-moz-transition:    all 0.3s;
+	-o-transition:      all 0.3s;
+	transition:         all 0.3s;
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.active,
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.hover {

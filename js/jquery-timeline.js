@@ -11,6 +11,7 @@
 	clickCount = 0,
 	sliderSpeed = 500,
 	transitionVal = "all 500ms cubic-bezier(.71,.08,.35,.87)",
+	zoomCount = 0,
 
 	// several changes to the sizes
 	rowSize = function() {
@@ -117,7 +118,7 @@
 			container.find(".jt-text > p").append(timelineData.text);
 
 			//create navigation boxes and add an rel attr
-			navRow.append("<div class=\"jt-navigation-container\" rel=\""+i+"\"><div class=\"jt-col\"><span class=\"date\">"+timelineData.date+"</span><br /><span class=\"heading\">"+timelineData.headline+"</span></div></div>");
+			navRow.append("<div class=\"jt-navigation-container\" rel=\""+i+"\"><div class=\"jt-col\"><span class=\"date\">"+timelineData.date+"</span><br /><span class=\"heading\">"+timelineData.headline+"</span></div><div class=\"jt-line\"></div></div>");
 		});
 	},
 
@@ -305,6 +306,7 @@
 					}
 
 					console.log("left - "+left);
+					console.log("currPo - "+currPo);
 
 					transformX(baseElement.find(".jt-navigation .jt-navigation-container"), -left);
 					transition(baseElement.find(".jt-navigation .jt-navigation-container"), "none");
@@ -404,15 +406,24 @@
 			setTimeout(function(){
 				baseElement.find(".jt-navigation-container.active").children().click();
 			}, 1000);
+			zoomCount++;
+			sortNavTopPos();
 		});
 		baseElement.find(".jt-zoom-out").click(function(){
-			zoomScale = zoomScale*0.9;
+			zoomScale = zoomScale*0.8;
 			navConPos(zoomScale);
 
 			setTimeout(function(){
 				baseElement.find(".jt-navigation-container.active").children().click();
 			}, 1000);
+			zoomCount--;
+			sortNavTopPos();
 		});
+	},
+
+	sortNavTopPos = function() {
+		console.log(baseData);
+
 	},
 
 	activeEvent = function() {
@@ -503,6 +514,7 @@
 		navConPos();
 		navZoom();
 		activeEvent();
+		sortNavTopPos();
 		$(window).resize(function() {
 			rowSize();
 			navConPos();
