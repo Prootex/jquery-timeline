@@ -282,10 +282,13 @@ body {
 	-o-transition:      all 0.35s;
 	transition:         all 0.35s;
 }
-#jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.active,
-#jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.hover {
+#jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.active {
 	border: 1px solid #023c7f;
 	z-index: 300;
+}
+#jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.hover {
+	border: 1px solid #023c7f;
+	z-index: 400;
 }
 
 /* Responsive */

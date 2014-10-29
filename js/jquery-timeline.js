@@ -145,7 +145,7 @@
 			container = baseElement.find(".jt-container"),
 
 			moveToEvent = function(position, clickCount) {
-				transform3D(row, -position, 0, 0);
+				transform3D(row, -position ,0 ,0);
 				transition(row, transitionVal);
 
 				magicButtons(clickCount);
@@ -305,10 +305,10 @@
 						left = parseInt(currPo - (mouseX-mousePosition));
 					}
 
-					transformX(baseElement.find(".jt-navigation .jt-navigation-container"), -left);
+					transform3D(baseElement.find(".jt-navigation .jt-navigation-container"), -left ,0 ,0);
 					transition(baseElement.find(".jt-navigation .jt-navigation-container"), "none");
 
-					transformX(baseElement.find(".jt-navigation .jt-year-container"), -left);
+					transform3D(baseElement.find(".jt-navigation .jt-year-container"), -left ,0 ,0);
 					transition(baseElement.find(".jt-navigation .jt-year-container"), "none");
 				}
 			})
@@ -459,13 +459,13 @@
 				setButtonContent(clickCount);
 				magicButtons(clickCount);
 
-				transform3D(baseElement.find(".jt-wrapper .jt-row"), -(elementWidth * clickCount), 0, 0);
+				transform3D(baseElement.find(".jt-wrapper .jt-row"), -(elementWidth * clickCount) ,0 ,0);
 				transition(baseElement.find(".jt-wrapper .jt-row"), transitionVal);
 
-				transformX(baseElement.find(".jt-navigation-container"), average);
+				transform3D(baseElement.find(".jt-navigation-container"), average ,0 ,0);
 				transition(baseElement.find(".jt-navigation-container"), transitionVal);
 
-				transformX(baseElement.find(".jt-year-container"), average);
+				transform3D(baseElement.find(".jt-year-container"), average ,0 ,0);
 				transition(baseElement.find(".jt-year-container"), transitionVal);
 
 				// to set the left value of the move animation
@@ -475,29 +475,30 @@
 
 	transition = function(element, value){
 		element.stop().css({
-				'-webkit-transition' : value,
-				'-moz-transition' : value,
-				'-o-transition' : value,
-				'transition' : value
-			});
+			'-webkit-transition' : value,
+			'-moz-transition' : value,
+			'-o-transition' : value,
+			'transition' : value
+		});
 	},
+
 	transform3D = function(element, x, y, z) {
 		element.stop().css({
-				'-webkit-transform' : 'translate3d('+x+'px, '+y+'px, '+z+'px)',
-				'-moz-transform' : 'translate3d('+x+'px, '+y+'px, '+z+'px)',
-				'-o-transform' : 'translate3d('+x+'px, '+y+'px, '+z+'px)',
-				'transform' : 'translate3d('+x+'px, '+y+'px, '+z+'px)'
-			});
+			'-webkit-transform' : 'translate3d('+x+'px, '+y+'px, '+z+'px)',
+			'-moz-transform' : 'translate3d('+x+'px, '+y+'px, '+z+'px)',
+			'-o-transform' : 'translate3d('+x+'px, '+y+'px, '+z+'px)',
+			'transform' : 'translate3d('+x+'px, '+y+'px, '+z+'px)'
+		});
 	},
 
 	transformX = function(element, value) {
 		element.stop().css({
-				"-webkit-transform": "translateX("+value+"px)",
-				"-moz-transform": "translateX("+value+"px)",
-				"-ms-transform": "translateX("+value+"px)",
-				"-o-transform": "translateX("+value+"px)",
-				"transform": "translateX("+value+"px)"
-			});
+			"-webkit-transform": "translateX("+value+"px)",
+			"-moz-transform": "translateX("+value+"px)",
+			"-ms-transform": "translateX("+value+"px)",
+			"-o-transform": "translateX("+value+"px)",
+			"transform": "translateX("+value+"px)"
+		});
 	},
 
 	initJt = function(element, data) {
