@@ -305,9 +305,6 @@
 						left = parseInt(currPo - (mouseX-mousePosition));
 					}
 
-					console.log("left - "+left);
-					console.log("currPo - "+currPo);
-
 					transformX(baseElement.find(".jt-navigation .jt-navigation-container"), -left);
 					transition(baseElement.find(".jt-navigation .jt-navigation-container"), "none");
 
@@ -418,8 +415,24 @@
 		});
 	},
 
-	sortNavTopPos = function() {
-		console.log(baseData);
+	setNavTopPos = function() {
+		var count = 1;
+		baseElement.find(".jt-navigation-container").each(function(i, v) {
+			var top = "5px";
+			switch(count) {
+				case 2:
+					top = "60px";
+					break;
+				case 3:
+					top = "116px";
+					break;
+			}
+			$(v).find(".jt-col").css("top",top);
+			count++;
+			if (count > 3) {
+				count = 1;
+			}
+		});
 	},
 
 	initEventInteraction = function() {
@@ -500,23 +513,22 @@
 		baseElement.find(".jt-navigation-container[rel='0']").addClass("active");
 		baseElement.find(".jt-navigation-container[rel='0'] .jt-col").addClass("active");
 
-		initRowSize();		
+		initRowSize();
 		initEventAnimation();
 		initNavigationAnimation();
-		initNavigationToggle();		
+		initNavigationToggle();
 		initEventInteraction();
 
 		setButtonContent();
 		setNavConPos();
 		setNavZoom();
 
-		sortNavTopPos();
+		setNavTopPos();
 
 		$(window).resize(function() {
 			initRowSize();
 			setNavConPos();
 		});
-		console.log($(window).width());
 	};
 
 	$.jqueryTimeline = function(element, data) {

@@ -263,6 +263,7 @@ body {
 	cursor: pointer;
 	background-color: white;
 	position: absolute;
+	z-index: 200;
 	-webkit-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 	-moz-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 	-o-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
@@ -275,14 +276,16 @@ body {
 	background-color: #e3e3e3;
 	height: 170px;
 	left: -1px;
-	-webkit-transition: all 0.3s;
-	-moz-transition:    all 0.3s;
-	-o-transition:      all 0.3s;
-	transition:         all 0.3s;
+	z-index: 100;
+	-webkit-transition: all 0.35s;
+	-moz-transition:    all 0.35s;
+	-o-transition:      all 0.35s;
+	transition:         all 0.35s;
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.active,
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.hover {
 	border: 1px solid #023c7f;
+	z-index: 300;
 }
 
 /* Responsive */
