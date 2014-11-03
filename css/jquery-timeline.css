@@ -246,10 +246,10 @@ body {
 	width: 150px;
 	padding: 5px;
 	background: transparent;
-	-webkit-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
+	/*-webkit-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 	-moz-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 	-o-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
-	transition : all 500ms cubic-bezier(.71,.08,.35,.87);
+	transition : all 500ms cubic-bezier(.71,.08,.35,.87);*/
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.active .jt-line,
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.hover .jt-line {
@@ -263,10 +263,10 @@ body {
 	cursor: pointer;
 	background-color: white;
 	position: absolute;
-	-webkit-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
+	/*-webkit-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 	-moz-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 	-o-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
-	transition : all 500ms cubic-bezier(.71,.08,.35,.87);
+	transition : all 500ms cubic-bezier(.71,.08,.35,.87);*/
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-line {
 	position: absolute;
@@ -275,10 +275,10 @@ body {
 	background-color: #e3e3e3;
 	height: 170px;
 	left: -1px;
-	-webkit-transition: all 0.3s;
+	/*-webkit-transition: all 0.3s;
 	-moz-transition:    all 0.3s;
 	-o-transition:      all 0.3s;
-	transition:         all 0.3s;
+	transition:         all 0.3s;*/
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.active,
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.hover {
