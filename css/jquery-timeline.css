@@ -177,9 +177,10 @@ body {
 /* nav zoom */
 #jquery-timeline .jt-nav-zoom {
 	width: 30px;
-	height: inherit;
+	height: 170px;
 	position: absolute;
 	left: 0;
+	background: white;
 	z-index: 1000;
 }
 #jquery-timeline .jt-nav-zoom .jt-zoom-in,
@@ -190,7 +191,7 @@ body {
 	cursor: pointer;
 }
 #jquery-timeline .jt-nav-zoom .jt-zoom-in {
-	top: 58px;
+	top: 35px;
 }
 #jquery-timeline .jt-nav-zoom .jt-zoom-out {
 	top: 85px;

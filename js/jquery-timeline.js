@@ -12,14 +12,15 @@
 	sliderSpeed = 500,
 	transitionVal = "all 500ms cubic-bezier(.71,.08,.35,.87)",
 	zoomCount = 0,
+	wrapperWidth = 0,
 
-	// several changes to the sizes
+	// several changes to the container and row sizes for resizing
+	// remove media element if empty
 	initRowSize = function() {
 		var containerCount = baseElement.find(".jt-container").length,
 			media = baseElement.find(".jt-media"),
 			content = baseElement.find(".jt-content"),
 			rowWidth = ((containerCount)*(baseElement.find(".jt-container").width())),
-			wrapperWidth = baseElement.find(".jt-wrapper").width(),
 			animationSpeed = 300,
 			leftPosition = 0;
 
@@ -31,7 +32,6 @@
 		baseElement.find(".jt-container").css({"width": wrapperWidth});
 		baseElement.find(".jt-row").css({"width": rowWidth});
 		$(window).resize(function() {
-			wrapperWidth = baseElement.find(".jt-wrapper").width();
 			baseElement.find(".jt-container").css({"width": wrapperWidth});
 			baseElement.find(".jt-row").css({"width": rowWidth});
 		});
@@ -140,7 +140,6 @@
 			row = baseElement.find(".jt-row"),
 			container = baseElement.find(".jt-container"),
 			eventCount = 0,
-			currentWrapperWidth = 0,
 			isMoving = false,
 			container = baseElement.find(".jt-container"),
 
@@ -162,7 +161,7 @@
 
 					baseElement.find(".jt-navigation-container[rel='"+clickCount+"'] .jt-col").click();
 
-					moveToEvent(currentWrapperWidth*clickCount, clickCount);
+					moveToEvent(wrapperWidth*clickCount, clickCount);
 					//overwrite button content
 					setButtonContent(clickCount);
 
@@ -183,7 +182,7 @@
 
 					baseElement.find(".jt-navigation-container[rel='"+clickCount+"'] .jt-col").click();
 
-					moveToEvent(currentWrapperWidth*clickCount, clickCount);
+					moveToEvent(wrapperWidth*clickCount, clickCount);
 					//overwrite button content
 					setButtonContent(clickCount);
 
@@ -193,7 +192,6 @@
 				}
 			},
 			init = function() {
-				currentWrapperWidth = baseElement.find(".jt-wrapper").width();
 				eventCount = container.size();
 				if (eventCount > 1) {
 					leftButton
@@ -259,10 +257,9 @@
 	// toggle navigation
 	initNavigationToggle = function() {
 		// positioning toggle button
-		var wrapperWidth = baseElement.find(".jt-wrapper").width(),
-			animate = false;
+		var animate = false;
+
 		$(window).resize(function() {
-			wrapperWidth = baseElement.find(".jt-wrapper").width();
 			baseElement.find(".jt-nav-toggle").css("left", ((wrapperWidth / 2)-60));
 		});
 		baseElement.find(".jt-nav-toggle").css("left", ((wrapperWidth / 2)-60));
@@ -508,6 +505,7 @@
 		sortTimeline();
 
 		initWrapStructure();
+		wrapperWidth = baseElement.find(".jt-wrapper").width();
 
 		rightButton = baseElement.find(".jt-timeline .jt-right");
 		leftButton = baseElement.find(".jt-timeline .jt-left");
@@ -527,7 +525,9 @@
 		setNavTopPos();
 
 		$(window).resize(function() {
+			wrapperWidth = baseElement.find(".jt-wrapper").width();
 			initRowSize();
+			initEventInteraction();
 			setNavConPos();
 		});
 	};
