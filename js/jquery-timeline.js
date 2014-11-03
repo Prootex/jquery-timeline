@@ -369,7 +369,7 @@
 		if ((baseElement.find(".jt-year-container").length) < 1) {
 			// create containers for the year line
 			$.each(yearArr, function(i, v) {
-				baseElement.find(".jt-year-line").append("<div class=\"jt-year-container\" data-year=\""+i+"\">"+v+"</div>");
+				baseElement.find(".jt-year-line").append("<div class=\"jt-year-container\" data-year=\""+i+"\">"+v+"<div class=\"jt-year-container-line\"></div></div>");
 			});
 		}
 
@@ -401,7 +401,7 @@
 				baseElement.find(".jt-navigation-container.active").children().click();
 			}, 1000);
 			zoomCount++;
-			sortNavTopPos();
+			setNavTopPos();
 		});
 		baseElement.find(".jt-zoom-out").click(function(){
 			zoomScale = zoomScale*0.8;
@@ -411,7 +411,7 @@
 				baseElement.find(".jt-navigation-container.active").children().click();
 			}, 1000);
 			zoomCount--;
-			sortNavTopPos();
+			setNavTopPos();
 		});
 	},
 

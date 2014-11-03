@@ -148,8 +148,8 @@ body {
 	-moz-transition:    all 0.2s;
 	-o-transition:      all 0.2s;
 	transition:         all 0.2s;
-	z-index: 1000;
 	cursor: pointer;
+	z-index: 1000;
 }
 #jquery-timeline .jt-nav-toggle:hover {
 	bottom: -50px;
@@ -232,14 +232,22 @@ body {
 	height: 30px;
 	position: absolute;
 	width: 100%;
-	z-index: 1;
-	background-color: #f9f9f9;
+	background: #f9f9f9 url("../img/background-nav-line.png") 2px -3px repeat-x;
 	line-height: 45px;
+	z-index: 1;
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row > .jt-year-line > .jt-year-container {
 	position: absolute;
 	left: 0;
 	display: inline-block;
+}
+#jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row > .jt-year-line > .jt-year-container > .jt-year-container-line {
+	width: 1px;
+	height: 15px;
+	position: relative;
+	background: black;
+	top: -45px;
+	margin: auto;
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container {
 	position: absolute;
@@ -263,11 +271,11 @@ body {
 	cursor: pointer;
 	background-color: white;
 	position: absolute;
-	z-index: 200;
 	-webkit-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 	-moz-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 	-o-transition : all 500ms cubic-bezier(.71,.08,.35,.87);
 	transition : all 500ms cubic-bezier(.71,.08,.35,.87);
+	z-index: 200;
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-line {
 	position: absolute;
@@ -276,11 +284,11 @@ body {
 	background-color: #e3e3e3;
 	height: 170px;
 	left: -1px;
-	z-index: 100;
 	-webkit-transition: all 0.35s;
 	-moz-transition:    all 0.35s;
 	-o-transition:      all 0.35s;
 	transition:         all 0.35s;
+	z-index: 100;
 }
 #jquery-timeline > .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.active {
 	border: 1px solid #023c7f;
