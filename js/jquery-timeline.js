@@ -13,7 +13,6 @@
 	wrapperWidth = 0,
 
 	// several changes to the container and row sizes for resizing
-	// remove media element if empty
 	initRowSize = function() {
 		var containerCount = baseElement.find(".jt-container").length,
 			media = baseElement.find(".jt-media"),
@@ -23,10 +22,6 @@
 			leftPosition = 0;
 
 		rowWidth = (containerCount == 1)?"100%":rowWidth + 10000;
-		if(!(baseElement.find(".jt-media").html())) {
-			baseElement.find(".jt-media").remove();
-			baseElement.find(".jt-content").css({"width": "100%"});
-		}
 		baseElement.find(".jt-container").css({"width": wrapperWidth});
 		baseElement.find(".jt-row").css({"width": rowWidth});
 		$(window).resize(function() {
@@ -208,11 +203,22 @@
 	},
 
 	// lazy load for media elements
+	// remove element if empty
 	loadMediaContent = function(id) {
-		if (baseElement.find(".jt-container[rel='"+id+"'] .jt-media").is(':empty')) {
-			baseElement.find(".jt-container[rel='"+id+"'] .jt-media").prepend(drawContentMedia(baseData.timeline[id].asset));
-			baseElement.find(".jt-container[rel='"+id+"'] .jt-media").append("<span class=\"jt-caption\">"+baseData.timeline[id].asset.caption+"</span>");
+		if (baseElement.find(".jt-container[rel='"+id+"'] .jt-media").is(':empty') && baseData.timeline[id].asset) {
+			baseElement.find(".jt-container[rel='"+id+"'] .jt-media").append("<div class=\"jt-loader\"></div>");
+			setTimeout(function() {
+				baseElement.find(".jt-container[rel='"+id+"'] .jt-media").prepend(drawContentMedia(baseData.timeline[id].asset));
+				baseElement.find(".jt-container[rel='"+id+"'] .jt-media").append("<span class=\"jt-caption\">"+baseData.timeline[id].asset.caption+"</span>");
+				baseElement.find(".jt-container[rel='"+id+"'] .jt-media .loader").remove();
+			}, 200);
 		}
+		setTimeout(function() {
+			if((baseElement.find(".jt-container[rel='"+id+"'] .jt-media").is(':empty'))) {
+				baseElement.find(".jt-container[rel='"+id+"'] .jt-media").remove();
+				baseElement.find(".jt-container[rel='"+id+"'] .jt-content").css({"width": "100%"});
+			}
+		}, 400);
 	},
 
 	// hide show animation for prev/next buttons
