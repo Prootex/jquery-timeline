@@ -10,7 +10,6 @@
 	clickCount = 0,
 	sliderSpeed = 500,
 	transitionVal = "all 500ms cubic-bezier(.71,.08,.35,.87)",
-	zoomScale = 1,
 
 	// several changes to the sizes
 	initRowSize = function() {
@@ -288,8 +287,7 @@
 		var navWidth = baseElement.find(".jt-navigation .jt-navigation-row").width(),
 			lastConPos = baseElement.find(".jt-navigation .jt-navigation-row .jt-navigation-container").last().position(),
 			clicked = false,
-			mousePosition = 0,
-			currPo = 0;
+			mousePosition = 0;
 		// on mousedown change the left value to slide
 		baseElement.find(".jt-navigation")
 			// calculate the left value of the row element
@@ -297,20 +295,10 @@
 				if (clicked) {
 					var left, mouseX = parseInt(event.pageX);
 
-					if (mouseX < mousePosition) {
-						left = parseInt(currPo + (mousePosition-mouseX));
-					}
-					else {
-						left = parseInt(currPo - (mouseX-mousePosition));
-					}
-
-					/*transformX(baseElement.find(".jt-navigation .jt-navigation-container"), -left);
-					transition(baseElement.find(".jt-navigation .jt-navigation-container"), "none");
-
-					transformX(baseElement.find(".jt-navigation .jt-year-container"), -left);
-					transition(baseElement.find(".jt-navigation .jt-year-container"), "none");*/
-
-					setNavConPosDelta(-left);
+					left = parseInt((mousePosition-mouseX));					
+					mousePosition = mouseX;
+					
+					setNavConPosDelta(-left, true);
 					setNavConPos();
 				}
 			})
@@ -324,13 +312,14 @@
 				baseElement.find(".jt-navigation-row").css("cursor", "-webkit-grabbing");
 				mousePosition = event.clientX;
 				pagePosition = event.pageX;
-				//currPo = left;
 				clicked = true;
+				setNavConTransition(false);
 			})
 			// slides animation stop
 			.mouseup(function() {
 				baseElement.find(".jt-navigation-row").css("cursor", "-webkit-grab");
 				clicked = false;
+					setNavConTransition(true);
 			});
 	},
 
@@ -373,9 +362,20 @@
 		});
 	},
 
+	setNavConTransition = function(enable) {
+
+		if (enable) {
+			baseElement.find(".jt-navigation-container").removeClass("no-transition");
+			baseElement.find(".jt-year-container").removeClass("no-transition");
+		} else {
+			baseElement.find(".jt-navigation-container").addClass("no-transition");
+			baseElement.find(".jt-year-container").addClass("no-transition");
+		}
+	},
+
 	getNavEventPos = function(i) {
 
-		return (baseData.timeline[i].leftInitial + baseData.timeline[i].left) * zoomScale;
+		return (baseData.timeline[i].initialLeft + baseData.timeline[i].left);
 	},
 
 	// calculate current position of navigation containers
@@ -384,7 +384,7 @@
 		// set position of years
 		$.each(baseData.years, function(i, v) {
 			baseElement.find(".jt-year-container[data-year='"+i+"']").css({
-				left: (baseData.years[i].initialLeft + baseData.years[i].left) * zoomScale
+				left: (baseData.years[i].initialLeft + baseData.years[i].left)
 			});
 		});
 
@@ -393,7 +393,7 @@
 			baseElement.find(".jt-navigation-container[rel='"+i+"']").css({
 				left: getNavEventPos(i)
 			});
-		});
+		});	
 	},
 
 	// position of navigation containers by the year
@@ -431,7 +431,7 @@
 		$.each(baseData.timeline, function(i, v) {
 			diff = baseData.years[(baseData.years.length-1)].timestamp-baseData.timeline[0].timestamp;
 			left = ( ( (baseData.timeline[i].timestamp-baseData.years[0].timestamp) * baseElement.find(".jt-navigation-row").width() ) / diff ) + 50;
-			baseData.timeline[i].leftInitial = left;
+			baseData.timeline[i].initialLeft = left;
 			baseData.timeline[i].left = 0;		
 		});
 
@@ -441,23 +441,34 @@
 
 	initNavZoomButtons = function() {
 
-		baseElement.find(".jt-zoom-in").click(function(){
-			zoomScale *= 1.2;
-			setNavConPos();
+		var processZoom = function(zoomInOrOut) {
 
-			/*setTimeout(function(){
-				setEventFocus(baseElement.find(".jt-navigation-container.active").children());
-			}, 1000);
-			sortNavTopPos();*/
+			$.each(baseData.years, function(i, v) {
+				if (zoomInOrOut) {
+					baseData.years[i].left += ((baseData.years[i].left + baseData.years[i].initialLeft) * 0.5);
+				} else {
+					baseData.years[i].left -= ((baseData.years[i].left + baseData.years[i].initialLeft) * 0.5);
+				}
+			});
+
+			$.each(baseData.timeline, function(i, v) {
+				if (zoomInOrOut) {
+					baseData.timeline[i].left += ((baseData.timeline[i].left + baseData.timeline[i].initialLeft) * 0.5);
+				} else {
+					baseData.timeline[i].left -= ((baseData.timeline[i].left + baseData.timeline[i].initialLeft) * 0.5);
+				}
+			});	
+
+			setNavConPos();
+			setEventFocus(baseElement.find(".jt-navigation-container.active").children());
+			sortNavTopPos();
+		};
+
+		baseElement.find(".jt-zoom-in").click(function(){
+			processZoom(true);
 		});
 		baseElement.find(".jt-zoom-out").click(function(){
-			zoomScale *= 0.8;
-			setNavConPos();
-
-			/*setTimeout(function(){
-				setEventFocus(baseElement.find(".jt-navigation-container.active").children());
-			}, 1000);
-			sortNavTopPos();*/
+			processZoom(false);
 		});
 	},
 
@@ -483,10 +494,6 @@
 		transition(baseElement.find(".jt-wrapper .jt-row"), transitionVal);
 
 		deltaToMiddle = (baseElement.find(".jt-navigation-row").width() / 2) - getNavEventPos(clickCount);
-
-		console.log(baseElement.find(".jt-navigation-row").width() / 2);
-		console.log(getNavEventPos(clickCount));
-		console.log(deltaToMiddle);
 
 		setNavConPosDelta(deltaToMiddle+1, true);
 		setNavConPos();
@@ -556,13 +563,10 @@
 		initNavConPos();
 		initNavZoomButtons();
 
-		//sortNavTopPos();
+		sortNavTopPos();
 
 		// go to first element
-		setTimeout(function() {
-			// don't jump
-			//setEventFocus(baseElement.find(".jt-navigation-container[rel='0'] .jt-col"));
-		}, 1000);
+		setEventFocus(baseElement.find(".jt-navigation-container[rel='0'] .jt-col"));
 
 		$(window).resize(function() {
 			initRowSize();
