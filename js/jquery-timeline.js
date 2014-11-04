@@ -77,9 +77,7 @@
 		var structure =
 			'<div class="jt-container jt-table">\
 				<div class="jt-table-row">\
-					<div class="jt-media jt-table-cell">\
-						<span class="jt-caption"></span>\
-					</div>\
+					<div class="jt-media jt-table-cell"></div>\
 					<div class="jt-content jt-table-cell">\
 						<div class="jt-content-col">\
 							<div class="jt-date">\
@@ -109,8 +107,6 @@
 			// add a rel attr to the containers
 			container.attr("rel", i);
 
-			//container.find(".jt-media").prepend(drawContentMedia(timelineData.asset));
-			container.find(".jt-caption").append(timelineData.asset.caption);
 			container.find(".jt-date > span").append(timelineData.date);
 			container.find(".jt-heading > h2").append(timelineData.headline);
 			container.find(".jt-text > p").append(timelineData.text);
@@ -160,6 +156,8 @@
 					baseElement.find(".jt-navigation-container[rel='"+clickCount+"'] .jt-col").click();
 
 					moveToEvent(wrapperWidth*clickCount, clickCount);
+					loadMediaContent(clickCount);
+
 					//overwrite button content
 					setButtonContent(clickCount);
 
@@ -181,6 +179,8 @@
 					baseElement.find(".jt-navigation-container[rel='"+clickCount+"'] .jt-col").click();
 
 					moveToEvent(wrapperWidth*clickCount, clickCount);
+					loadMediaContent(clickCount);
+
 					//overwrite button content
 					setButtonContent(clickCount);
 
@@ -205,6 +205,14 @@
 				init();
 			};
 		onLoad();
+	},
+
+	// lazy load for media elements
+	loadMediaContent = function(id) {
+		if (baseElement.find(".jt-container[rel='"+id+"'] .jt-media").is(':empty')) {
+			baseElement.find(".jt-container[rel='"+id+"'] .jt-media").prepend(drawContentMedia(baseData.timeline[id].asset));
+			baseElement.find(".jt-container[rel='"+id+"'] .jt-media").append("<span class=\"jt-caption\">"+baseData.timeline[id].asset.caption+"</span>");
+		}
 	},
 
 	// hide show animation for prev/next buttons
@@ -293,9 +301,9 @@
 
 					var left, mouseX = parseInt(event.pageX);
 
-					left = parseInt((mousePosition-mouseX));					
+					left = parseInt((mousePosition-mouseX));
 					mousePosition = mouseX;
-					
+
 					setNavConPosDelta(-left, true);
 					setNavConPos();
 				}
@@ -351,7 +359,7 @@
 		});
 
 		// set positions of event flags
-		$.each(baseData.timeline, function(i, v) {			
+		$.each(baseData.timeline, function(i, v) {
 			if (doNotOverwrite) {
 				baseData.timeline[i].left += leftDelta;
 			} else {
@@ -387,11 +395,11 @@
 		});
 
 		// set positions of event flags
-		$.each(baseData.timeline, function(i, v) {	
+		$.each(baseData.timeline, function(i, v) {
 			baseElement.find(".jt-navigation-container[rel='"+i+"']").css({
 				left: getNavEventPos(i)
 			});
-		});	
+		});
 	},
 
 	// position of navigation containers by the year
@@ -430,7 +438,7 @@
 			diff = baseData.years[(baseData.years.length-1)].timestamp-baseData.timeline[0].timestamp;
 			left = ( ( (baseData.timeline[i].timestamp-baseData.years[0].timestamp) * baseElement.find(".jt-navigation-row").width() ) / diff ) + 50;
 			baseData.timeline[i].initialLeft = left;
-			baseData.timeline[i].left = 0;		
+			baseData.timeline[i].left = 0;
 		});
 
 		// set positions
@@ -455,7 +463,7 @@
 				} else {
 					baseData.timeline[i].left -= ((baseData.timeline[i].left + baseData.timeline[i].initialLeft) * 0.5);
 				}
-			});	
+			});
 
 			setNavConPos();
 			setEventFocus(baseElement.find(".jt-navigation-container.active").children());
@@ -503,7 +511,7 @@
 
 		clickCount = parseInt(element.parent().attr("rel"));
 		setButtonContent(clickCount);
-		magicButtons(clickCount);		
+		magicButtons(clickCount);
 
 		transform3D(baseElement.find(".jt-wrapper .jt-row"), -(elementWidth * clickCount), 0, 0);
 		transition(baseElement.find(".jt-wrapper .jt-row"), transitionVal);
@@ -512,6 +520,8 @@
 
 		setNavConPosDelta(deltaToMiddle+1, true);
 		setNavConPos();
+
+		loadMediaContent(clickCount);
 	},
 
 
@@ -524,7 +534,7 @@
 				baseElement.find(".jt-navigation-container").removeClass("hover");
 				baseElement.find(".jt-navigation-container .jt-col").removeClass("hover");
 			})
-			.click(function() {			
+			.click(function() {
 				setEventFocus($(this));
 			});
 	},
@@ -570,6 +580,8 @@
 		leftButton = baseElement.find(".jt-timeline .jt-left");
 		baseElement.find(".jt-navigation-container[rel='0']").addClass("active");
 		baseElement.find(".jt-navigation-container[rel='0'] .jt-col").addClass("active");
+
+		loadMediaContent(0);
 
 		initRowSize();
 		initEventAnimation();
