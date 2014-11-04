@@ -6,12 +6,10 @@
 	baseData,
 	rightButton,
 	leftButton,
-	left,
 	accRel = 1,
 	clickCount = 0,
 	sliderSpeed = 500,
 	transitionVal = "all 500ms cubic-bezier(.71,.08,.35,.87)",
-	zoomCount = 0,
 	wrapperWidth = 0,
 
 	// several changes to the container and row sizes for resizing
@@ -111,7 +109,7 @@
 			// add a rel attr to the containers
 			container.attr("rel", i);
 
-			container.find(".jt-media").prepend(drawContentMedia(timelineData.asset));
+			//container.find(".jt-media").prepend(drawContentMedia(timelineData.asset));
 			container.find(".jt-caption").append(timelineData.asset.caption);
 			container.find(".jt-date > span").append(timelineData.date);
 			container.find(".jt-heading > h2").append(timelineData.headline);
@@ -282,31 +280,24 @@
 
 	// init timeline navigation
 	initNavigationAnimation = function() {
-		(left)?left=left:left=0;
+
 		var navWidth = baseElement.find(".jt-navigation .jt-navigation-row").width(),
 			lastConPos = baseElement.find(".jt-navigation .jt-navigation-row .jt-navigation-container").last().position(),
 			clicked = false,
-			mousePosition = 0,
-			currPo = 0;
+			mousePosition = 0;
 		// on mousedown change the left value to slide
 		baseElement.find(".jt-navigation")
 			// calculate the left value of the row element
 			.mousemove(function(event) {
 				if (clicked) {
-					var mouseX = parseInt(event.pageX);
 
-					if (mouseX < mousePosition) {
-						left = parseInt(currPo + (mousePosition-mouseX));
-					}
-					else {
-						left = parseInt(currPo - (mouseX-mousePosition));
-					}
+					var left, mouseX = parseInt(event.pageX);
 
-					transform3D(baseElement.find(".jt-navigation .jt-navigation-container"), -left ,0 ,0);
-					transition(baseElement.find(".jt-navigation .jt-navigation-container"), "none");
-
-					transform3D(baseElement.find(".jt-navigation .jt-year-container"), -left ,0 ,0);
-					transition(baseElement.find(".jt-navigation .jt-year-container"), "none");
+					left = parseInt((mousePosition-mouseX));					
+					mousePosition = mouseX;
+					
+					setNavConPosDelta(-left, true);
+					setNavConPos();
 				}
 			})
 			// by hover out stop the mousemove animation
@@ -319,13 +310,14 @@
 				baseElement.find(".jt-navigation-row").css("cursor", "-webkit-grabbing");
 				mousePosition = event.clientX;
 				pagePosition = event.pageX;
-				currPo = left;
 				clicked = true;
+				setNavConTransition(false);
 			})
 			// slides animation stop
 			.mouseup(function() {
 				baseElement.find(".jt-navigation-row").css("cursor", "-webkit-grab");
 				clicked = false;
+					setNavConTransition(true);
 			});
 	},
 
@@ -344,23 +336,78 @@
 		});
 	},
 
+	setNavConPosDelta = function(leftDelta, doNotOverwrite) {
+
+		if (!leftDelta)
+			leftDelta = 0;
+
+		// set position of years
+		$.each(baseData.years, function(i, v) {
+			if (doNotOverwrite) {
+				baseData.years[i].left += leftDelta;
+			} else {
+				baseData.years[i].left = leftDelta;
+			}
+		});
+
+		// set positions of event flags
+		$.each(baseData.timeline, function(i, v) {			
+			if (doNotOverwrite) {
+				baseData.timeline[i].left += leftDelta;
+			} else {
+				baseData.timeline[i].left = leftDelta;
+			}
+		});
+	},
+
+	setNavConTransition = function(enable) {
+
+		if (enable) {
+			baseElement.find(".jt-navigation-container").removeClass("no-transition");
+			baseElement.find(".jt-year-container").removeClass("no-transition");
+		} else {
+			baseElement.find(".jt-navigation-container").addClass("no-transition");
+			baseElement.find(".jt-year-container").addClass("no-transition");
+		}
+	},
+
+	getNavEventPos = function(i) {
+
+		return (baseData.timeline[i].initialLeft + baseData.timeline[i].left);
+	},
+
+	// calculate current position of navigation containers
+	setNavConPos = function(leftDelta) {
+
+		// set position of years
+		$.each(baseData.years, function(i, v) {
+			baseElement.find(".jt-year-container[data-year='"+i+"']").css({
+				left: (baseData.years[i].initialLeft + baseData.years[i].left)
+			});
+		});
+
+		// set positions of event flags
+		$.each(baseData.timeline, function(i, v) {	
+			baseElement.find(".jt-navigation-container[rel='"+i+"']").css({
+				left: getNavEventPos(i)
+			});
+		});	
+	},
+
 	// position of navigation containers by the year
-	setNavConPos = function(zoomScale) {
+	initNavConPos = function() {
 		var
-			left = 0,
 			yearArr = [],
-			yearStamp = [],
 			count = (baseElement.find(".jt-navigation-container").length - 1);
 			navWrapWidth = baseElement.find(".jt-navigation-wrapper").width() - 190;
 			baseElement.find(".jt-navigation-row").css("width", (navWrapWidth+190)),
 			diff = 0;
 
-		if(!zoomScale){zoomScale=1;}
-
+		baseData.years = [];
 		for(var i = baseData.timeline[0].year; i<= (baseData.timeline[count].year+1); i++) {
 			yearArr.push(i);
 			var timestamp = new Date(i, 0, 1).getTime();
-			yearStamp.push(timestamp);
+			baseData.years.push({'timestamp': timestamp});
 		}
 
 		if ((baseElement.find(".jt-year-container").length) < 1) {
@@ -370,45 +417,56 @@
 			});
 		}
 
-		$.each(yearStamp, function(i, v) {
-			diffYear = yearStamp[(yearStamp.length-1)]-yearStamp[0];
-			leftYear = ( ( (yearStamp[i]-yearStamp[0]) * baseElement.find(".jt-navigation-row").width() ) / diffYear ) + 50;
-			baseElement.find(".jt-year-container[data-year='"+i+"']").animate({
-				left: leftYear * zoomScale
-			}, 200);
+		// set position of years
+		$.each(baseData.years, function(i, v) {
+			diffYear = baseData.years[(baseData.years.length-1)].timestamp-baseData.years[0].timestamp;
+			leftYear = ( ( (baseData.years[i].timestamp-baseData.years[0].timestamp) * baseElement.find(".jt-navigation-row").width() ) / diffYear ) + 50;
+			baseData.years[i].initialLeft = leftYear;
+			baseData.years[i].left = 0;
 		});
 
+		// set positions of event flags
 		$.each(baseData.timeline, function(i, v) {
-			diff = yearStamp[(yearStamp.length-1)]-baseData.timeline[0].timestamp;
-			left = ( ( (baseData.timeline[i].timestamp-yearStamp[0]) * baseElement.find(".jt-navigation-row").width() ) / diff ) + 50;
-			baseElement.find(".jt-navigation-container[rel='"+i+"']").animate({
-				left: left * zoomScale
-			}, 200);
+			diff = baseData.years[(baseData.years.length-1)].timestamp-baseData.timeline[0].timestamp;
+			left = ( ( (baseData.timeline[i].timestamp-baseData.years[0].timestamp) * baseElement.find(".jt-navigation-row").width() ) / diff ) + 50;
+			baseData.timeline[i].initialLeft = left;
+			baseData.timeline[i].left = 0;		
 		});
 
+		// set positions
+		setNavConPos();
 	},
 
-	setNavZoom = function() {
-		var zoomScale = 1;
-		baseElement.find(".jt-zoom-in").click(function(){
-			zoomScale = zoomScale*1.2;
-			setNavConPos(zoomScale);
+	initNavZoomButtons = function() {
 
-			setTimeout(function(){
-				baseElement.find(".jt-navigation-container.active").children().click();
-			}, 1000);
-			zoomCount++;
+		var processZoom = function(zoomInOrOut) {
+
+			$.each(baseData.years, function(i, v) {
+				if (zoomInOrOut) {
+					baseData.years[i].left += ((baseData.years[i].left + baseData.years[i].initialLeft) * 0.5);
+				} else {
+					baseData.years[i].left -= ((baseData.years[i].left + baseData.years[i].initialLeft) * 0.5);
+				}
+			});
+
+			$.each(baseData.timeline, function(i, v) {
+				if (zoomInOrOut) {
+					baseData.timeline[i].left += ((baseData.timeline[i].left + baseData.timeline[i].initialLeft) * 0.5);
+				} else {
+					baseData.timeline[i].left -= ((baseData.timeline[i].left + baseData.timeline[i].initialLeft) * 0.5);
+				}
+			});	
+
+			setNavConPos();
+			setEventFocus(baseElement.find(".jt-navigation-container.active").children());
 			setNavTopPos();
+		};
+
+		baseElement.find(".jt-zoom-in").click(function(){
+			processZoom(true);
 		});
 		baseElement.find(".jt-zoom-out").click(function(){
-			zoomScale = zoomScale*0.8;
-			setNavConPos(zoomScale);
-
-			setTimeout(function(){
-				baseElement.find(".jt-navigation-container.active").children().click();
-			}, 1000);
-			zoomCount--;
-			setNavTopPos();
+			processZoom(false);
 		});
 	},
 
@@ -432,6 +490,31 @@
 		});
 	},
 
+	setEventFocus = function(element) {
+		baseElement.find(".jt-navigation-container").removeClass("active");
+		baseElement.find(".jt-navigation-container .jt-col").removeClass("active");
+
+		element.addClass("active");
+		element.parent().addClass("active");
+
+		var elementWidth = baseElement.find(".jt-container").width(),
+			leftPosition = element.parent().get(0).style.left,
+			deltaToMiddle;
+
+		clickCount = parseInt(element.parent().attr("rel"));
+		setButtonContent(clickCount);
+		magicButtons(clickCount);		
+
+		transform3D(baseElement.find(".jt-wrapper .jt-row"), -(elementWidth * clickCount), 0, 0);
+		transition(baseElement.find(".jt-wrapper .jt-row"), transitionVal);
+
+		deltaToMiddle = (baseElement.find(".jt-navigation-row").width() / 2) - getNavEventPos(clickCount);
+
+		setNavConPosDelta(deltaToMiddle+1, true);
+		setNavConPos();
+	},
+
+
 	initEventInteraction = function() {
 		baseElement.find(".jt-navigation-container .jt-col")
 			.hover(function() {
@@ -441,32 +524,8 @@
 				baseElement.find(".jt-navigation-container").removeClass("hover");
 				baseElement.find(".jt-navigation-container .jt-col").removeClass("hover");
 			})
-			.click(function() {
-				baseElement.find(".jt-navigation-container").removeClass("active");
-				baseElement.find(".jt-navigation-container .jt-col").removeClass("active");
-
-				$(this).addClass("active");
-				$(this).parent().addClass("active");
-
-				var elementWidth = baseElement.find(".jt-container").width(),
-					leftPosition = $(this).parent().get(0).style.left,
-					average = (baseElement.find(".jt-navigation-row").width() / 2) - parseInt(leftPosition);
-
-				clickCount = parseInt($(this).parent().attr("rel"));
-				setButtonContent(clickCount);
-				magicButtons(clickCount);
-
-				transform3D(baseElement.find(".jt-wrapper .jt-row"), -(elementWidth * clickCount) ,0 ,0);
-				transition(baseElement.find(".jt-wrapper .jt-row"), transitionVal);
-
-				transform3D(baseElement.find(".jt-navigation-container"), average ,0 ,0);
-				transition(baseElement.find(".jt-navigation-container"), transitionVal);
-
-				transform3D(baseElement.find(".jt-year-container"), average ,0 ,0);
-				transition(baseElement.find(".jt-year-container"), transitionVal);
-
-				// to set the left value of the move animation
-				left = -average;
+			.click(function() {			
+				setEventFocus($(this));
 			});
 	},
 
@@ -519,10 +578,13 @@
 		initEventInteraction();
 
 		setButtonContent();
-		setNavConPos();
-		setNavZoom();
+		initNavConPos();
+		initNavZoomButtons();
 
 		setNavTopPos();
+
+		// go to first element
+		setEventFocus(baseElement.find(".jt-navigation-container[rel='0'] .jt-col"));
 
 		$(window).resize(function() {
 			wrapperWidth = baseElement.find(".jt-wrapper").width();
