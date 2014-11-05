@@ -25,10 +25,6 @@
 		rowWidth = (containerCount == 1)?"100%":rowWidth + 10000;
 		baseElement.find(".jt-container").css({"width": wrapperWidth});
 		baseElement.find(".jt-row").css({"width": rowWidth});
-		// $(window).resize(function() {
-		// 	baseElement.find(".jt-container").css({"width": wrapperWidth});
-		// 	baseElement.find(".jt-row").css({"width": rowWidth});
-		// });
 	},
 
 	// Create structure for events
@@ -272,11 +268,6 @@
 		// positioning toggle button
 		var animate = false;
 
-		// $(window).resize(function() {
-		// 	baseElement.find(".jt-nav-toggle").css("left", ((wrapperWidth / 2)-60));
-		// });
-		baseElement.find(".jt-nav-toggle").css("left", ((wrapperWidth / 2)-60));
-
 		// add class to toggle icon
 		baseElement.find(".jt-nav-toggle").click(function() {
 			if (!animate) {
@@ -299,6 +290,10 @@
 		var lastConPos = baseElement.find(".jt-navigation .jt-navigation-row .jt-navigation-container").last().position(),
 			clicked = false,
 			mousePosition = 0;
+
+		// toggle button position
+		baseElement.find(".jt-nav-toggle").css("left", ((wrapperWidth / 2)-60));
+
 		// on mousedown change the left value to slide
 		baseElement.find(".jt-navigation")
 			// calculate the left value of the row element
@@ -331,7 +326,7 @@
 			.mouseup(function() {
 				baseElement.find(".jt-navigation-row").css("cursor", "-webkit-grab");
 				clicked = false;
-					setNavConTransition(true);
+				setNavConTransition(true);
 			});
 	},
 
@@ -606,11 +601,12 @@
 
 		$(window).resize(function() {
 			var currentElement = baseElement.find(".jt-navigation-container .active");
+
 			wrapperWidth = baseElement.find(".jt-wrapper").width();
 			navigationWidth = baseElement.find(".jt-navigation").width();
+
 			initRowSize();
 			initNavigationAnimation();
-			initNavigationToggle();
 			initEventInteraction();
 			initNavConPos();
 			setEventFocus(currentElement);
