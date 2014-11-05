@@ -11,23 +11,24 @@
 	sliderSpeed = 500,
 	transitionVal = "all 500ms cubic-bezier(.71,.08,.35,.87)",
 	wrapperWidth = 0,
+	navigationWidth = 0,
 
 	// several changes to the container and row sizes for resizing
 	initRowSize = function() {
 		var containerCount = baseElement.find(".jt-container").length,
 			media = baseElement.find(".jt-media"),
 			content = baseElement.find(".jt-content"),
-			rowWidth = ((containerCount)*(baseElement.find(".jt-container").width())),
+			rowWidth = (containerCount)*(wrapperWidth),
 			animationSpeed = 300,
 			leftPosition = 0;
 
 		rowWidth = (containerCount == 1)?"100%":rowWidth + 10000;
 		baseElement.find(".jt-container").css({"width": wrapperWidth});
 		baseElement.find(".jt-row").css({"width": rowWidth});
-		$(window).resize(function() {
-			baseElement.find(".jt-container").css({"width": wrapperWidth});
-			baseElement.find(".jt-row").css({"width": rowWidth});
-		});
+		// $(window).resize(function() {
+		// 	baseElement.find(".jt-container").css({"width": wrapperWidth});
+		// 	baseElement.find(".jt-row").css({"width": rowWidth});
+		// });
 	},
 
 	// Create structure for events
@@ -271,9 +272,9 @@
 		// positioning toggle button
 		var animate = false;
 
-		$(window).resize(function() {
-			baseElement.find(".jt-nav-toggle").css("left", ((wrapperWidth / 2)-60));
-		});
+		// $(window).resize(function() {
+		// 	baseElement.find(".jt-nav-toggle").css("left", ((wrapperWidth / 2)-60));
+		// });
 		baseElement.find(".jt-nav-toggle").css("left", ((wrapperWidth / 2)-60));
 
 		// add class to toggle icon
@@ -295,8 +296,7 @@
 	// init timeline navigation
 	initNavigationAnimation = function() {
 
-		var navWidth = baseElement.find(".jt-navigation .jt-navigation-row").width(),
-			lastConPos = baseElement.find(".jt-navigation .jt-navigation-row .jt-navigation-container").last().position(),
+		var lastConPos = baseElement.find(".jt-navigation .jt-navigation-row .jt-navigation-container").last().position(),
 			clicked = false,
 			mousePosition = 0;
 		// on mousedown change the left value to slide
@@ -413,7 +413,7 @@
 		var
 			yearArr = [],
 			count = (baseElement.find(".jt-navigation-container").length - 1);
-			navWrapWidth = baseElement.find(".jt-navigation-wrapper").width() - 190;
+			navWrapWidth = navigationWidth - 190;
 			baseElement.find(".jt-navigation-row").css("width", (navWrapWidth+190)),
 			diff = 0;
 
@@ -434,7 +434,7 @@
 		// set position of years
 		$.each(baseData.years, function(i, v) {
 			diffYear = baseData.years[(baseData.years.length-1)].timestamp-baseData.years[0].timestamp;
-			leftYear = ( ( (baseData.years[i].timestamp-baseData.years[0].timestamp) * baseElement.find(".jt-navigation-row").width() ) / diffYear ) + 50;
+			leftYear = ( ( (baseData.years[i].timestamp-baseData.years[0].timestamp) * navigationWidth ) / diffYear ) + 50;
 			baseData.years[i].initialLeft = leftYear;
 			baseData.years[i].left = 0;
 		});
@@ -442,7 +442,7 @@
 		// set positions of event flags
 		$.each(baseData.timeline, function(i, v) {
 			diff = baseData.years[(baseData.years.length-1)].timestamp-baseData.timeline[0].timestamp;
-			left = ( ( (baseData.timeline[i].timestamp-baseData.years[0].timestamp) * baseElement.find(".jt-navigation-row").width() ) / diff ) + 50;
+			left = ( ( (baseData.timeline[i].timestamp-baseData.years[0].timestamp) * navigationWidth ) / diff ) + 50;
 			baseData.timeline[i].initialLeft = left;
 			baseData.timeline[i].left = 0;
 		});
@@ -511,18 +511,17 @@
 		element.addClass("active");
 		element.parent().addClass("active");
 
-		var elementWidth = baseElement.find(".jt-container").width(),
-			leftPosition = element.parent().get(0).style.left,
+		var leftPosition = element.parent().get(0).style.left,
 			deltaToMiddle;
 
 		clickCount = parseInt(element.parent().attr("rel"));
 		setButtonContent(clickCount);
 		magicButtons(clickCount);
 
-		transform3D(baseElement.find(".jt-wrapper .jt-row"), -(elementWidth * clickCount), 0, 0);
+		transform3D(baseElement.find(".jt-wrapper .jt-row"), -(wrapperWidth * clickCount), 0, 0);
 		transition(baseElement.find(".jt-wrapper .jt-row"), transitionVal);
 
-		deltaToMiddle = (baseElement.find(".jt-navigation-row").width() / 2) - getNavEventPos(clickCount);
+		deltaToMiddle = (navigationWidth / 2) - getNavEventPos(clickCount);
 
 		setNavConPosDelta(deltaToMiddle+1, true);
 		setNavConPos();
@@ -581,6 +580,7 @@
 
 		initWrapStructure();
 		wrapperWidth = baseElement.find(".jt-wrapper").width();
+		navigationWidth = baseElement.find(".jt-navigation").width();
 
 		rightButton = baseElement.find(".jt-timeline .jt-right");
 		leftButton = baseElement.find(".jt-timeline .jt-left");
@@ -605,10 +605,15 @@
 		setEventFocus(baseElement.find(".jt-navigation-container[rel='0'] .jt-col"));
 
 		$(window).resize(function() {
+			var currentElement = baseElement.find(".jt-navigation-container .active");
 			wrapperWidth = baseElement.find(".jt-wrapper").width();
+			navigationWidth = baseElement.find(".jt-navigation").width();
 			initRowSize();
+			initNavigationAnimation();
+			initNavigationToggle();
 			initEventInteraction();
-			setNavConPos();
+			initNavConPos();
+			setEventFocus(currentElement);
 		});
 	};
 
