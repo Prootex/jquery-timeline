@@ -275,6 +275,14 @@ body {
 	background-color: white;
 	position: absolute;
 	z-index: 200;
+	-webkit-transition : all 400ms;
+	-moz-transition : all 400ms;
+	-o-transition : all 400ms;
+	transition : all 400ms;
+}
+.jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col > img {
+	float: left;
+	margin-right: 7px;
 }
 .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-line {
 	position: absolute;
@@ -284,15 +292,20 @@ body {
 	height: 170px;
 	left: -1px;
 	z-index: 100;
+	-webkit-transition : all 400ms;
+	-moz-transition : all 400ms;
+	-o-transition : all 400ms;
+	transition : all 400ms;
 }
 .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.active {
-	border: 1px solid #023c7f;
 	z-index: 300;
-	background: #f9f9f9;
 }
 .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.hover {
-	border: 1px solid #023c7f;
 	z-index: 400;
+}
+.jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.hover .jt-col,
+.jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.active .jt-col {
+	border: 1px solid #023c7f;
 	background: #f9f9f9;
 }
 

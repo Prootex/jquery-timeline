@@ -109,6 +109,9 @@
 
 			//create navigation boxes and add an rel attr
 			navRow.append("<div class=\"jt-navigation-container\" rel=\""+i+"\"><div class=\"jt-col\"><span class=\"date\">"+timelineData.date+"</span><br /><span class=\"heading\">"+timelineData.headline+"</span></div><div class=\"jt-line\"></div></div>");
+			if (timelineData.asset.thumbnail) {
+				baseElement.find(".jt-navigation-container[rel="+i+"] .jt-col").prepend("<img src=\""+timelineData.asset.thumbnail+"\" height=\"25px\" width=\"25px\" />");
+			}
 		});
 	},
 
@@ -116,11 +119,11 @@
 
 		switch(asset.type) {
 			case "image":
-				return "<img src=\""+asset.url+"\" alt=\""+asset.caption+"\" />"; break;
+				return "<img src=\""+asset.asset+"\" alt=\""+asset.caption+"\" />"; break;
 			case "google-embed":
-				return "<iframe src=\""+asset.url+"\" frameborder=\"0\" allowfullscreen></iframe>"; break;
+				return "<iframe src=\""+asset.asset+"\" frameborder=\"0\" allowfullscreen></iframe>"; break;
 			case "youtube-embed":
-				return "<iframe src=\""+asset.url+"\" frameborder=\"0\" allowfullscreen></iframe>"; break;
+				return "<iframe src=\"https://www.youtube.com/embed/"+asset.asset+"\" frameborder=\"0\" allowfullscreen></iframe>"; break;
 		}
 		return "";
 	},
