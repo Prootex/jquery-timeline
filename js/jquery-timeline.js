@@ -15,6 +15,7 @@
 
 	// several changes to the container and row sizes for resizing
 	initRowSize = function() {
+
 		var containerCount = baseElement.find(".jt-container").length,
 			media = baseElement.find(".jt-media"),
 			content = baseElement.find(".jt-content"),
@@ -29,6 +30,7 @@
 
 	// Create structure for events
 	initWrapStructure = function() {
+
 		var wrapStructure =
 			'<div class="jt-timeline">\
 				<div class="jt-left jt-icon-arrow">\
@@ -66,6 +68,7 @@
 
 	// Create structure for events
 	initEventStructure = function() {
+
 		var structure =
 			'<div class="jt-container jt-table">\
 				<div class="jt-table-row">\
@@ -91,6 +94,7 @@
 
 	//Filling data in created structure
 	appendContent = function(structure) {
+
 		$.each(baseData.timeline, function(i, timelineData) {
 			baseElement.find(".jt-row").append(structure);
 
@@ -109,6 +113,7 @@
 	},
 
 	drawContentMedia = function(asset) {
+
 		switch(asset.type) {
 			case "image":
 				return "<img src=\""+asset.url+"\" alt=\""+asset.caption+"\" />"; break;
@@ -122,6 +127,7 @@
 
 	// animate by click on next/prev icon
 	initEventAnimation = function() {
+
 		var
 			row = baseElement.find(".jt-row"),
 			container = baseElement.find(".jt-container"),
@@ -202,6 +208,7 @@
 	// lazy load for media elements
 	// remove element if empty
 	loadMediaContent = function(id) {
+
 		if (baseElement.find(".jt-container[rel='"+id+"'] .jt-media").is(':empty') && baseData.timeline[id].asset) {
 			baseElement.find(".jt-container[rel='"+id+"'] .jt-media").append("<div class=\"jt-loader\"></div>");
 			setTimeout(function() {
@@ -220,6 +227,7 @@
 
 	// hide show animation for prev/next buttons
 	magicButtons = function (clickCount) {
+
 		var containerCount = baseElement.find(".jt-container").length;
 		if (clickCount == 0) {
 			baseElement.find(".jt-left").animate({opacity:"hide"}, 500);
@@ -236,6 +244,7 @@
 	},
 
 	setButtonContentText = function(button, data) {
+
 		var str = data.headline;
 		button.find(".jt-date").append(data.date);
 		button.find(".jt-heading").append(str.substring(0,40));
@@ -243,6 +252,7 @@
 
 	// Sets content for right and left buttons
 	setButtonContent = function(i) {
+
 		var containerCount = baseElement.find(".jt-container").length;
 
 		if (!i) i=0;
@@ -265,6 +275,7 @@
 
 	// toggle navigation
 	initNavigationToggle = function() {
+
 		// positioning toggle button
 		var animate = false;
 
@@ -405,6 +416,7 @@
 
 	// position of navigation containers by the year
 	initNavConPos = function() {
+
 		var
 			yearArr = [],
 			count = (baseElement.find(".jt-navigation-container").length - 1);
@@ -480,6 +492,7 @@
 	},
 
 	setNavTopPos = function() {
+
 		var count = 1;
 		baseElement.find(".jt-navigation-container").each(function(i, v) {
 			var top = "5px";
@@ -500,6 +513,7 @@
 	},
 
 	setEventFocus = function(element) {
+
 		baseElement.find(".jt-navigation-container").removeClass("active");
 		baseElement.find(".jt-navigation-container .jt-col").removeClass("active");
 
@@ -526,6 +540,7 @@
 
 
 	initEventInteraction = function() {
+
 		baseElement.find(".jt-navigation-container .jt-col")
 			.hover(function() {
 				$(this).addClass("hover");
@@ -540,6 +555,7 @@
 	},
 
 	transition = function(element, value){
+
 		element.stop().css({
 			'-webkit-transition' : value,
 			'-moz-transition' : value,
@@ -549,6 +565,7 @@
 	},
 
 	transform3D = function(element, x, y, z) {
+
 		element.stop().css({
 			'-webkit-transform' : 'translate3d('+x+'px, '+y+'px, '+z+'px)',
 			'-moz-transform' : 'translate3d('+x+'px, '+y+'px, '+z+'px)',
@@ -558,6 +575,7 @@
 	},
 
 	transformX = function(element, value) {
+
 		element.stop().css({
 			"-webkit-transform": "translateX("+value+"px)",
 			"-moz-transform": "translateX("+value+"px)",
@@ -568,6 +586,7 @@
 	},
 
 	initJt = function(element, data) {
+
 		baseElement = element;
 		baseData = data;
 
@@ -614,10 +633,12 @@
 	};
 
 	$.jqueryTimeline = function(element, data) {
+
 		initJt(element, data);
 	};
 
 	$.fn.jqueryTimeline = function(data) {
+
 		return this.each(function() {
 			(new $.jqueryTimeline($(this), data));
 		});

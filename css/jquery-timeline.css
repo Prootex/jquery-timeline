@@ -200,7 +200,6 @@ body {
 	width: 100%;
 	height: 200px;
 	position: relative;
-	/*border-top: 1px solid #e3e3e3;*/
 	background-color: white;
 }
 .jt-navigation > .jt-navigation-wrapper {
@@ -231,7 +230,7 @@ body {
 	height: 30px;
 	position: absolute;
 	width: 100%;
-	background: #f9f9f9 url("../img/background-nav-line.png") 2px -3px repeat-x;
+	background: #f9f9f9 url("../img/background-nav-line.png") 2px -7px repeat-x;
 	line-height: 45px;
 	z-index: 1;
 }
@@ -289,10 +288,12 @@ body {
 .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.active {
 	border: 1px solid #023c7f;
 	z-index: 300;
+	background: #f9f9f9;
 }
 .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.hover {
 	border: 1px solid #023c7f;
 	z-index: 400;
+	background: #f9f9f9;
 }
 
 .no-transition {
