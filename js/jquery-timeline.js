@@ -12,6 +12,7 @@
 	transitionVal = "all 500ms cubic-bezier(.71,.08,.35,.87)",
 	wrapperWidth = 0,
 	navigationWidth = 0,
+	initInProgress = false,
 
 	// several changes to the container and row sizes for resizing
 	initRowSize = function() {
@@ -677,16 +678,21 @@
 		setEventFocus(baseElement.find(".jt-navigation-container[rel='0'] .jt-col"));
 
 		$(window).resize(function() {
-			var currentElement = baseElement.find(".jt-navigation-container .active");
+			if (!initInProgress) {
+				initInProgress = true;
+				setTimeout(function(){
+					var currentElement = baseElement.find(".jt-navigation-container .active");
 
-			wrapperWidth = baseElement.find(".jt-wrapper").width();
-			navigationWidth = baseElement.find(".jt-navigation").width();
-
-			initRowSize();
-			initNavigationAnimation();
-			initEventInteraction();
-			initNavConPos(baseData.config.zoom);
-			setEventFocus(currentElement);
+					wrapperWidth = baseElement.find(".jt-wrapper").width();
+					navigationWidth = baseElement.find(".jt-navigation").width();
+					initRowSize();
+					initNavigationAnimation();
+					initEventInteraction();
+					initNavConPos(baseData.config.zoom);
+					setEventFocus(currentElement);
+					initInProgress = false;
+				}, 500);
+			}
 		});
 	};
 
