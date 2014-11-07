@@ -257,7 +257,7 @@
 
 	setButtonContentText = function(button, data) {
 
-		var str = data.headline;
+		var str = (data.headline ? str = data.headline : str = data.asset.caption);
 		button.find(".jt-date").append(data.startDate);
 		button.find(".jt-heading").append(str.substring(0,40));
 	},
