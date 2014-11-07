@@ -105,7 +105,7 @@
 
 			if (timelineData.headline || timelineData.text) {
 				container.find(".jt-date > span").append(timelineData.startDate);
-				if (timelineData.endDate) {
+				if (timelineData.endDate != timelineData.startDate) {
 					container.find(".jt-date > span").append(" - "+timelineData.endDate);
 				}
 				container.find(".jt-heading > h2").append(timelineData.headline);
@@ -676,18 +676,18 @@
 		// go to first element
 		setEventFocus(baseElement.find(".jt-navigation-container[rel='0'] .jt-col"));
 
-		// $(window).resize(function() {
-		// 	var currentElement = baseElement.find(".jt-navigation-container .active");
+		$(window).resize(function() {
+			var currentElement = baseElement.find(".jt-navigation-container .active");
 
-		// 	wrapperWidth = baseElement.find(".jt-wrapper").width();
-		// 	navigationWidth = baseElement.find(".jt-navigation").width();
+			wrapperWidth = baseElement.find(".jt-wrapper").width();
+			navigationWidth = baseElement.find(".jt-navigation").width();
 
-		// 	initRowSize();
-		// 	initNavigationAnimation();
-		// 	initEventInteraction();
-		// 	initNavConPos(baseData.config.zoom);
-		// 	setEventFocus(currentElement);
-		// });
+			initRowSize();
+			initNavigationAnimation();
+			initEventInteraction();
+			initNavConPos(baseData.config.zoom);
+			setEventFocus(currentElement);
+		});
 	};
 
 	$.jqueryTimeline = function(element, data) {
