@@ -107,10 +107,13 @@
 				container.find(".jt-date > span").append(timelineData.startDate);
 				container.find(".jt-heading > h2").append(timelineData.headline);
 				container.find(".jt-text > p").append(timelineData.text);
+			} else {
+				container.find(".jt-content").children().remove();
 			}
 
 			//create navigation boxes and add an rel attr
-			navRow.append("<div class=\"jt-navigation-container\" rel=\""+i+"\"><div class=\"jt-col\"><span class=\"heading\">"+timelineData.headline+"</span></div><div class=\"jt-line\"><div class=\"jt-line-dot\"></div></div></div>");
+			var content = (timelineData.headline ? content = timelineData.headline : content = timelineData.asset.caption);
+			navRow.append("<div class=\"jt-navigation-container\" rel=\""+i+"\"><div class=\"jt-col\"><span class=\"heading\">"+content+"</span></div><div class=\"jt-line\"><div class=\"jt-line-dot\"></div></div></div>");
 			if (timelineData.asset.thumbnail) {
 				baseElement.find(".jt-navigation-container[rel="+i+"] .jt-col").prepend("<img src=\""+timelineData.asset.thumbnail+"\" height=\"25px\" width=\"25px\" />");
 			}
@@ -128,6 +131,30 @@
 				return "<iframe src=\"https://www.youtube.com/embed/"+asset.asset+"\" frameborder=\"0\" allowfullscreen></iframe>"; break;
 		}
 		return "";
+	},
+
+	// lazy load for media elements
+	// remove element if empty
+	loadMediaContent = function(id) {
+
+		if (baseElement.find(".jt-container[rel='"+id+"'] .jt-media").is(':empty') && baseData.timeline[id].asset.asset) {
+			baseElement.find(".jt-container[rel='"+id+"'] .jt-media").append("<div class=\"jt-loader\"></div>");
+			setTimeout(function() {
+				baseElement.find(".jt-container[rel='"+id+"'] .jt-media").prepend(drawContentMedia(baseData.timeline[id].asset));
+				baseElement.find(".jt-container[rel='"+id+"'] .jt-media").append("<span class=\"jt-caption\">"+baseData.timeline[id].asset.caption+"</span>");
+				baseElement.find(".jt-container[rel='"+id+"'] .jt-media .loader").remove();
+			}, 200);
+		}
+		if (baseData.timeline[id].headline || baseData.timeline[id].text) {
+			setTimeout(function() {
+				if((baseElement.find(".jt-container[rel='"+id+"'] .jt-media").is(':empty'))) {
+					baseElement.find(".jt-container[rel='"+id+"'] .jt-media").remove();
+					baseElement.find(".jt-container[rel='"+id+"'] .jt-content").css({"width": "100%"});
+				}
+			}, 400);
+		} else {
+			baseElement.find(".jt-container[rel='"+id+"'] .jt-media").css("width", "100%");
+		}
 	},
 
 	// animate by click on next/prev icon
@@ -208,26 +235,6 @@
 				init();
 			};
 		onLoad();
-	},
-
-	// lazy load for media elements
-	// remove element if empty
-	loadMediaContent = function(id) {
-
-		if (baseElement.find(".jt-container[rel='"+id+"'] .jt-media").is(':empty') && baseData.timeline[id].asset.asset) {
-			baseElement.find(".jt-container[rel='"+id+"'] .jt-media").append("<div class=\"jt-loader\"></div>");
-			setTimeout(function() {
-				baseElement.find(".jt-container[rel='"+id+"'] .jt-media").prepend(drawContentMedia(baseData.timeline[id].asset));
-				baseElement.find(".jt-container[rel='"+id+"'] .jt-media").append("<span class=\"jt-caption\">"+baseData.timeline[id].asset.caption+"</span>");
-				baseElement.find(".jt-container[rel='"+id+"'] .jt-media .loader").remove();
-			}, 200);
-		}
-		setTimeout(function() {
-			if((baseElement.find(".jt-container[rel='"+id+"'] .jt-media").is(':empty'))) {
-				baseElement.find(".jt-container[rel='"+id+"'] .jt-media").remove();
-				baseElement.find(".jt-container[rel='"+id+"'] .jt-content").css({"width": "100%"});
-			}
-		}, 400);
 	},
 
 	// hide show animation for prev/next buttons
@@ -499,8 +506,6 @@
 			}
 		});
 
-		console.log(baseData);
-
 		// set positions
 		setNavConPos();
 	},
@@ -668,18 +673,18 @@
 		// go to first element
 		setEventFocus(baseElement.find(".jt-navigation-container[rel='0'] .jt-col"));
 
-		$(window).resize(function() {
-			var currentElement = baseElement.find(".jt-navigation-container .active");
+		// $(window).resize(function() {
+		// 	var currentElement = baseElement.find(".jt-navigation-container .active");
 
-			wrapperWidth = baseElement.find(".jt-wrapper").width();
-			navigationWidth = baseElement.find(".jt-navigation").width();
+		// 	wrapperWidth = baseElement.find(".jt-wrapper").width();
+		// 	navigationWidth = baseElement.find(".jt-navigation").width();
 
-			initRowSize();
-			initNavigationAnimation();
-			initEventInteraction();
-			initNavConPos(baseData.config.zoom);
-			setEventFocus(currentElement);
-		});
+		// 	initRowSize();
+		// 	initNavigationAnimation();
+		// 	initEventInteraction();
+		// 	initNavConPos(baseData.config.zoom);
+		// 	setEventFocus(currentElement);
+		// });
 	};
 
 	$.jqueryTimeline = function(element, data) {
