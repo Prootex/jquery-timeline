@@ -262,23 +262,18 @@ body {
 	-o-transition : all 300ms cubic-bezier(.71,.08,.35,.87);
 	transition : all 300ms cubic-bezier(.71,.08,.35,.87);
 }
-.jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.active .jt-line,
-.jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.hover .jt-line {
-	background-color: #023c7f;
-}
 .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col {
 	font-size: 10px;
 	border: 1px solid #e3e3e3;
 	margin-left: -6px;
-	padding: 7px;
+	padding: 5px;
 	cursor: pointer;
 	background-color: white;
 	position: absolute;
 	z-index: 200;
-	-webkit-transition : all 400ms;
-	-moz-transition : all 400ms;
-	-o-transition : all 400ms;
-	transition : all 400ms;
+	width: 150px;
+	height: 35px;
+	max-height: 35px;
 }
 .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col > img {
 	float: left;
@@ -292,21 +287,38 @@ body {
 	height: 170px;
 	left: -1px;
 	z-index: 100;
-	-webkit-transition : all 400ms;
-	-moz-transition : all 400ms;
-	-o-transition : all 400ms;
-	transition : all 400ms;
+}
+.jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-line .jt-line-dot {
+	position: absolute;
+	bottom: -7px;
+	left: -3px;
+	border: 4.5px solid;
+	border-color: #023c7f;
+	border-radius: 4px;
+	opacity: 0;
+	width: 0;
 }
 .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.active {
 	z-index: 300;
+	margin-left: -5px;
 }
 .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.hover {
 	z-index: 400;
+	margin-left: -5px;
 }
 .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.hover .jt-col,
 .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.active .jt-col {
 	border: 1px solid #023c7f;
 	background: #f9f9f9;
+}
+.jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.active .jt-line,
+.jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.hover .jt-line {
+	background-color: #023c7f;
+	width: 2px;
+}
+.jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.active .jt-line-dot,
+.jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container.hover .jt-line-dot {
+	opacity: 0.8;
 }
 
 .no-transition {

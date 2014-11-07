@@ -103,12 +103,14 @@
 			// add a rel attr to the containers
 			container.attr("rel", i);
 
-			container.find(".jt-date > span").append(timelineData.date);
-			container.find(".jt-heading > h2").append(timelineData.headline);
-			container.find(".jt-text > p").append(timelineData.text);
+			if (timelineData.headline || timelineData.text) {
+				container.find(".jt-date > span").append(timelineData.startDate);
+				container.find(".jt-heading > h2").append(timelineData.headline);
+				container.find(".jt-text > p").append(timelineData.text);
+			}
 
 			//create navigation boxes and add an rel attr
-			navRow.append("<div class=\"jt-navigation-container\" rel=\""+i+"\"><div class=\"jt-col\"><span class=\"date\">"+timelineData.date+"</span><br /><span class=\"heading\">"+timelineData.headline+"</span></div><div class=\"jt-line\"></div></div>");
+			navRow.append("<div class=\"jt-navigation-container\" rel=\""+i+"\"><div class=\"jt-col\"><span class=\"heading\">"+timelineData.headline+"</span></div><div class=\"jt-line\"><div class=\"jt-line-dot\"></div></div></div>");
 			if (timelineData.asset.thumbnail) {
 				baseElement.find(".jt-navigation-container[rel="+i+"] .jt-col").prepend("<img src=\""+timelineData.asset.thumbnail+"\" height=\"25px\" width=\"25px\" />");
 			}
@@ -212,7 +214,7 @@
 	// remove element if empty
 	loadMediaContent = function(id) {
 
-		if (baseElement.find(".jt-container[rel='"+id+"'] .jt-media").is(':empty') && baseData.timeline[id].asset) {
+		if (baseElement.find(".jt-container[rel='"+id+"'] .jt-media").is(':empty') && baseData.timeline[id].asset.asset) {
 			baseElement.find(".jt-container[rel='"+id+"'] .jt-media").append("<div class=\"jt-loader\"></div>");
 			setTimeout(function() {
 				baseElement.find(".jt-container[rel='"+id+"'] .jt-media").prepend(drawContentMedia(baseData.timeline[id].asset));
@@ -249,7 +251,7 @@
 	setButtonContentText = function(button, data) {
 
 		var str = data.headline;
-		button.find(".jt-date").append(data.date);
+		button.find(".jt-date").append(data.startDate);
 		button.find(".jt-heading").append(str.substring(0,40));
 	},
 
@@ -320,6 +322,7 @@
 					mousePosition = mouseX;
 
 					setNavConPosDelta(-left, true);
+					setNavConPosEndDelta(-left, true);
 					setNavConPos();
 				}
 			})
@@ -348,14 +351,18 @@
 	sortTimeline = function() {
 
 		$.each(baseData.timeline, function(i, v) {
-			dateSplit = v.date.split('-');
-			date = new Date(dateSplit[0], parseInt(dateSplit[1]) - 1, dateSplit[2]).getTime();
-			baseData.timeline[i].timestamp = date;
-			baseData.timeline[i].year = parseInt(dateSplit[0]);
+			startDateSplit = v.startDate.split('-');
+			startDate = new Date(startDateSplit[0], parseInt(startDateSplit[1]) - 1, startDateSplit[2]).getTime();
+			baseData.timeline[i].startTimestamp = startDate;
+			baseData.timeline[i].year = parseInt(startDateSplit[0]);
+
+			endDateSplit = v.endDate.split('-');
+			endDate = new Date(endDateSplit[0], parseInt(endDateSplit[1]) - 1, endDateSplit[2]).getTime();
+			baseData.timeline[i].endTimestamp = endDate;
 		});
 
 		baseData.timeline = baseData.timeline.sort(function(a, b) {
-			return (a.timestamp - b.timestamp);
+			return (a.startTimestamp - b.startTimestamp);
 		});
 	},
 
@@ -383,6 +390,21 @@
 		});
 	},
 
+	setNavConPosEndDelta = function(leftDelta, doNotOverwrite) {
+
+		if (!leftDelta)
+			leftDelta = 0;
+
+		// set end positions of event flag duration
+		$.each(baseData.timeline, function(i, v) {
+			if (doNotOverwrite) {
+				baseData.timeline[i].endLeft += leftDelta;
+			} else {
+				baseData.timeline[i].endLeft = leftDelta;
+			}
+		});
+	},
+
 	setNavConTransition = function(enable) {
 
 		if (enable) {
@@ -397,6 +419,10 @@
 	getNavEventPos = function(i) {
 
 		return (baseData.timeline[i].initialLeft + baseData.timeline[i].left);
+	},
+	getNavEventEndPos = function(i) {
+
+		return (baseData.timeline[i].initialEndLeft + baseData.timeline[i].endLeft);
 	},
 
 	// calculate current position of navigation containers
@@ -414,18 +440,22 @@
 			baseElement.find(".jt-navigation-container[rel='"+i+"']").css({
 				left: getNavEventPos(i)
 			});
+			if (baseData.timeline[i].endTimestamp > baseData.timeline[i].startTimestamp) {
+				baseElement.find(".jt-navigation-container[rel='"+i+"'] .jt-line-dot").css({
+					width: parseInt(getNavEventEndPos(i)-getNavEventPos(i))
+				});
+			}
 		});
 	},
 
 	// position of navigation containers by the year
-	initNavConPos = function() {
+	initNavConPos = function(initialZoom) {
 
 		var
 			yearArr = [],
 			count = (baseElement.find(".jt-navigation-container").length - 1);
 			navWrapWidth = navigationWidth - 190;
-			baseElement.find(".jt-navigation-row").css("width", (navWrapWidth+190)),
-			diff = 0;
+			baseElement.find(".jt-navigation-row").css("width", (navWrapWidth+190));
 
 		baseData.years = [];
 		for(var i = baseData.timeline[0].year; i<= (baseData.timeline[count].year+1); i++) {
@@ -443,19 +473,33 @@
 
 		// set position of years
 		$.each(baseData.years, function(i, v) {
+			var diffYear, leftYear;
+
 			diffYear = baseData.years[(baseData.years.length-1)].timestamp-baseData.years[0].timestamp;
 			leftYear = ( ( (baseData.years[i].timestamp-baseData.years[0].timestamp) * navigationWidth ) / diffYear ) + 50;
-			baseData.years[i].initialLeft = leftYear;
+			baseData.years[i].initialLeft = leftYear * initialZoom;
 			baseData.years[i].left = 0;
 		});
 
 		// set positions of event flags
 		$.each(baseData.timeline, function(i, v) {
-			diff = baseData.years[(baseData.years.length-1)].timestamp-baseData.timeline[0].timestamp;
-			left = ( ( (baseData.timeline[i].timestamp-baseData.years[0].timestamp) * navigationWidth ) / diff ) + 50;
-			baseData.timeline[i].initialLeft = left;
+			var diff, left;
+
+			diff = baseData.years[(baseData.years.length-1)].timestamp-baseData.timeline[0].startTimestamp;
+			left = ( ( (baseData.timeline[i].startTimestamp-baseData.years[0].timestamp) * navigationWidth ) / diff ) + 50;
+			baseData.timeline[i].initialLeft = left * initialZoom;
 			baseData.timeline[i].left = 0;
+
+			// set positions of navigation dot line
+			if (baseData.timeline[i].endTimestamp) {
+				diff = baseData.years[(baseData.years.length-1)].timestamp-baseData.timeline[0].endTimestamp;
+				left = ( ( (baseData.timeline[i].endTimestamp-baseData.years[0].timestamp) * navigationWidth ) / diff ) + 50;
+				baseData.timeline[i].initialEndLeft = left * initialZoom;
+				baseData.timeline[i].endLeft = 0;
+			}
 		});
+
+		console.log(baseData);
 
 		// set positions
 		setNavConPos();
@@ -476,8 +520,10 @@
 			$.each(baseData.timeline, function(i, v) {
 				if (zoomInOrOut) {
 					baseData.timeline[i].left += ((baseData.timeline[i].left + baseData.timeline[i].initialLeft) * 0.5);
+					baseData.timeline[i].endLeft += ((baseData.timeline[i].endLeft + baseData.timeline[i].initialEndLeft) * 0.5);
 				} else {
 					baseData.timeline[i].left -= ((baseData.timeline[i].left + baseData.timeline[i].initialLeft) * 0.5);
+					baseData.timeline[i].endLeft -= ((baseData.timeline[i].endLeft + baseData.timeline[i].initialEndLeft) * 0.5);
 				}
 			});
 
@@ -536,6 +582,7 @@
 		deltaToMiddle = (navigationWidth / 2) - getNavEventPos(clickCount);
 
 		setNavConPosDelta(deltaToMiddle+1, true);
+		setNavConPosEndDelta(deltaToMiddle+1, true);
 		setNavConPos();
 
 		loadMediaContent(clickCount);
@@ -613,7 +660,7 @@
 		initEventInteraction();
 
 		setButtonContent();
-		initNavConPos();
+		initNavConPos(baseData.config.zoom);
 		initNavZoomButtons();
 
 		setNavTopPos();
@@ -630,7 +677,7 @@
 			initRowSize();
 			initNavigationAnimation();
 			initEventInteraction();
-			initNavConPos();
+			initNavConPos(baseData.config.zoom);
 			setEventFocus(currentElement);
 		});
 	};
