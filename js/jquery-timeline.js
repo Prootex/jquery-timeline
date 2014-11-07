@@ -105,6 +105,9 @@
 
 			if (timelineData.headline || timelineData.text) {
 				container.find(".jt-date > span").append(timelineData.startDate);
+				if (timelineData.endDate) {
+					container.find(".jt-date > span").append(" - "+timelineData.endDate);
+				}
 				container.find(".jt-heading > h2").append(timelineData.headline);
 				container.find(".jt-text > p").append(timelineData.text);
 			} else {

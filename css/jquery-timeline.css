@@ -295,7 +295,7 @@ body {
 	border: 4.5px solid;
 	border-color: #023c7f;
 	border-radius: 4px;
-	opacity: 0;
+	opacity: 0.4;
 	width: 0;
 }
 .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row .jt-navigation-container .jt-col.active {
