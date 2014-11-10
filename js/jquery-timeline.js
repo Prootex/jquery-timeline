@@ -182,6 +182,11 @@
 					isMoving = true;
 					clickCount--;
 
+					// prevent pagination from stepping to far
+					if (clickCount < 0) {
+						clickCount = 0;
+					}
+
 					baseElement.find(".jt-navigation-container").removeClass("active");
 					baseElement.find(".jt-navigation-container .jt-col").removeClass("active");
 					baseElement.find(".jt-navigation-container[rel='"+clickCount+"']").addClass("active");
@@ -204,6 +209,11 @@
 				if (!isMoving) {
 					isMoving = true;
 					clickCount++;
+
+					// prevent pagination from stepping to far
+					if (clickCount > baseData.timeline.length-1) {
+						clickCount = baseData.timeline.length-1;
+					}
 
 					baseElement.find(".jt-navigation-container").removeClass("active");
 					baseElement.find(".jt-navigation-container .jt-col").removeClass("active");
