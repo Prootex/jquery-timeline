@@ -345,7 +345,12 @@ body {
 		max-height: 400px;
 	}
 	.jt-timeline > .jt-wrapper > .jt-row > .jt-container .jt-media > iframe {
-		height: 250px;
+		height: auto;
+		width: 100%;
+	}
+	.jt-timeline > .jt-wrapper > .jt-row > .jt-container .jt-media > img {
+		height: auto;
+		width: 100%;
 	}
 	.jt-prev,
 	.jt-next {
