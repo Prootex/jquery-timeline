@@ -321,6 +321,12 @@
 		// toggle button position
 		baseElement.find(".jt-nav-toggle").css("left", ((wrapperWidth / 2)-60));
 
+		// unbind previous event handlers
+		baseElement.find(".jt-navigation").unbind('mousemove');
+		baseElement.find(".jt-navigation").unbind('hover');
+		baseElement.find(".jt-navigation").unbind('mousedown');
+		baseElement.find(".jt-navigation").unbind('mouseup');
+
 		// on mousedown change the left value to slide
 		baseElement.find(".jt-navigation")
 			// calculate the left value of the row element
