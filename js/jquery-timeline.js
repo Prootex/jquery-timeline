@@ -241,6 +241,17 @@
 					rightButton
 						.bind("click", onBtnRight);
 				}
+
+				if (baseData.config.keyboardCommands) {
+					$("body").keydown(function(e){
+						if (e.keyCode == 37) {
+							leftButton.trigger("click");
+						}
+						if (e.keyCode == 39) {
+							rightButton.trigger("click");
+						}
+					});
+				}
 			},
 			onLoad = function() {
 				// hide left button
