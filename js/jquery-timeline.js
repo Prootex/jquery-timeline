@@ -184,16 +184,17 @@
 			baseElement.find(".jt-row").append(structure);
 
 			var container = baseElement.find(".jt-container").last(),
-				navRow = baseElement.find(".jt-navigation-row").last();
+				navRow = baseElement.find(".jt-navigation-row").last(),
+				startDate = new Date(baseData.timeline[i].startTimestamp),
+				endDate = new Date(baseData.timeline[i].endTimestamp),
+				navEventDate = "";
 
 			// add a rel attr to the containers
 			container.attr("rel", i);
 
 			if (timelineData.headline || timelineData.text) {
-				var startDate = new Date(baseData.timeline[i].startTimestamp);
 				container.find(".jt-date > span").append(startDate.format(baseData.config.date.format));
-				if (timelineData.endDate != timelineData.startDate) {
-					var endDate = new Date(baseData.timeline[i].endTimestamp);
+				if (timelineData.endDate && timelineData.endDate != timelineData.startDate) {
 					container.find(".jt-date > span").append(" - "+endDate.format(baseData.config.date.format));
 				}
 				container.find(".jt-heading > h2").append(timelineData.headline);
@@ -202,9 +203,13 @@
 				container.find(".jt-content").children().remove();
 			}
 
+			if (startDate.format(baseData.config.date.format)) {
+				navEventDate = "<span class=\"date\">"+startDate.format(baseData.config.date.format)+"</span><br />";
+			}
+
 			//create navigation boxes and add an rel attr
 			var content = (timelineData.headline ? content = timelineData.headline : content = timelineData.asset.caption);
-			navRow.append("<div class=\"jt-navigation-container\" rel=\""+i+"\"><div class=\"jt-col\"><span class=\"heading\">"+content+"</span></div><div class=\"jt-line\"><div class=\"jt-line-dot\"></div></div></div>");
+			navRow.append("<div class=\"jt-navigation-container\" rel=\""+i+"\"><div class=\"jt-col\">"+navEventDate+"<span class=\"heading\">"+content+"</span></div><div class=\"jt-line\"><div class=\"jt-line-dot\"></div></div></div>");
 			if (timelineData.asset.thumbnail) {
 				baseElement.find(".jt-navigation-container[rel="+i+"] .jt-col").prepend("<img src=\""+timelineData.asset.thumbnail+"\" height=\"25px\" width=\"25px\" />");
 			}
@@ -564,7 +569,7 @@
 		// set position of years
 		$.each(baseData.years, function(i, v) {
 			baseElement.find(".jt-year-container[data-year='"+i+"']").css({
-				left: (baseData.years[i].initialLeft + baseData.years[i].left)
+				left: (baseData.years[i].initialLeft + baseData.years[i].left)-(baseElement.find(".jt-year-container[data-year='"+i+"']").width()/2)
 			});
 		});
 
@@ -586,9 +591,10 @@
 
 		var
 			yearArr = [],
-			count = (baseElement.find(".jt-navigation-container").length - 1);
-			navWrapWidth = navigationWidth - 190;
-			baseElement.find(".jt-navigation-row").css("width", (navWrapWidth+190));
+			count = (baseElement.find(".jt-navigation-container").length - 1),
+			diffYear;
+
+		baseElement.find(".jt-navigation-row").css("width", navigationWidth);
 
 		baseData.years = [];
 		for(var i = baseData.timeline[0].year; i<= (baseData.timeline[count].year+1); i++) {
@@ -605,28 +611,22 @@
 		}
 
 		// set position of years
+		diffYear = baseData.years[(baseData.years.length-1)].timestamp-baseData.years[0].timestamp;
 		$.each(baseData.years, function(i, v) {
-			var diffYear, leftYear;
-
-			diffYear = baseData.years[(baseData.years.length-1)].timestamp-baseData.years[0].timestamp;
-			leftYear = ( ( (baseData.years[i].timestamp-baseData.years[0].timestamp) * navigationWidth ) / diffYear ) + 50;
+			var leftYear = ( ( (baseData.years[i].timestamp-baseData.years[0].timestamp) * navigationWidth ) / diffYear );
+			console.log("diffYear: "+diffYear);
 			baseData.years[i].initialLeft = leftYear * initialZoom;
 			baseData.years[i].left = 0;
 		});
 
 		// set positions of event flags
 		$.each(baseData.timeline, function(i, v) {
-			var diff, left;
-
-			diff = baseData.years[(baseData.years.length-1)].timestamp-baseData.timeline[0].startTimestamp;
-			left = ( ( (baseData.timeline[i].startTimestamp-baseData.years[0].timestamp) * navigationWidth ) / diff ) + 50;
+			var left = ( ( (baseData.timeline[i].startTimestamp-baseData.years[0].timestamp) * navigationWidth ) / diffYear );
 			baseData.timeline[i].initialLeft = left * initialZoom;
 			baseData.timeline[i].left = 0;
-
 			// set positions of navigation dot line
 			if (baseData.timeline[i].endTimestamp) {
-				diff = baseData.years[(baseData.years.length-1)].timestamp-baseData.timeline[0].endTimestamp;
-				left = ( ( (baseData.timeline[i].endTimestamp-baseData.years[0].timestamp) * navigationWidth ) / diff ) + 50;
+				left = ( ( (baseData.timeline[i].endTimestamp-baseData.years[0].timestamp) * navigationWidth ) / diffYear );
 				baseData.timeline[i].initialEndLeft = left * initialZoom;
 				baseData.timeline[i].endLeft = 0;
 			}
