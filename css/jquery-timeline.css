@@ -116,7 +116,7 @@ body {
 }
 .jt-timeline > .jt-wrapper > .jt-row > .jt-container .jt-media > span {
 	display: block;
-	margin-top: 10px;
+	margin: 10px 0;
 }
 .jt-timeline > .jt-wrapper > .jt-row > .jt-container .jt-content {
 	width: 100%;
@@ -400,9 +400,16 @@ body {
 		display: block;
 	}
 	.jt-timeline > .jt-wrapper > .jt-row > .jt-container .jt-media {
-		float: left;
 		height: auto;
 		margin-right: 20px;
+		float: none;
+		width: 100%;
+	}
+	.jt-timeline > .jt-wrapper > .jt-row > .jt-container .jt-media iframe {
+		height: 250px;
+		max-height: 250px;
+		max-width: 100%;
+		width: 100% !important;
 	}
 	.jt-timeline > .jt-wrapper > .jt-row > .jt-container .jt-content {
 		width: 100%;
