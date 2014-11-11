@@ -331,7 +331,7 @@ body {
 	.jt-table-row {
 		display: block;
 		overflow-y: auto;
-		max-height: 340px;
+		height: inherit;
 	}
 	.jt-table-cell {
 		display: block;
@@ -341,11 +341,9 @@ body {
 		height: 400px;
 	}
 	.jt-timeline > .jt-wrapper > .jt-row {
-		height: 400px;
+		height: 355px;
 	}
 	.jt-timeline > .jt-wrapper > .jt-row > .jt-container .jt-media {
-		height: 400px;
-		max-height: 400px;
 		width: 35%;
 		float: left;
 		height: auto;
@@ -360,8 +358,8 @@ body {
 		padding-left: 0;
 	}
 	.jt-timeline > .jt-wrapper > .jt-row > .jt-container .jt-media > iframe {
-		height: auto;
-		max-height: 70%;
+		height: 300px;
+		max-height: 300px;
 		max-width: 100%;
 		width: 100%;
 	}
