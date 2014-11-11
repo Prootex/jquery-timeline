@@ -614,7 +614,6 @@
 		diffYear = baseData.years[(baseData.years.length-1)].timestamp-baseData.years[0].timestamp;
 		$.each(baseData.years, function(i, v) {
 			var leftYear = ( ( (baseData.years[i].timestamp-baseData.years[0].timestamp) * navigationWidth ) / diffYear );
-			console.log("diffYear: "+diffYear);
 			baseData.years[i].initialLeft = leftYear * initialZoom;
 			baseData.years[i].left = 0;
 		});
