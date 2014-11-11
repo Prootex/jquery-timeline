@@ -185,13 +185,16 @@
 
 			var container = baseElement.find(".jt-container").last(),
 				navRow = baseElement.find(".jt-navigation-row").last();
+
 			// add a rel attr to the containers
 			container.attr("rel", i);
 
 			if (timelineData.headline || timelineData.text) {
-				container.find(".jt-date > span").append(timelineData.startDate);
+				var startDate = new Date(baseData.timeline[i].startTimestamp);
+				container.find(".jt-date > span").append(startDate.format(baseData.config.date.format));
 				if (timelineData.endDate != timelineData.startDate) {
-					container.find(".jt-date > span").append(" - "+timelineData.endDate);
+					var endDate = new Date(baseData.timeline[i].endTimestamp);
+					container.find(".jt-date > span").append(" - "+endDate.format(baseData.config.date.format));
 				}
 				container.find(".jt-heading > h2").append(timelineData.headline);
 				container.find(".jt-text > p").append(timelineData.text);
@@ -372,8 +375,10 @@
 
 	setButtonContentText = function(button, data) {
 
-		var str = (data.headline ? str = data.headline : str = data.asset.caption);
-		button.find(".jt-date").append(data.startDate);
+		var str = (data.headline ? str = data.headline : str = data.asset.caption),
+			startDate = new Date(data.startTimestamp);
+
+		button.find(".jt-date").append(startDate.format(baseData.config.date.buttonFormat));
 		button.find(".jt-heading").append(str.substring(0,40));
 	},
 
@@ -771,10 +776,10 @@
 		if (baseData.config.date && baseData.config.date.language) {
 			switch (baseData.config.date.language) {
 				case "de":
-					Date.shortMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-					Date.longMonths = ["Januar", "Februar", "März", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-					Date.shortDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-					Date.longDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+					Date.shortMonths = ["Jan.", "Feb.", "März", "Apr.", "Mai", "Juni", "Juli", "Aug.", "Sept.", "Okt.", "Nov.", "Dez."];
+					Date.longMonths = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+					Date.shortDays = ["So.","Mo.", "Di.", "Mi.", "Do.", "Fr.", "Sa."];
+					Date.longDays = ["Sonntag","Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
 					break;
 			}
 		}
