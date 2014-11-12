@@ -440,8 +440,17 @@
 			mousePosition = 0,
 
 			onMouseMove = function(event){
-				if (clicked) {
+				if (!(event.targetTouches) && clicked) {
 					var left, mouseX = parseInt(event.pageX);
+					left = parseInt((mousePosition-mouseX));
+					mousePosition = mouseX;
+					setNavConPosDelta(-left, true);
+					setNavConPosEndDelta(-left, true);
+					setNavConPos();
+				} else if (event.targetTouches && clicked) {
+					var left,
+						touch = event.targetTouches[0],
+						mouseX = parseInt(touch.pageX);
 					left = parseInt((mousePosition-mouseX));
 					mousePosition = mouseX;
 					setNavConPosDelta(-left, true);
@@ -471,26 +480,29 @@
 
 			// unbind previous event handlers
 			baseElement.find(".jt-navigation")
-				.unbind('touchmove')
-				.unbind('touchstart')
-				.unbind('touchleave')
-				.unbind('touchend')
 				.unbind('mousemove')
 				.unbind('hover')
 				.unbind('mousedown')
 				.unbind('mouseup');
+			baseElement.find(".jt-navigation").get(0).removeEventListener("touchmove", onMouseMove);
+			baseElement.find(".jt-navigation").get(0).removeEventListener("touchstart", onHover);
+			baseElement.find(".jt-navigation").get(0).removeEventListener("touchleave", onMouseDown);
+			baseElement.find(".jt-navigation").get(0).removeEventListener("touchend", onMouseUp);
 
-				baseElement.find(".jt-navigation")
+
+
 				// touch events
 					// calculate the left value of the row element
-					.bind('touchmove', onMouseMove)
+				baseElement.find(".jt-navigation").get(0).addEventListener('touchmove', onMouseMove, false)
 					// by hover out stop the mousemove animation
-					.bind('touchleave', onHover)
+				baseElement.find(".jt-navigation").get(0).addEventListener('touchleave', onHover, false);
 					// start the slide animation on click
-					.bind('touchstart', onMouseDown)
+				baseElement.find(".jt-navigation").get(0).addEventListener('touchstart', onMouseDown, false);
 					// slides animation stop
-					.bind('touchend', onMouseUp)
+				baseElement.find(".jt-navigation").get(0).addEventListener('touchend', onMouseUp, false);
+
 				// click events
+				baseElement.find(".jt-navigation")
 					// calculate the left value of the row element
 					.bind('mousemove', onMouseMove)
 					// by hover out stop the mousemove animation
