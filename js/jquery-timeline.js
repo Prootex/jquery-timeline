@@ -437,52 +437,68 @@
 
 		var lastConPos = baseElement.find(".jt-navigation .jt-navigation-row .jt-navigation-container").last().position(),
 			clicked = false,
-			mousePosition = 0;
+			mousePosition = 0,
 
-		// toggle button position
-		baseElement.find(".jt-nav-toggle").css("left", ((wrapperWidth / 2)-60));
-
-		// unbind previous event handlers
-		baseElement.find(".jt-navigation").unbind('mousemove');
-		baseElement.find(".jt-navigation").unbind('hover');
-		baseElement.find(".jt-navigation").unbind('mousedown');
-		baseElement.find(".jt-navigation").unbind('mouseup');
-
-		// on mousedown change the left value to slide
-		baseElement.find(".jt-navigation")
-			// calculate the left value of the row element
-			.mousemove(function(event) {
+			onMouseMove = function(event){
 				if (clicked) {
-
 					var left, mouseX = parseInt(event.pageX);
-
 					left = parseInt((mousePosition-mouseX));
 					mousePosition = mouseX;
-
 					setNavConPosDelta(-left, true);
 					setNavConPosEndDelta(-left, true);
 					setNavConPos();
 				}
-			})
-			// by hover out stop the mousemove animation
-			.hover(function() {}, function() {
+			},
+			onHover = function() {
 				baseElement.find(".jt-navigation-row").css("cursor", "-webkit-grab");
 				clicked = false;
-			})
-			// start the slide animation on click
-			.mousedown(function(event) {
+			},
+			onMouseDown = function(event){
 				baseElement.find(".jt-navigation-row").css("cursor", "-webkit-grabbing");
 				mousePosition = event.clientX;
 				pagePosition = event.pageX;
 				clicked = true;
 				setNavConTransition(false);
-			})
-			// slides animation stop
-			.mouseup(function() {
+			},
+			onMouseUp = function(){
 				baseElement.find(".jt-navigation-row").css("cursor", "-webkit-grab");
 				clicked = false;
 				setNavConTransition(true);
-			});
+			};
+
+		// toggle button position
+		baseElement.find(".jt-nav-toggle").css("left", ((wrapperWidth / 2)-60));
+
+			// unbind previous event handlers
+			baseElement.find(".jt-navigation")
+				.unbind('touchmove')
+				.unbind('touchstart')
+				.unbind('touchleave')
+				.unbind('touchend')
+				.unbind('mousemove')
+				.unbind('hover')
+				.unbind('mousedown')
+				.unbind('mouseup');
+
+				baseElement.find(".jt-navigation")
+				// touch events
+					// calculate the left value of the row element
+					.bind('touchmove', onMouseMove)
+					// by hover out stop the mousemove animation
+					.bind('touchleave', onHover)
+					// start the slide animation on click
+					.bind('touchstart', onMouseDown)
+					// slides animation stop
+					.bind('touchend', onMouseUp)
+				// click events
+					// calculate the left value of the row element
+					.bind('mousemove', onMouseMove)
+					// by hover out stop the mousemove animation
+					.hover(function() {}, onHover)
+					// start the slide animation on click
+					.bind('mousedown', onMouseDown)
+					// slides animation stop
+					.bind('mouseup', onMouseUp);
 	},
 
 	// sort obj by timestamp
