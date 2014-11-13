@@ -191,7 +191,6 @@ body {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-
 }
 .jt-navigation > .jt-navigation-wrapper > .jt-navigation-row {
 	height: inherit;
@@ -335,6 +334,13 @@ body {
 /* Responsive */
 /* Tablet */
 @media (max-width: 768px) {
+
+	.jt-navigation * {
+		-moz-transition: none !important;
+		-webkit-transition: none !important;
+		-o-transition: color 0 ease-in !important;
+		transition: none !important;
+	}
 	h2 { font-size: 18px; }
 	.jt-table {
 		display: block;
