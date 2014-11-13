@@ -270,7 +270,8 @@
 			container = baseElement.find(".jt-container"),
 
 			moveToEvent = function(position, clickCount) {
-				transform3D(row, -position ,0 ,0);
+				// transform3D(row, -position ,0 ,0);
+				row.css("left", -position);
 				transition(row, transitionVal);
 
 				magicButtons(clickCount);
@@ -733,7 +734,8 @@
 		setButtonContent(clickCount);
 		magicButtons(clickCount);
 
-		transform3D(baseElement.find(".jt-wrapper .jt-row"), -(wrapperWidth * clickCount), 0, 0);
+		// transform3D(baseElement.find(".jt-wrapper .jt-row"), -(wrapperWidth * clickCount), 0, 0);
+		baseElement.find(".jt-wrapper .jt-row").css("left", -(wrapperWidth * clickCount));
 		transition(baseElement.find(".jt-wrapper .jt-row"), transitionVal);
 
 		deltaToMiddle = (navigationWidth / 2) - getNavEventPos(clickCount);
