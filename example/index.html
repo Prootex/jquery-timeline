@@ -18,7 +18,7 @@
 	<main>
 		<div class="wrapper-timeline">
 
-			<div id="jquery-timeline"></div>
+			<div class="jquery-timeline"></div>
 
 		</div>
 	</main>
@@ -36,6 +36,16 @@
 	<script type="text/javascript">
 		jQuery(function($){
 			var data = {
+				"launch": {
+					"headline":"Launch of the Timeline",
+					"text":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+					"asset": {
+						"asset":"img/lorempixel01.jpg",
+						"thumbnail":"img/lorempixel01.jpg",
+						"type": "image",
+						"caption":"",
+					}
+				},
 				"timeline": [
 					{
 						"startDate":"2009-06-27",
@@ -106,7 +116,7 @@
 							"asset":"gRfPZpbE0Hc",
 							"thumbnail":"",
 							"type": "youtube-embed",
-							"caption":"berlin wall fall 25 years",
+							"caption":"25th Anniversary of the Fall of the Berlin Wall",
 						}
 					},
 					{
@@ -118,7 +128,7 @@
 							"asset":"gRfPZpbE0Hc",
 							"thumbnail":"",
 							"type": "youtube-embed",
-							"caption":"Only Youtube video, berlin wall fall 25 years",
+							"caption":"Only Youtube video",
 						}
 					}
 				],
@@ -133,7 +143,7 @@
 				}
 			};
 
-			$("#jquery-timeline").jqueryTimeline(data);
+			$(".jquery-timeline").jqueryTimeline(data);
 
 			// TODO: display 2 timelines at the same time
 		});

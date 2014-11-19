@@ -148,6 +148,7 @@
 			</div>';
 
 		baseElement.append(wrapStructure);
+		initLaunchStructure();
 		initEventStructure();
 	},
 
@@ -175,6 +176,30 @@
 			</div>';
 
 		appendContent(structure);
+	},
+
+	// Create structure for launch
+	initLaunchStructure = function() {
+
+		var structure =
+			'<div class=\"jt-launch\">\
+				<div class="jt-media jt-table-cell"></div>\
+				<div class="jt-content jt-table-cell">\
+					<div class="jt-content-col">\
+						<div class="jt-date">\
+							<span></span>\
+						</div>\
+						<div class="jt-heading">\
+							<h2></h2>\
+						</div>\
+						<div class="jt-text">\
+							<p></p>\
+						</div>\
+					</div>\
+				</div>\
+			</div>';
+
+		appendLaunchContent(structure);
 	},
 
 	//Filling data in created structure
@@ -214,6 +239,44 @@
 				baseElement.find(".jt-navigation-container[rel="+i+"] .jt-col").prepend("<img src=\""+timelineData.asset.thumbnail+"\" height=\"25px\" width=\"25px\" />");
 			}
 		});
+	},
+
+	// filling launch data in structure
+	appendLaunchContent = function(structure) {
+
+		baseElement.find(".jt-timeline").prepend(structure);
+		var container = baseElement.find(".jt-launch");
+
+		if (baseData.launch.headline || baseData.launch.text) {
+			container.find(".jt-heading > h2").append(baseData.launch.headline);
+			container.find(".jt-text > p").append(baseData.launch.text);
+		} else {
+			container.find(".jt-content").children().remove();
+		}
+		if (baseElement.find(".jt-launch .jt-media").is(':empty')) {
+			baseElement.find(".jt-launch .jt-media").append("<div class=\"jt-loader\"></div>");
+			setTimeout(function() {
+				baseElement.find(".jt-launch .jt-media").prepend(drawContentMedia(baseData.launch.asset));
+				baseElement.find(".jt-launch .jt-media").append("<span class=\"jt-caption\">"+baseData.launch.asset.caption+"</span>");
+
+				// asset only
+				if (baseData.launch.asset.asset && !(baseData.launch.headline || baseData.launch.text)) {
+
+					baseElement.find(".jt-launch .jt-media").css("width", "100%");
+					baseElement.find(".jt-launch .jt-media img").css("width", "auto");
+					baseElement.find(".jt-launch .jt-media iframe").css("width", "70%");
+				}
+				// text only
+				else if (!baseData.launch.asset.asset && (baseData.launch.headline || baseData.launch.text)) {
+
+					baseElement.find(".jt-launch .jt-media").remove();
+					baseElement.find(".jt-launch .jt-content").css({"width": "100%"});
+				}
+
+				baseElement.find(".jt-launch .jt-media .loader").remove();
+
+			}, 200);
+		}
 	},
 
 	drawContentMedia = function(asset) {
@@ -423,12 +486,29 @@
 				animate = true;
 				if ($(this).find("> span").hasClass("jt-icon-arrow-bottom")) {
 					$(this).find("> span").removeClass("jt-icon-arrow-bottom").addClass("jt-icon-arrow-top");
+					baseElement.find(".jt-navigation").animate({
+						opacity: "show",
+						height: "200px"
+					}, 300);
 				} else {
 					$(this).find("> span").removeClass("jt-icon-arrow-top").addClass("jt-icon-arrow-bottom");
+					baseElement.find(".jt-navigation").animate({
+						opacity: "hide",
+						height: "0"
+					}, 300);
 				}
-				baseElement.find(".jt-navigation").toggle("fast", function() {
-					animate = false;
-				});
+				// baseElement.find(".jt-navigation").toggle("fast", function() {
+				// 	animate = false;
+				// });
+				if (baseElement.find(".jt-launch").is(":visible")) {
+					baseElement.find(".jt-launch").fadeOut("fast", function() {
+						animate = false;
+					});
+				} else {
+					baseElement.find(".jt-launch").fadeIn("fast", function() {
+						animate = false;
+					});
+				}
 			}
 		});
 	},
@@ -444,6 +524,7 @@
 				if (!(event.targetTouches) && clicked) {
 					var left, mouseX = parseInt(event.pageX);
 					left = parseInt((mousePosition-mouseX));
+
 					mousePosition = mouseX;
 					setNavConPosDelta(-left, true);
 					setNavConPosEndDelta(-left, true);
@@ -454,6 +535,7 @@
 						mouseX = parseInt(touch.pageX);
 
 					left = parseInt((mousePosition-mouseX));
+
 					mousePosition = mouseX;
 					setNavConPosDelta(-left, true);
 					setNavConPosEndDelta(-left, true);
@@ -645,7 +727,6 @@
 			baseData.years[i].initialLeft = leftYear * initialZoom;
 			baseData.years[i].left = 0;
 		});
-
 		// set positions of event flags
 		$.each(baseData.timeline, function(i, v) {
 			var left = ( ( (baseData.timeline[i].startTimestamp-baseData.years[0].timestamp) * navigationWidth ) / diffYear );
@@ -861,7 +942,7 @@
 					initNavConPos(baseData.config.zoom);
 					setEventFocus(currentElement);
 					initInProgress = false;
-				}, 500);
+				}, 1000);
 			}
 		});
 	};
