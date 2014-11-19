@@ -148,7 +148,9 @@
 			</div>';
 
 		baseElement.append(wrapStructure);
-		initLaunchStructure();
+		if (baseData.launch) {
+			initLaunchStructure();
+		}
 		initEventStructure();
 	},
 
@@ -490,17 +492,20 @@
 						opacity: "show",
 						height: "200px"
 					}, 300);
+					animate = false;
 				} else {
 					$(this).find("> span").removeClass("jt-icon-arrow-top").addClass("jt-icon-arrow-bottom");
 					baseElement.find(".jt-navigation").animate({
 						opacity: "hide",
 						height: "0"
 					}, 300);
+					animate = false;
 				}
 				// baseElement.find(".jt-navigation").toggle("fast", function() {
 				// 	animate = false;
 				// });
-				if (baseElement.find(".jt-launch").is(":visible")) {
+
+				if (!(baseData.launch) || baseElement.find(".jt-launch").is(":visible")) {
 					baseElement.find(".jt-launch").fadeOut("fast", function() {
 						animate = false;
 					});
